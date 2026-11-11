@@ -63,3 +63,5 @@ Chaque envoi sur la branche `main` relance les tests puis publie `site/` sur Git
 ## Origine du contenu
 
 Les phrases ont été écrites par des agents Claude à partir de l'introduction de l'article Wikipédia de chaque curiosité, puis contre-vérifiées (faits, équité du jeu) par d'autres agents et par un contrôle automatique des nombres. Ce n'est pas une relecture humaine.
+
+Langues : français (référence), anglais, espagnol, portugais du Brésil, allemand, italien et arabe. Les traductions ont été faites par des agents Claude à partir du français, tous les noms relus par un autre agent (aucun ne doit trahir le pays), puis contrôlées automatiquement (mêmes nombres que le français, nom sans le nom du pays, longueur plausible). Images de partage des autres langues : `python outils/faire_images.py` (dessinées par Edge, qui sait écrire l'arabe).

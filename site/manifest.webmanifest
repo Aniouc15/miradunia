@@ -1,7 +1,7 @@
 {
   "name": "GlobeCurios",
   "short_name": "GlobeCurios",
-  "description": "Le tour du monde en 3 curiosités par jour",
+  "description": "Around the world in 3 curiosities a day",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

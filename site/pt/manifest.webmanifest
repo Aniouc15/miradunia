@@ -1,0 +1,32 @@
+{
+  "name": "GlobeCurios",
+  "short_name": "GlobeCurios",
+  "description": "A volta ao mundo em 3 curiosidades por dia",
+  "lang": "pt",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#f5efe3",
+  "theme_color": "#0f6b6b",
+  "icons": [
+    {
+      "src": "../icone-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

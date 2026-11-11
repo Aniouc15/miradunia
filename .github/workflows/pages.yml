@@ -1,4 +1,6 @@
-name: Mise en ligne
+# Le jeu est servi par https://miradunia.netvtc.com/ (Cloudflare, voir wrangler.jsonc et le README).
+# GitHub Pages ne sert plus qu'une redirection : chaque ancienne adresse aniouc15.github.io/miradunia/… renvoie vers la même page.
+name: Tests et redirection
 
 on:
   push:
@@ -30,6 +32,6 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: redirection
       - id: deploiement
         uses: actions/deploy-pages@v4

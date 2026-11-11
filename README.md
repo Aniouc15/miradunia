@@ -2,7 +2,7 @@
 
 Jeu quotidien gratuit : trois épreuves par jour sur les curiosités du monde (plats, monuments, fêtes, traditions, instruments, objets) à rattacher à leur pays. Site statique, sans serveur, sans compte, sans dépendance, prévu pour plusieurs langues (une page par langue).
 
-En ligne : https://aniouc15.github.io/miradunia/ (anciens noms : GlobeCurios, puis GlobeCurious ; l'ancienne adresse aniouc15.github.io/globecurios redirige ici) (la page d'accueil envoie vers la langue du joueur, par exemple `fr/`).
+En ligne : https://miradunia.netvtc.com/ (la page d'accueil envoie vers la langue du joueur, par exemple `fr/`). Anciens noms : GlobeCurios, puis GlobeCurious. L'ancienne adresse https://aniouc15.github.io/miradunia/ redirige vers la nouvelle, page par page.
 
 ## Jouer en local
 
@@ -44,15 +44,16 @@ Règles de contenu : au moins 4 curiosités par pays (sinon le pays est écarté
 
 ## Mise en ligne
 
-Chaque envoi sur la branche `main` relance les tests puis publie `site/` sur GitHub Pages (`.github/workflows/pages.yml`).
-
-Hébergement prévu sur netvtc.com, à l'adresse https://miradunia.netvtc.com/ (gratuit, compte Cloudflare de netvtc.com) : `wrangler.jsonc` décrit un Worker sans code qui sert `site/`. Première mise en ligne (elle crée l'adresse dans les réglages DNS de netvtc.com), depuis ce dossier :
+Le jeu est servi par https://miradunia.netvtc.com/ : un Worker Cloudflare sans code (`wrangler.jsonc`), gratuit, sur le compte de netvtc.com, qui sert le dossier `site/`. Pour mettre en ligne une nouvelle version, depuis ce dossier :
 
 ```
+node tests/core.test.js
 C:\dev\netvtc-auto\node_modules\.bin\wrangler deploy --config wrangler.jsonc
 ```
 
-Ensuite : régler `url` et `adresse` de `outils/site.json` sur cette adresse, `python outils/construire_site.py`, relancer la même commande, et faire de GitHub Pages une simple redirection.
+Chaque envoi sur la branche `main` relance les tests sur GitHub et publie sur GitHub Pages le dossier `redirection/`, qui renvoie les anciennes adresses aniouc15.github.io/miradunia/… vers la même page de miradunia.netvtc.com (`.github/workflows/pages.yml`).
+
+La progression des joueurs reste dans leur navigateur, par adresse : celle enregistrée sur l'ancienne adresse ne suit pas d'elle-même (le code de sauvegarde, onglet Règles, permet de la transférer).
 
 ## Règles du jeu
 

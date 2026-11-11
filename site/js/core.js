@@ -1,4 +1,4 @@
-/* GlobeCurios — règles du jeu, sans affichage. Utilisable dans le navigateur et dans Node (tests). */
+/* Règles du jeu, sans affichage ni texte : les mêmes dans toutes les langues. Utilisable dans le navigateur et dans Node (tests). */
 (function (racine, fabrique) {
   if (typeof module === 'object' && module.exports) module.exports = fabrique();
   else racine.GCCore = fabrique();
@@ -11,8 +11,7 @@
   var JOKER_TOUS_LES = 7;
   var POINTS_ORIGINE = [100, 70, 40, 20]; // selon le nombre d'indices utilisés
   var POINTS_LIENS = [0, 20, 45, 70, 100]; // selon le nombre de liens justes sur 4
-  var NIVEAU_PAR_JOUR = [3, 1, 1, 2, 2, 2, 3]; // dimanche, lundi … samedi
-  var NOMS_NIVEAUX = ['', 'facile', 'moyen', 'difficile'];
+  var NIVEAU_PAR_JOUR = [3, 1, 1, 2, 2, 2, 3]; // dimanche, lundi … samedi (1 facile, 2 moyen, 3 difficile)
 
   // ---------- Hasard reproductible : le même jour donne le même défi à tout le monde ----------
   function hacher(texte) {
@@ -72,29 +71,67 @@
   }
 
   // ---------- Construction du défi ----------
-  function parPays(donnees) {
-    var index = {};
-    donnees.items.forEach(function (item) { (index[item.pays] = index[item.pays] || []).push(item); });
-    return index;
+  // Les défis sont construits par blocs de 14 jours : dans un bloc, aucune curiosité ne revient deux fois.
+  var BLOC = 14;
+  // Niveaux des curiosités admises dans « L'intruse » et « Les liens », selon le niveau du jour :
+  // en semaine, rien de difficile ; le week-end, rien de facile.
+  var NIVEAUX_ADMIS = { 1: [1, 2], 2: [1, 2], 3: [2, 3] };
+
+  // Index par pays et bassins par niveau, calculés une seule fois par jeu de données.
+  var memoire = { donnees: null };
+  function preparer(donnees) {
+    if (memoire.donnees !== donnees) {
+      var index = {};
+      var bassins = { 1: [], 2: [], 3: [] };
+      donnees.items.forEach(function (item) {
+        (index[item.pays] = index[item.pays] || []).push(item);
+        if (bassins[item.niv]) bassins[item.niv].push(item);
+      });
+      [1, 2, 3].forEach(function (n) {
+        bassins[n].sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
+      });
+      memoire = { donnees: donnees, index: index, codes: Object.keys(index), bassins: bassins, ordres: {}, bloc: null };
+    }
+    return memoire;
   }
   // Pays proposés à tort : de préférence sur le même continent, pour que la question reste intéressante.
   function fauxPays(donnees, bonPays, combien, hasard, exclus) {
     var interdits = (exclus || []).concat([bonPays]);
-    var codes = Object.keys(donnees.pays).filter(function (c) { return interdits.indexOf(c) < 0; });
+    var codes = preparer(donnees).codes.filter(function (c) { return interdits.indexOf(c) < 0; });
     var continent = donnees.pays[bonPays].continent;
     var proches = melanger(codes.filter(function (c) { return donnees.pays[c].continent === continent; }), hasard);
     var lointains = melanger(codes.filter(function (c) { return donnees.pays[c].continent !== continent; }), hasard);
     return proches.concat(lointains).slice(0, combien);
   }
+  // Ordre de passage des vedettes d'un niveau pour un cycle (un cycle = toutes les curiosités du niveau).
+  // Les dernières vedettes d'un cycle ne rouvrent pas le suivant : pas de répétition à la jointure.
+  function ordreDuCycle(prep, niveau, cycle) {
+    var bassin = prep.bassins[niveau];
+    var cle = function (c) { return niveau + '-' + c; };
+    var simple = function (c) { return melanger(bassin, generateur('globecurios-vedette-' + cle(c))); };
+    if (prep.ordres[cle(cycle)]) return prep.ordres[cle(cycle)];
+    if (cycle <= 0 || cycle > 500 || bassin.length < 3 * BLOC) return (prep.ordres[cle(cycle)] = simple(cycle));
+    var premier = cycle;
+    while (premier > 0 && !prep.ordres[cle(premier - 1)]) premier -= 1;
+    for (var c = premier; c <= cycle; c++) {
+      var ordre = simple(c);
+      if (c > 0) {
+        var fin = prep.ordres[cle(c - 1)].slice(-BLOC);
+        var recentes = ordre.filter(function (i) { return fin.indexOf(i) >= 0; });
+        var autres = ordre.filter(function (i) { return fin.indexOf(i) < 0; });
+        ordre = autres.slice(0, BLOC).concat(recentes, autres.slice(BLOC));
+      }
+      prep.ordres[cle(c)] = ordre;
+    }
+    return prep.ordres[cle(cycle)];
+  }
   // Curiosité vedette : tirée parmi celles du niveau du jour, sans répétition avant d'avoir épuisé le niveau.
   function vedetteDuJour(donnees, jour) {
+    var prep = preparer(donnees);
     var niveau = niveauDuJour(jour);
-    var bassin = donnees.items.filter(function (i) { return i.niv === niveau; })
-      .sort(function (a, b) { return a.id < b.id ? -1 : 1; });
+    var taille = prep.bassins[niveau].length;
     var rang = rangDansNiveau(jour);
-    var cycle = Math.floor(rang / bassin.length);
-    var ordre = melanger(bassin, generateur('globecurios-vedette-' + niveau + '-' + cycle));
-    return ordre[((rang % bassin.length) + bassin.length) % bassin.length];
+    return ordreDuCycle(prep, niveau, Math.floor(rang / taille))[((rang % taille) + taille) % taille];
   }
   function quatreChoix(donnees, item, hasard) {
     return melanger([item.pays].concat(fauxPays(donnees, item.pays, 3, hasard)), hasard);
@@ -103,62 +140,98 @@
   function questionRevision(donnees, item, jour) {
     return { item: item.id, options: quatreChoix(donnees, item, generateur('globecurios-revision-' + item.id + '-' + jour)) };
   }
-  // Les défis sont construits par blocs de 14 jours : dans un bloc, aucune curiosité ne revient deux fois.
-  var BLOC = 14;
+  // Défi d'un jour. Les jours d'un bloc se construisent dans l'ordre, chacun évitant les curiosités des précédents ;
+  // le bloc en cours est gardé en mémoire pour ne pas tout recalculer à chaque appel.
   function construireDefi(donnees, jour) {
+    var prep = preparer(donnees);
     var debut = Math.floor(jour / BLOC) * BLOC;
-    var reservees = {}; // vedettes du bloc : elles ne servent pas dans les autres épreuves
-    for (var v = debut; v < debut + BLOC; v++) reservees[vedetteDuJour(donnees, v).id] = true;
-    var vues = {};
-    var defi = null;
-    for (var j = debut; j <= jour; j++) {
-      defi = construireUnDefi(donnees, j, function (item) { return !vues[item.id] && !reservees[item.id]; });
-      defi.epreuves[1].cartes.concat(defi.epreuves[2].items).forEach(function (id) { vues[id] = true; });
+    if (!prep.bloc || prep.bloc.debut !== debut) {
+      var reservees = {}; // vedettes du bloc : elles ne servent pas dans les autres épreuves
+      for (var v = debut; v < debut + BLOC; v++) reservees[vedetteDuJour(donnees, v).id] = true;
+      prep.bloc = { debut: debut, reservees: reservees, vues: {}, defis: [] };
     }
-    return defi;
+    var bloc = prep.bloc;
+    var neuve = function (item) { return !bloc.vues[item.id] && !bloc.reservees[item.id]; };
+    while (bloc.defis.length <= jour - debut) {
+      var defi = construireUnDefi(donnees, debut + bloc.defis.length, neuve);
+      defi.epreuves[1].cartes.concat(defi.epreuves[2].items).forEach(function (id) { bloc.vues[id] = true; });
+      bloc.defis.push(defi);
+    }
+    return JSON.parse(JSON.stringify(bloc.defis[jour - debut])); // copie : l'appelant peut la modifier sans risque
   }
   function construireUnDefi(donnees, jour, neuve) {
     var hasard = generateur('globecurios-jour-' + jour);
-    var index = parPays(donnees);
-    // Curiosités d'un pays pas encore vues dans le bloc ; à défaut, toutes celles du pays.
-    var neuves = function (code, minimum) {
-      var liste = index[code].filter(neuve);
-      return liste.length >= minimum ? liste : index[code];
-    };
-    var aDuNeuf = function (code, minimum) { return index[code].filter(neuve).length >= minimum; };
-    var dePreference = function (codes, minimum) {
-      var bons = codes.filter(function (c) { return aDuNeuf(c, minimum); });
-      return bons.length ? bons : codes;
-    };
+    var prep = preparer(donnees);
+    var index = prep.index;
+    var codes = prep.codes;
+    var niveau = niveauDuJour(jour);
+    var bornes = NIVEAUX_ADMIS[niveau];
+    var duNiveau = function (item) { return item.niv >= bornes[0] && item.niv <= bornes[1]; };
+    var continent = function (code) { return donnees.pays[code].continent; };
+    var memeContinent = function (a, b) { return continent(a) === continent(b); };
 
     // Épreuve 1 : la vedette, à retrouver avec le moins d'indices possible.
     var vedette = vedetteDuJour(donnees, jour);
     var origine = { type: 'origine', item: vedette.id, options: quatreChoix(donnees, vedette, hasard) };
 
-    // Épreuve 2 : trois curiosités du même pays et une intruse venue d'un pays du même continent.
-    var memeContinent = function (a, b) { return donnees.pays[a].continent === donnees.pays[b].continent; };
-    var possibles = Object.keys(index).filter(function (c) { return c !== vedette.pays && index[c].length >= 3; });
-    // De préférence un pays qui a trois curiosités neuves et un voisin de continent qui en a une.
-    var ideaux = possibles.filter(function (c) {
-      return aDuNeuf(c, 3) && Object.keys(index).some(function (v) {
-        return v !== c && v !== vedette.pays && memeContinent(v, c) && aDuNeuf(v, 1);
-      });
+    // Pour chaque pays : ses curiosités pas encore vues dans le bloc et du niveau du jour (« ideales »),
+    // ses curiosités pas encore vues (« neuves »), et toutes.
+    var choix = {};
+    codes.forEach(function (c) {
+      var neuves = index[c].filter(neuve);
+      choix[c] = { ideales: neuves.filter(duNiveau), neuves: neuves, toutes: index[c] };
     });
-    var paysTrio = tirer(ideaux.length ? ideaux : dePreference(possibles, 3), hasard);
-    var trio = melanger(neuves(paysTrio, 3), hasard).slice(0, 3);
-    var voisins = fauxPays(donnees, paysTrio, 1000, hasard, [vedette.pays]);
-    var voisinsProches = voisins.filter(function (c) { return memeContinent(c, paysTrio); });
-    var paysIntrus = dePreference(voisinsProches.length ? voisinsProches : voisins, 1)[0];
-    var intrus = tirer(neuves(paysIntrus, 1), hasard);
+    // On préfère sortir du niveau du jour plutôt que répéter une curiosité, et répéter plutôt que bloquer.
+    var meilleures = function (c, minimum) {
+      var k = choix[c];
+      return k.ideales.length >= minimum ? k.ideales : k.neuves.length >= minimum ? k.neuves : k.toutes;
+    };
+    // Nombre de pays par continent (hors pays de la vedette) qui ont au moins une curiosité de la sorte demandée.
+    var parContinent = function (sorte) {
+      var compte = {};
+      codes.forEach(function (c) {
+        if (c !== vedette.pays && choix[c][sorte].length >= 1) compte[continent(c)] = (compte[continent(c)] || 0) + 1;
+      });
+      return compte;
+    };
+    var aUnVoisin = function (c, sorte, compte) {
+      return (compte[continent(c)] || 0) - (choix[c][sorte].length >= 1 ? 1 : 0) >= 1;
+    };
+    var premierNonVide = function (listes) {
+      for (var n = 0; n < listes.length; n++) if (listes[n].length) return listes[n];
+      return [];
+    };
+
+    // Épreuve 2 : trois curiosités du même pays et une intruse venue d'un pays du même continent.
+    var possibles = codes.filter(function (c) { return c !== vedette.pays && index[c].length >= 3; });
+    var voisinsIdeaux = parContinent('ideales');
+    var voisinsNeufs = parContinent('neuves');
+    var paysTrio = tirer(premierNonVide([
+      possibles.filter(function (c) { return choix[c].ideales.length >= 3 && aUnVoisin(c, 'ideales', voisinsIdeaux); }),
+      possibles.filter(function (c) { return choix[c].neuves.length >= 3 && aUnVoisin(c, 'neuves', voisinsNeufs); }),
+      possibles.filter(function (c) { return choix[c].neuves.length >= 3; }),
+      possibles
+    ]), hasard);
+    var trio = melanger(meilleures(paysTrio, 3), hasard).slice(0, 3);
+    var voisins = fauxPays(donnees, paysTrio, codes.length, hasard, [vedette.pays]);
+    var proches = voisins.filter(function (c) { return memeContinent(c, paysTrio); });
+    var bassinIntrus = proches.length ? proches : voisins;
+    var paysIntrus = premierNonVide([
+      bassinIntrus.filter(function (c) { return choix[c].ideales.length >= 1; }),
+      bassinIntrus.filter(function (c) { return choix[c].neuves.length >= 1; }),
+      bassinIntrus
+    ])[0];
+    var intrus = tirer(meilleures(paysIntrus, 1), hasard);
     var cartes = melanger(trio.concat([intrus]), hasard).map(function (i) { return i.id; });
 
     // Épreuve 3 : quatre curiosités pour cinq pays (un pays en trop), sur deux continents.
     var pris = [vedette.pays, paysTrio, paysIntrus];
-    var horsPris = Object.keys(index).filter(function (c) { return pris.indexOf(c) < 0; });
-    var avecDuNeuf = horsPris.filter(function (c) { return aDuNeuf(c, 1); });
-    var libres = melanger(avecDuNeuf.length >= 12 ? avecDuNeuf : horsPris, hasard);
+    var horsPris = codes.filter(function (c) { return pris.indexOf(c) < 0; });
+    var avecIdeales = horsPris.filter(function (c) { return choix[c].ideales.length >= 1; });
+    var avecNeuves = horsPris.filter(function (c) { return choix[c].neuves.length >= 1; });
+    var libres = melanger(avecIdeales.length >= 12 ? avecIdeales : avecNeuves.length >= 12 ? avecNeuves : horsPris, hasard);
     var premier = libres[0];
-    var groupeA =[premier].concat(libres.filter(function (c) { return c !== premier && memeContinent(c, premier); }).slice(0, 2));
+    var groupeA = [premier].concat(libres.filter(function (c) { return c !== premier && memeContinent(c, premier); }).slice(0, 2));
     var ailleurs = libres.filter(function (c) { return !memeContinent(c, premier); });
     var groupeB = ailleurs.length ? [ailleurs[0]].concat(ailleurs.filter(function (c) {
       return c !== ailleurs[0] && memeContinent(c, ailleurs[0]);
@@ -167,11 +240,11 @@
     libres.forEach(function (c) { if (cinq.length < 5 && cinq.indexOf(c) < 0) cinq.push(c); });
     cinq = melanger(cinq, hasard);
     var paysEnTrop = cinq[0];
-    var aRelier = cinq.slice(1).map(function (c) { return tirer(neuves(c, 1), hasard).id; });
+    var aRelier = cinq.slice(1).map(function (c) { return tirer(meilleures(c, 1), hasard).id; });
 
     return {
       jour: jour,
-      niveau: niveauDuJour(jour),
+      niveau: niveau,
       epreuves: [
         origine,
         { type: 'intrus', cartes: cartes, intrus: intrus.id, paysTrio: paysTrio, paysIntrus: paysIntrus },
@@ -289,7 +362,7 @@
   }
 
   // ---------- Atlas, statistiques, anciens défis ----------
-  var NIVEAUX = ['Inconnu', 'Découvert', 'Connu', 'Maîtrisé'];
+  // Niveau d'un pays dans l'atlas : 0 inconnu, 1 découvert, 2 connu, 3 maîtrisé.
   function niveau(fiche) {
     if (!fiche || fiche.ok < 1) return 0;
     var differentes = (fiche.d || []).length;
@@ -329,23 +402,16 @@
   function carres(scores) {
     return scores.map(function (s) { return s >= 100 ? '🟩' : s > 0 ? '🟨' : '🟥'; }).join('');
   }
-  function carresEnMots(scores) {
-    return scores.map(function (s, n) {
-      return 'épreuve ' + (n + 1) + ' : ' + (s >= 100 ? 'réussie' : s > 0 ? 'en partie réussie' : 'manquée');
-    }).join(', ');
-  }
-  var NOMS_EPREUVES = ['D\'où ça vient ?', 'L\'intruse', 'Les liens'];
-  var MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  // Date du défi, à minuit UTC : l'affichage la met en forme dans la langue du joueur (fuseau UTC).
   function dateDuDefi(jour) {
-    var d = new Date(Date.UTC(LANCEMENT[0], LANCEMENT[1], LANCEMENT[2]) + jour * 86400000);
-    return (d.getUTCDate() === 1 ? '1er' : d.getUTCDate()) + ' ' + MOIS[d.getUTCMonth()];
+    return new Date(Date.UTC(LANCEMENT[0], LANCEMENT[1], LANCEMENT[2]) + jour * 86400000);
   }
   // Une ligne par épreuve, sans rien révéler des réponses : lisible même sans connaître le jeu.
-  function texteDePartage(jour, scores, serie) {
-    var total = scores.reduce(function (a, b) { return a + b; }, 0);
-    return 'GlobeCurios n° ' + numeroDuJour(jour) + ' · ' + dateDuDefi(jour) + ' — ' + total + '/300\n' +
-      scores.map(function (s, n) { return carres([s]) + ' ' + NOMS_EPREUVES[n] + ' ' + s; }).join('\n') +
-      (serie > 1 ? '\nSérie : ' + serie + ' jours' : '') + '\nÀ vous de jouer : globecurious.com';
+  // Les textes (entête, noms des épreuves, série, invitation) sont fournis dans la langue du joueur.
+  function texteDePartage(scores, textes) {
+    return [textes.entete].concat(scores.map(function (s, n) {
+      return carres([s]) + ' ' + textes.epreuves[n] + ' ' + s;
+    }), textes.serie ? [textes.serie] : [], [textes.invite]).join('\n');
   }
   function coderSauvegarde(etat, versBase64) { return 'GC1.' + versBase64(JSON.stringify(etat)); }
   function decoderSauvegarde(code, depuisBase64) {
@@ -355,17 +421,18 @@
   }
 
   return {
-    DELAIS_REVISION: DELAIS_REVISION, MAX_REVISION: MAX_REVISION, NIVEAUX: NIVEAUX, NOMS_NIVEAUX: NOMS_NIVEAUX,
+    DELAIS_REVISION: DELAIS_REVISION, MAX_REVISION: MAX_REVISION,
     POINTS_ORIGINE: POINTS_ORIGINE, POINTS_LIENS: POINTS_LIENS,
     generateur: generateur, melanger: melanger, indexDuJour: indexDuJour, numeroDuJour: numeroDuJour,
-    secondesAvantDemain: secondesAvantDemain, BLOC: BLOC, niveauDuJour: niveauDuJour, estDimanche: estDimanche,
+    dateDuDefi: dateDuDefi, secondesAvantDemain: secondesAvantDemain, BLOC: BLOC,
+    niveauDuJour: niveauDuJour, estDimanche: estDimanche,
     construireDefi: construireDefi, questionRevision: questionRevision,
     pointsOrigine: pointsOrigine, pointsParEssais: pointsParEssais, pointsLiens: pointsLiens,
     nouvelEtat: nouvelEtat, etatValide: etatValide, noterReponse: noterReponse,
     aRevoir: aRevoir, toutesARevoir: toutesARevoir, jokerDisponible: jokerDisponible,
     terminerJour: terminerJour, serieActuelle: serieActuelle, niveau: niveau, bilanAtlas: bilanAtlas,
     statistiques: statistiques, joursRejouables: joursRejouables,
-    carres: carres, carresEnMots: carresEnMots, texteDePartage: texteDePartage,
+    carres: carres, texteDePartage: texteDePartage,
     coderSauvegarde: coderSauvegarde, decoderSauvegarde: decoderSauvegarde
   };
 });

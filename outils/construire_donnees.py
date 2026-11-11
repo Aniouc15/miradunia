@@ -1,8 +1,10 @@
-"""Construit site/data/data.js et télécharge les photos à partir de outils/curiosites.json.
+"""Va chercher sur Wikipédia, Wikidata et Wikimedia Commons ce dont le jeu a besoin, puis construit le site.
 
-Pour chaque curiosité : article Wikipédia en français -> élément Wikidata -> image principale (P18)
--> fiche Wikimedia Commons (auteur, licence) -> vignette de 640 px enregistrée dans site/img/.
-Aucune clé, aucun compte, aucun coût. Relancer le script ne retélécharge pas les photos déjà présentes.
+Pour chaque curiosité de outils/curiosites.json : article Wikipédia en français -> élément Wikidata
+(image principale P18, articles et noms dans les autres langues) -> fiche Wikimedia Commons (auteur, licence)
+-> photo de 560 px enregistrée dans site/img/. Le résultat est gardé dans outils/cache/donnees.json,
+puis outils/construire_site.py écrit les fichiers du site dans chaque langue.
+Aucune clé, aucun compte, aucun coût. Les photos déjà présentes ne sont pas retéléchargées.
 
 Usage : python outils/construire_donnees.py
 """
@@ -18,23 +20,27 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parent.parent
 SOURCE = RACINE / "outils" / "curiosites.json"
 REMPLACEMENTS = RACINE / "outils" / "images_choisies.json"
+LANGUES = RACINE / "outils" / "langues" / "langues.json"
 DOSSIER_IMG = RACINE / "site" / "img"
-SORTIE = RACINE / "site" / "data" / "data.js"
+TRACES = RACINE / "outils" / "traces"
+SORTIE = RACINE / "outils" / "cache" / "donnees.json"
 RAPPORT = RACINE / "outils" / "rapport_donnees.txt"
-AGENT = "GlobeCuriosDataBuilder/0.1 (https://globecurious.com; jeu educatif statique)"
-LICENCES_OK = ("cc", "public domain", "pd", "gfdl", "fal", "no restrictions", "attribution", "copyrighted free use", "licence ouverte")
+AGENT = "GlobeCuriosDataBuilder/0.2 (https://aniouc15.github.io/globecurios/; jeu educatif statique)"
+MINIMUM_PAR_PAYS = 4
+LICENCES_OK = ("cc", "public domain", "pd", "gfdl", "gpl", "lgpl", "fal", "no restrictions", "attribution",
+               "copyrighted free use", "licence ouverte", "kogl type 1")
 
 
 def appel(url, params):
     requete = urllib.request.Request(url + "?" + urllib.parse.urlencode(params), headers={"User-Agent": AGENT})
-    for essai in range(4):
+    for essai in range(7):
         try:
             with urllib.request.urlopen(requete, timeout=40) as reponse:
                 return json.loads(reponse.read().decode("utf-8"))
-        except Exception as erreur:  # réseau : on réessaie
-            if essai == 3:
+        except Exception:  # réseau ou débit limité : on patiente puis on réessaie
+            if essai == 6:
                 raise
-            time.sleep(2 + 2 * essai)
+            time.sleep(5 + 10 * essai)
     return None
 
 
@@ -47,6 +53,10 @@ def texte_brut(valeur):
     valeur = re.sub(r"<[^>]+>", "", valeur or "")
     valeur = html.unescape(valeur)
     return re.sub(r"\s+", " ", valeur).strip()
+
+
+def lien_wikipedia(langue, titre):
+    return "https://%s.wikipedia.org/wiki/%s" % (langue, urllib.parse.quote(titre.replace(" ", "_")))
 
 
 def resoudre_articles(titres):
@@ -74,24 +84,32 @@ def resoudre_articles(titres):
     return resultat
 
 
-def images_wikidata(identifiants):
-    """identifiant Wikidata -> nom du fichier Commons (P18)"""
+def elements_wikidata(identifiants, langues):
+    """identifiant Wikidata -> {image (P18), articles {langue: titre}, noms {langue: libellé}}"""
     resultat = {}
+    sites = "|".join(langue + "wiki" for langue in langues)
     for lot in lots(identifiants, 40):
         donnees = appel("https://www.wikidata.org/w/api.php", {
-            "action": "wbgetentities", "format": "json", "props": "claims", "ids": "|".join(lot)})
+            "action": "wbgetentities", "format": "json", "props": "claims|sitelinks|labels",
+            "sitefilter": sites, "languages": "|".join(langues), "ids": "|".join(lot)})
         for identifiant, entite in donnees.get("entities", {}).items():
+            fiche = {"image": None, "articles": {}, "noms": {}}
             for declaration in entite.get("claims", {}).get("P18", []):
                 valeur = declaration.get("mainsnak", {}).get("datavalue", {}).get("value")
                 if valeur:
-                    resultat[identifiant] = valeur
+                    fiche["image"] = valeur
                     break
+            for site, lien in entite.get("sitelinks", {}).items():
+                fiche["articles"][site[:-4]] = lien["title"]
+            for langue, libelle in entite.get("labels", {}).items():
+                fiche["noms"][langue] = libelle["value"]
+            resultat[identifiant] = fiche
         time.sleep(0.3)
     return resultat
 
 
 def fiches_commons(fichiers):
-    """nom de fichier -> {vignette, page, auteur, licence}"""
+    """nom de fichier -> {vignette, page, auteur, depot, licence}"""
     resultat = {}
     for lot in lots(fichiers, 20):
         titres = ["File:" + nom for nom in lot]
@@ -111,12 +129,13 @@ def fiches_commons(fichiers):
                 continue
             info = page["imageinfo"][0]
             meta = info.get("extmetadata", {})
+            auteur = texte_brut(meta.get("Artist", {}).get("value"))[:80]
             resultat[origine[5:]] = {
                 "vignette": info.get("thumburl") or info.get("url"),
                 "page": info.get("descriptionurl"),
-                # Auteur déclaré ; à défaut, le compte Commons qui a déposé la photo.
-                "auteur": (texte_brut(meta.get("Artist", {}).get("value"))
-                           or ("compte Commons " + info["user"] if info.get("user") else ""))[:80],
+                # Auteur déclaré ; à défaut, le compte Commons qui a déposé la photo (« depot »).
+                "auteur": auteur or (info.get("user") or "")[:80],
+                "depot": not auteur,
                 "licence": texte_brut(meta.get("LicenseShortName", {}).get("value")),
             }
         time.sleep(0.3)
@@ -128,14 +147,21 @@ def telecharger(url, identifiant, fichier):
     from io import BytesIO
     from PIL import Image
     cible = DOSSIER_IMG / (identifiant + ".jpg")
-    trace = RACINE / "outils" / "traces" / (identifiant + ".source")
-    trace.parent.mkdir(exist_ok=True)
+    trace = TRACES / (identifiant + ".source")
+    TRACES.mkdir(exist_ok=True)
     if not cible.exists() or not trace.exists() or trace.read_text(encoding="utf-8") != fichier:
         for ancien in DOSSIER_IMG.glob(identifiant + ".*"):
             ancien.unlink()
         requete = urllib.request.Request(url, headers={"User-Agent": AGENT})
-        with urllib.request.urlopen(requete, timeout=60) as reponse:
-            image = Image.open(BytesIO(reponse.read()))
+        for essai in range(6):  # Wikimedia limite le débit : on patiente puis on réessaie
+            try:
+                with urllib.request.urlopen(requete, timeout=60) as reponse:
+                    image = Image.open(BytesIO(reponse.read()))
+                break
+            except Exception:
+                if essai == 5:
+                    raise
+                time.sleep(10 * (essai + 1))
         if image.mode in ("RGBA", "LA", "P"):
             image = image.convert("RGBA")
             fond = Image.new("RGB", image.size, "white")
@@ -145,13 +171,14 @@ def telecharger(url, identifiant, fichier):
         image.thumbnail((560, 560))
         image.save(cible, "JPEG", quality=76, optimize=True, progressive=True)
         trace.write_text(fichier, encoding="utf-8")
-        time.sleep(0.25)
+        time.sleep(0.6)
     return "img/" + cible.name
 
 
 def main():
     source = json.loads(SOURCE.read_text(encoding="utf-8"))
     remplacements = json.loads(REMPLACEMENTS.read_text(encoding="utf-8")) if REMPLACEMENTS.exists() else {}
+    langues = [langue["code"] for langue in json.loads(LANGUES.read_text(encoding="utf-8"))]
     items = source["items"]
     DOSSIER_IMG.mkdir(parents=True, exist_ok=True)
     SORTIE.parent.mkdir(parents=True, exist_ok=True)
@@ -165,13 +192,13 @@ def main():
             sys.exit("Pays inconnu pour " + item["id"])
 
     articles = resoudre_articles([item["wiki"] for item in items])
-    wikidata = images_wikidata(sorted({qid for _, qid, _ in articles.values() if qid}))
+    wikidata = elements_wikidata(sorted({qid for _, qid, _ in articles.values() if qid}), langues)
     fichiers = {}
     for item in items:
         titre, qid, image_article = articles[item["wiki"]]
         if titre is None:
             problemes.append(f"{item['id']} : article introuvable « {item['wiki']} »")
-        fichier = remplacements.get(item["id"]) or wikidata.get(qid) or image_article
+        fichier = remplacements.get(item["id"]) or (wikidata.get(qid) or {}).get("image") or image_article
         if fichier:
             fichiers[item["id"]] = fichier
         elif titre is not None:
@@ -179,8 +206,9 @@ def main():
     fiches = fiches_commons(sorted(set(fichiers.values())))
 
     sortie_items = []
+    photos_vues = {}
     for item in items:
-        titre = articles[item["wiki"]][0]
+        titre, qid, _ = articles[item["wiki"]]
         fiche = fiches.get(fichiers.get(item["id"], ""))
         if titre is None or fiche is None or not fiche.get("vignette"):
             if titre is not None and item["id"] in fichiers and fiche is None:
@@ -190,32 +218,58 @@ def main():
         if not licence or not licence.lower().startswith(LICENCES_OK):
             problemes.append(f"{item['id']} : licence à vérifier « {licence} » ({fiche['page']})")
             continue
+        # Une photo sans auteur connu, ou déjà utilisée par une autre curiosité, n'entre pas dans le jeu.
+        if not fiche["auteur"]:
+            problemes.append(f"{item['id']} : auteur de la photo inconnu ({fiche['page']})")
+            continue
+        if fichiers[item["id"]] in photos_vues:
+            problemes.append(f"{item['id']} : même photo que {photos_vues[fichiers[item['id']]]} ({fichiers[item['id']]})")
+            continue
         try:
             chemin = telecharger(fiche["vignette"], item["id"], fichiers[item["id"]])
         except Exception as erreur:
             problemes.append(f"{item['id']} : téléchargement impossible ({erreur})")
             continue
+        photos_vues[fichiers[item["id"]]] = item["id"]
+        element = wikidata.get(qid) or {"articles": {}, "noms": {}}
+        liens = {langue: lien_wikipedia(langue, titre_langue) for langue, titre_langue in element["articles"].items()}
+        liens["fr"] = lien_wikipedia("fr", titre)
         sortie_items.append({
-            "id": item["id"], "nom": item["nom"], "pays": item["pays"], "cat": item["cat"],
-            "niv": item["niv"], "fait": item["fait"], "img": chemin,
-            "lien": "https://fr.wikipedia.org/wiki/" + urllib.parse.quote(titre.replace(" ", "_")),
-            "credit": {"auteur": fiche["auteur"] or "auteur non indiqué", "licence": licence, "page": fiche["page"]},
+            "id": item["id"], "nom": item["nom"], "pays": item["pays"], "cat": item["cat"], "niv": item["niv"],
+            "fait": item["fait"], "img": chemin, "wikidata": qid, "liens": liens, "noms": element["noms"],
+            "credit": {"auteur": fiche["auteur"], "depot": fiche["depot"], "licence": licence, "page": fiche["page"]},
         })
 
-    donnees = {"pays": source["pays"], "items": sortie_items}
-    SORTIE.write_text("window.GC_DATA = " + json.dumps(donnees, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
+    # Un pays n'entre dans le jeu qu'avec au moins MINIMUM_PAR_PAYS curiosités utilisables.
     par_pays = {}
     for item in sortie_items:
         par_pays[item["pays"]] = par_pays.get(item["pays"], 0) + 1
-    faibles = [f"{code} ({nombre})" for code, nombre in sorted(par_pays.items()) if nombre < 3]
-    manquants = [code for code in source["pays"] if code not in par_pays]
-    lignes = [f"{len(sortie_items)} curiosités sur {len(items)} écrites dans {SORTIE.name}",
-              "Pays avec moins de 3 curiosités : " + (", ".join(faibles) or "aucun"),
-              "Pays sans curiosité : " + (", ".join(manquants) or "aucun"),
+    ecartes = sorted(code for code in source["pays"] if par_pays.get(code, 0) < MINIMUM_PAR_PAYS)
+    sortie_items = [item for item in sortie_items if item["pays"] not in ecartes]
+    pays_sortie = {code: fiche for code, fiche in source["pays"].items() if code not in ecartes}
+
+    SORTIE.write_text(json.dumps({"pays": pays_sortie, "items": sortie_items}, ensure_ascii=False, indent=1) + "\n",
+                      encoding="utf-8")
+    # Ménage : les photos et les traces qui ne servent plus sont supprimées.
+    utiles = {item["id"] for item in sortie_items}
+    supprimees = 0
+    for dossier, motif in ((DOSSIER_IMG, "*.jpg"), (TRACES, "*.source")):
+        for chemin in dossier.glob(motif):
+            if chemin.stem not in utiles:
+                chemin.unlink()
+                supprimees += 1
+    lignes = [f"{len(sortie_items)} curiosités sur {len(items)} retenues, pour {len(pays_sortie)} pays",
+              f"Pays écartés (moins de {MINIMUM_PAR_PAYS} curiosités utilisables) : "
+              + (", ".join(f"{code} ({par_pays.get(code, 0)})" for code in ecartes) or "aucun"),
+              f"Fichiers inutiles supprimés : {supprimees}",
               f"{len(problemes)} problème(s) :"] + ["  - " + p for p in problemes]
     RAPPORT.write_text("\n".join(lignes) + "\n", encoding="utf-8")
     print("\n".join(lignes))
 
+    import construire_site  # même dossier
+    construire_site.main()
+
 
 if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     main()

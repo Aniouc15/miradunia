@@ -1,15 +1,30 @@
 {
   "name": "GlobeCurios",
   "short_name": "GlobeCurios",
-  "description": "Le tour du monde en 3 curiosités par jour.",
-  "lang": "fr",
+  "description": "Le tour du monde en 3 curiosités par jour",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f5efe3",
   "theme_color": "#0f6b6b",
   "icons": [
-    { "src": "icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    {
+      "src": "icone-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icone.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
   ]
 }

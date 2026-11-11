@@ -1,21 +1,73 @@
-/* GlobeCurios — affichage. Les règles sont dans core.js, les curiosités dans data/data.js. */
+/* Affichage du jeu. Les règles sont dans core.js, les curiosités dans data/data.js,
+   les textes de la langue choisie dans lang/<code>.js (chargé par demarrage.js). */
 (function () {
   'use strict';
-  var C = window.GCCore, D = window.GC_DATA;
+  var C = window.GCCore, D = window.GC_DATA, L = window.GC_LANGUE;
+  var PAGE = window.GC_PAGE || { langue: null, racine: '' };
+  var RACINE = PAGE.racine || '';
+  var UI = L.ui;
+  var LANGUE = L.code;
+  var LOCALE = L.locale || L.code; // pour les dates, les pluriels et l'ordre alphabétique
+  var MARQUE = D.marque;
   var app = document.getElementById('app');
   var ITEMS = {};
-  D.items.forEach(function (i) { ITEMS[i.id] = i; });
+  // Les textes de la langue (nom, phrase, lien) rejoignent les données neutres de chaque curiosité.
+  D.items.forEach(function (i) {
+    var textes = L.items[i.id] || [i.id, '', ''];
+    i.nom = textes[0]; i.fait = textes[1]; i.lien = textes[2];
+    ITEMS[i.id] = i;
+  });
   var CLE = 'globecurios_etat_v1';
+  var CLE_COPIE = 'globecurios_code_copie';
+  var CLE_LANGUE = 'globecurios_langue';
   var CATEGORIES = ['monument', 'lieu', 'plat', 'boisson', 'fête', 'tradition', 'instrument', 'objet'];
-  var PLURIELS = { monument: 'Monuments', lieu: 'Lieux', plat: 'Plats', boisson: 'Boissons', 'fête': 'Fêtes',
-    tradition: 'Traditions', instrument: 'Instruments', objet: 'Objets' };
+
+  // ---------- Textes ----------
+  var REGLES_PLURIEL;
+  try { REGLES_PLURIEL = new Intl.PluralRules(LOCALE); } catch (e) { REGLES_PLURIEL = { select: function (n) { return n === 1 ? 'one' : 'other'; } }; }
+  var NOMBRES;
+  try { NOMBRES = new Intl.NumberFormat(LOCALE); } catch (e) { NOMBRES = { format: String }; }
+  // Texte de l'interface. Une entrée peut avoir plusieurs formes selon le nombre {n} (one, few, many, other…).
+  // Les nombres sont écrits à la façon de la langue (1 414, 1,414…).
+  function t(cle, params) {
+    var v = UI[cle];
+    if (v === undefined) return cle;
+    if (typeof v === 'object') {
+      var forme = v[REGLES_PLURIEL.select(params && typeof params.n === 'number' ? params.n : 0)];
+      v = forme === undefined ? v.other : forme;
+    }
+    return String(v).replace(/\{(\w+)\}/g, function (tout, nom) {
+      var valeur = params ? params[nom] : undefined;
+      if (typeof valeur === 'number') return NOMBRES.format(valeur);
+      return valeur === undefined || valeur === null || typeof valeur === 'object' ? tout : valeur;
+    });
+  }
+  // Même texte, avec <b>gras</b>, <a>lien</a> et éléments insérés ({nom} dont la valeur est un élément).
+  function riche(cle, params, lien) {
+    var noeuds = [];
+    t(cle, params).split(/(<b>[\s\S]*?<\/b>|<a>[\s\S]*?<\/a>|\{\w+\})/).forEach(function (bout) {
+      var m;
+      if (!bout) return;
+      if ((m = /^<b>([\s\S]*)<\/b>$/.exec(bout))) noeuds.push(h('b', {}, m[1]));
+      else if ((m = /^<a>([\s\S]*)<\/a>$/.exec(bout))) noeuds.push(lien ? h('a', lien, m[1]) : m[1]);
+      else if ((m = /^\{(\w+)\}$/.exec(bout)) && params && params[m[1]] && typeof params[m[1]] === 'object') noeuds.push(params[m[1]]);
+      else noeuds.push(bout);
+    });
+    return noeuds;
+  }
+  function pays(code) { return L.pays[code] || code; }
+  function continent(code) { return D.pays[code].continent; }
+  function nomContinent(cle) { return t('continent.' + cle); }
+  function categorie(item) { return t('categorie.' + item.cat); }
+  function parNom(a, b) { return a.localeCompare(b, LOCALE); }
+  function points(n) { return t('commun.points', { n: n }); }
 
   // Ancien défi : « ?essai=12 » rejoue le défi n° 12 hors série, sans rien enregistrer.
   // Le défi du jour et les suivants ne s'ouvrent ainsi que sur le poste du développeur.
   var parametre = new URLSearchParams(location.search).get('essai');
   var surPosteLocal = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-  var ESSAI = parametre !== null && /^\d+$/.test(parametre) ? parseInt(parametre, 10) - 1 : null;
-  if (ESSAI !== null && ESSAI >= C.indexDuJour() && !surPosteLocal) ESSAI = null;
+  var ESSAI = parametre !== null && /^\d{1,6}$/.test(parametre) ? parseInt(parametre, 10) - 1 : null;
+  if (ESSAI !== null && (ESSAI < 0 || (ESSAI >= C.indexDuJour() && !surPosteLocal))) ESSAI = null;
   var JOUR = ESSAI !== null ? ESSAI : C.indexDuJour();
   var etat = charger();
   var vue = 'accueil';
@@ -46,65 +98,80 @@
     el.replaceChildren();
     for (var i = 1; i < arguments.length; i++) ajouter(el, arguments[i]);
   }
-  function pays(code) { return D.pays[code].nom; }
-  function continent(code) { return D.pays[code].continent; }
+  function lire(cle) { try { return localStorage.getItem(cle); } catch (e) { return null; } }
+  function ecrire(cle, valeur) { try { localStorage.setItem(cle, valeur); } catch (e) { /* stockage indisponible */ } }
   function charger() {
     if (ESSAI !== null) return C.nouvelEtat();
     try {
-      var lu = C.etatValide(JSON.parse(localStorage.getItem(CLE)));
+      var lu = C.etatValide(JSON.parse(lire(CLE)));
       if (lu) return lu;
-    } catch (e) { /* stockage indisponible : on joue quand même, sans mémoire */ }
+    } catch (e) { /* stockage illisible : on joue quand même, sans mémoire */ }
     return C.nouvelEtat();
   }
   function sauver() {
-    if (ESSAI !== null) return;
-    try { localStorage.setItem(CLE, JSON.stringify(etat)); } catch (e) { /* idem */ }
+    if (ESSAI === null) ecrire(CLE, JSON.stringify(etat));
   }
-  var CLE_COPIE = 'globecurios_code_copie';
-  function codeDejaCopie() { try { return localStorage.getItem(CLE_COPIE) === '1'; } catch (e) { return false; } }
-  function noterCodeCopie() { try { localStorage.setItem(CLE_COPIE, '1'); } catch (e) { /* sans importance */ } }
-  function versBase64(t) { return btoa(unescape(encodeURIComponent(t))); }
-  function depuisBase64(t) { return decodeURIComponent(escape(atob(t))); }
+  function versBase64(texte) { return btoa(unescape(encodeURIComponent(texte))); }
+  function depuisBase64(texte) { return decodeURIComponent(escape(atob(texte))); }
   function duree(secondes) {
     function deux(n) { return (n < 10 ? '0' : '') + n; }
     return deux(Math.floor(secondes / 3600)) + ':' + deux(Math.floor(secondes / 60) % 60) + ':' + deux(secondes % 60);
   }
   function dateDuJour() {
-    return new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    return new Date().toLocaleDateString(LOCALE, { weekday: 'long', day: 'numeric', month: 'long' });
   }
-  function pluriel(n, un, plusieurs) { return n + ' ' + (n > 1 ? plusieurs : un); }
+  function dateDuDefi(jour) {
+    var texte = C.dateDuDefi(jour).toLocaleDateString(LOCALE, { day: 'numeric', month: 'long', timeZone: 'UTC' });
+    return LANGUE === 'fr' ? texte.replace(/^1 /, '1er ') : texte;
+  }
   function bouton(texte, action, classe) {
     return h('button', { type: 'button', class: 'bouton' + (classe ? ' ' + classe : ''), onclick: action }, texte);
   }
+  function image(item) { return RACINE + item.img; }
   function photo(item, rapprochee) {
     return h('figure', { class: 'photo' + (rapprochee ? ' zoom' : '') },
-      h('img', { src: item.img, alt: rapprochee ? 'Détail de la curiosité à deviner' : item.nom, width: 560, height: 420 }));
+      h('img', { src: image(item), alt: rapprochee ? t('commun.detail_alt') : item.nom, width: 560, height: 420 }));
+  }
+  function auteur(item) {
+    return item.credit.depot ? t('credit.compte', { nom: item.credit.auteur }) : item.credit.auteur;
   }
   function credit(item) {
-    return h('p', { class: 'credit' }, 'Photo : ' + item.credit.auteur + ', ' + item.credit.licence + ', ',
-      h('a', { href: item.credit.page, target: '_blank', rel: 'noopener' }, 'Wikimedia Commons'));
+    return h('p', { class: 'credit' }, riche('credit.photo', { auteur: auteur(item), licence: item.credit.licence },
+      { href: item.credit.page, target: '_blank', rel: 'noopener' }));
   }
-  // Adresse qui reçoit les signalements d'erreur. Vide : le lien « Signaler une erreur » n'est pas affiché.
-  var CONTACT = '';
+  // Lien « Signaler une erreur » : affiché seulement si une adresse de contact est réglée.
   function signaler(item) {
-    if (!CONTACT) return null;
-    var sujet = 'GlobeCurios — erreur' + (item ? ' sur « ' + item.nom + ' » (' + item.id + ')' : '');
-    var corps = 'Bonjour,\n\nVoici ce qui me semble faux ou ambigu :\n\n';
-    return h('a', { href: 'mailto:' + CONTACT + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(corps) },
-      'Signaler une erreur');
+    if (!D.contact) return null;
+    var sujet = item ? t('signaler.sujet_fiche', { marque: MARQUE, nom: item.nom, id: item.id }) : t('signaler.sujet', { marque: MARQUE });
+    return h('a', { href: 'mailto:' + D.contact + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(t('signaler.corps')) },
+      t('signaler.lien'));
   }
   function savoir(item) {
     var lien = signaler(item);
     return [h('p', { class: 'fait' }, item.fait),
-      h('p', { class: 'petit' }, h('a', { href: item.lien, target: '_blank', rel: 'noopener' }, 'En savoir plus sur Wikipédia'),
+      h('p', { class: 'petit' }, h('a', { href: item.lien, target: '_blank', rel: 'noopener' }, t('commun.savoir_plus')),
         lien ? ' · ' : null, lien),
       credit(item)];
   }
+  function texteDuPartage(jour, scores, serie) {
+    var total = scores.reduce(function (a, b) { return a + b; }, 0);
+    return C.texteDePartage(scores, {
+      entete: t('partage.entete', { marque: MARQUE, n: C.numeroDuJour(jour), date: dateDuDefi(jour), total: total }),
+      epreuves: [t('origine.nom'), t('intrus.nom'), t('liens.nom')],
+      serie: serie > 1 ? t('partage.serie', { n: serie }) : '',
+      invite: t('partage.invite', { adresse: D.adresse })
+    });
+  }
+  function resultatEnMots(scores) {
+    return scores.map(function (s, n) {
+      return t(s >= 100 ? 'resultat.epreuve_reussie' : s > 0 ? 'resultat.epreuve_partielle' : 'resultat.epreuve_manquee', { n: n + 1 });
+    }).join(', ');
+  }
   function partager(texte, source, copieSeule) {
-    function copie() { source.textContent = 'Résultat copié, il reste à le coller'; }
+    function copie() { source.textContent = t('resultat.copie'); }
     function secours() {
       if (source.nextSibling && source.nextSibling.tagName === 'TEXTAREA') return;
-      var zone = h('textarea', { rows: 4, readonly: true, 'aria-label': 'Résultat à copier' }, texte);
+      var zone = h('textarea', { rows: 6, readonly: true, 'aria-label': t('resultat.zone') }, texte);
       source.parentNode.insertBefore(zone, source.nextSibling);
       zone.focus(); zone.select();
     }
@@ -113,11 +180,11 @@
       else secours();
     }
     // La feuille de partage du système n'est utile que sur téléphone ; ailleurs on copie.
-    var tactile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-    if (navigator.share && tactile && !copieSeule) {
+    if (navigator.share && estTactile() && !copieSeule) {
       navigator.share({ text: texte }).catch(function (e) { if (!e || e.name !== 'AbortError') presse(); });
     } else presse();
   }
+  function estTactile() { return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches); }
 
   // ---------- Navigation ----------
   function partieEnCours() {
@@ -145,12 +212,25 @@
   }
   function majEntete() {
     var serie = C.serieActuelle(etat, JOUR);
-    document.getElementById('serie-entete').textContent = serie > 0 ? 'Série : ' + pluriel(serie, 'jour', 'jours') : '';
+    document.getElementById('serie-entete').textContent = serie > 0 ? t('entete.serie', { n: serie }) : '';
     var nb = C.toutesARevoir(etat, JOUR).length;
     var pastille = document.getElementById('pastille-revision');
     pastille.hidden = nb === 0;
     pastille.textContent = nb;
-    pastille.setAttribute('aria-label', pluriel(nb, 'curiosité à revoir', 'curiosités à revoir'));
+    pastille.setAttribute('aria-label', t('nav.a_revoir', { n: nb }));
+  }
+  // Textes fixes de la page (menu, entête) : écrits ici pour que la même page serve toutes les langues.
+  function habiller() {
+    document.documentElement.lang = LANGUE;
+    document.documentElement.dir = L.dir || 'ltr';
+    document.title = t('meta.titre', { marque: MARQUE });
+    document.querySelectorAll('.barre button').forEach(function (b) {
+      b.querySelector('.libelle').textContent = t('nav.' + b.getAttribute('data-vue'));
+    });
+    document.querySelector('.barre').setAttribute('aria-label', t('nav.label'));
+    document.querySelector('.marque').setAttribute('aria-label', t('entete.accueil', { marque: MARQUE }));
+    document.querySelector('.marque span').textContent = MARQUE;
+    document.getElementById('serie-entete').title = t('entete.serie_titre');
   }
   document.addEventListener('click', function (e) {
     var cible = e.target.closest('[data-vue]');
@@ -174,28 +254,25 @@
         if (reste <= 0 || C.indexDuJour() !== JOUR) afficher();
       }, 1000);
     }
-    var bPartage = bouton('Partager mon résultat', function () {
-      partager(C.texteDePartage(jour, fait.scores, serie), bPartage);
+    var bPartage = bouton(t('resultat.partager'), function () {
+      partager(texteDuPartage(jour, fait.scores, serie), bPartage);
     });
     // Sur téléphone, « Partager » ouvre la feuille du système : on propose aussi la simple copie.
-    var tactile = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-    var bCopie = navigator.share && tactile ? bouton('Copier mon résultat', function () {
-      partager(C.texteDePartage(jour, fait.scores, serie), bCopie, true);
+    var bCopie = navigator.share && estTactile() ? bouton(t('resultat.copier'), function () {
+      partager(texteDuPartage(jour, fait.scores, serie), bCopie, true);
     }, 'secondaire') : null;
     // Ce que la partie a apporté : les curiosités entrées dans l'album ce jour-là.
     var nouvelles = Object.keys(etat.album).filter(function (id) { return etat.album[id] === jour; }).length;
-    var sansFaute = fait.total === 300;
     var decouverte = ESSAI !== null ? null : h('p', { class: 'petit' },
-      (sansFaute ? 'Sans-faute. ' : '') + (nouvelles > 0
-        ? (nouvelles > 1 ? nouvelles + ' nouvelles curiosités sont entrées' : 'Une nouvelle curiosité est entrée') + ' dans votre album.'
-        : 'Vous aviez déjà rencontré toutes les curiosités de ce défi.'));
+      (fait.total === 300 ? t('resultat.sans_faute') + ' ' : '') +
+      (nouvelles > 0 ? t('resultat.nouvelles', { n: nouvelles }) : t('resultat.aucune_nouvelle')));
     return h('section', { class: 'carte centre' },
-      h('span', { class: 'etiquette' }, 'Défi n° ' + C.numeroDuJour(jour) + (ESSAI !== null ? ' · hors série' : '')),
+      h('span', { class: 'etiquette' }, t('defi.numero', { n: C.numeroDuJour(jour) }) + (ESSAI !== null ? ' · ' + t('defi.hors_serie') : '')),
       h('p', { class: 'score' }, fait.total + ' / 300'),
-      h('p', { class: 'carres', role: 'img', 'aria-label': 'Résultat : ' + C.carresEnMots(fait.scores) }, C.carres(fait.scores)),
-      messageJoker ? h('p', { class: 'petit' }, 'Vous aviez manqué un jour : votre joker a sauvé votre série.') : null,
+      h('p', { class: 'carres', role: 'img', 'aria-label': t('resultat.aria', { detail: resultatEnMots(fait.scores) }) }, C.carres(fait.scores)),
+      messageJoker ? h('p', { class: 'petit' }, t('resultat.joker')) : null,
       decouverte, bPartage, bCopie,
-      avecCompte ? h('p', { class: 'doux', style: 'margin:14px 0 0' }, 'Prochain défi dans ', compte) : null);
+      avecCompte ? h('p', { class: 'doux', style: 'margin:14px 0 0' }, riche('resultat.prochain', { duree: compte })) : null);
   }
   function vueAccueil() {
     var fait = etat.jours[JOUR];
@@ -204,71 +281,65 @@
     var niveau = C.niveauDuJour(JOUR);
     var blocs = [];
     if (resultatDe !== null && resultatDe !== JOUR && etat.jours[resultatDe]) {
-      blocs.push(carteResultat(resultatDe, false),
-        h('p', { class: 'petit doux centre' }, 'Minuit est passé pendant votre partie : un nouveau défi vous attend.'));
+      blocs.push(carteResultat(resultatDe, false), h('p', { class: 'petit doux centre' }, t('accueil.minuit')));
     }
     if (fait) {
       blocs.push(carteResultat(JOUR, ESSAI === null));
       var nb = C.toutesARevoir(etat, JOUR).length;
       if (nb > 0) {
-        blocs.push(h('section', { class: 'carte' }, h('h2', {}, pluriel(nb, 'curiosité à revoir', 'curiosités à revoir')),
-          h('p', { class: 'doux' }, 'Celles que vous avez manquées reviennent ici pour que vous les reteniez.'),
-          bouton('Réviser', function () { afficher('revision'); }, 'secondaire')));
+        blocs.push(h('section', { class: 'carte' }, h('h2', {}, t('nav.a_revoir', { n: nb })),
+          h('p', { class: 'doux' }, t('accueil.a_revoir_texte')),
+          bouton(t('accueil.reviser'), function () { afficher('revision'); }, 'secondaire')));
       }
     } else {
-      var titre = C.estDimanche(JOUR) ? 'Grand défi du dimanche' : 'Trois énigmes en images, une découverte du monde';
       blocs.push(h('section', { class: 'carte' },
-        h('span', { class: 'etiquette' }, 'Défi n° ' + C.numeroDuJour(JOUR) + (ESSAI === null ? ' · ' + dateDuJour() : ' · hors série') +
-          ' · niveau ' + C.NOMS_NIVEAUX[niveau]),
-        h('h1', {}, titre),
-        h('p', { class: 'doux' }, 'Un plat, un monument, une fête, un instrument… À quel pays les rattacher ? Quelques minutes par jour, et chaque réponse vous apprend quelque chose.'),
-        bouton(partieEnCours() ? 'Reprendre ma partie' : 'Jouer le défi du jour', function () { afficher('jeu'); })));
+        h('span', { class: 'etiquette' }, [t('defi.numero', { n: C.numeroDuJour(JOUR) }), ESSAI === null ? dateDuJour() : t('defi.hors_serie'),
+          t('defi.niveau', { niveau: t('niveau.' + niveau) })].join(' · ')),
+        h('h1', {}, t(C.estDimanche(JOUR) ? 'accueil.titre_dimanche' : 'accueil.titre')),
+        h('p', { class: 'doux' }, t('accueil.texte')),
+        bouton(t(partieEnCours() ? 'accueil.reprendre' : 'accueil.jouer'), function () { afficher('jeu'); })));
     }
     if (ESSAI !== null) return blocs;
 
     blocs.push(h('div', { class: 'chiffres' },
-      h('div', {}, h('b', {}, serie), h('span', {}, serie > 1 ? 'jours d\'affilée' : 'jour d\'affilée')),
-      h('div', {}, h('b', {}, etat.meilleureSerie), h('span', {}, 'record')),
-      h('div', {}, h('b', {}, bilan.decouverts + '/' + bilan.total), h('span', {}, 'pays découverts'))));
+      h('div', {}, h('b', {}, serie), h('span', {}, t('chiffres.serie', { n: serie }))),
+      h('div', {}, h('b', {}, etat.meilleureSerie), h('span', {}, t('chiffres.record'))),
+      h('div', {}, h('b', {}, bilan.decouverts + '/' + bilan.total), h('span', {}, t('chiffres.pays')))));
     if (serie >= 2) {
       var attente = etat.jokerLe === null ? 0 : Math.max(0, 7 - (JOUR - etat.jokerLe));
-      blocs.push(h('p', { class: 'petit doux centre' }, attente === 0
-        ? 'Joker disponible : un jour manqué ne cassera pas votre série.'
-        : 'Joker utilisé : il revient dans ' + pluriel(attente, 'jour', 'jours') + '.'));
+      blocs.push(h('p', { class: 'petit doux centre' }, attente === 0 ? t('joker.disponible') : t('joker.utilise', { n: attente })));
     }
     var stats = C.statistiques(etat);
     if (stats.parties > 0) {
       var maxi = Math.max.apply(null, stats.repartition) || 1;
-      var libelles = ['moins de 100', '100 à 199', '200 à 299', '300'];
-      blocs.push(h('section', { class: 'carte' }, h('h2', {}, 'Mes statistiques'),
-        h('p', {}, pluriel(stats.parties, 'défi joué', 'défis joués') + ' · moyenne ' + stats.moyenne + ' · meilleur score ' + stats.meilleur +
-          (stats.parties > 7 ? ' · moyenne des 7 derniers : ' + stats.moyenne7 : '')),
+      var resume = [t('stats.parties', { n: stats.parties }), t('stats.moyenne', { n: stats.moyenne }), t('stats.meilleur', { n: stats.meilleur })];
+      if (stats.parties > 7) resume.push(t('stats.moyenne7', { n: stats.moyenne7 }));
+      blocs.push(h('section', { class: 'carte' }, h('h2', {}, t('stats.titre')),
+        h('p', {}, resume.join(' · ')),
         h('div', { class: 'barres' }, stats.repartition.map(function (n, k) {
-          return h('div', { class: 'barre-ligne' }, h('span', {}, libelles[k]),
+          return h('div', { class: 'barre-ligne' }, h('span', {}, t('stats.tranche.' + k)),
             h('i', { style: 'width:' + Math.max(4, Math.round(100 * n / maxi)) + '%' + (n === 0 ? ';opacity:.25' : '') }), h('b', {}, n));
         }))));
     }
     var anciens = C.joursRejouables(etat, JOUR, 7);
     if (fait && anciens.length > 0) {
-      blocs.push(h('section', { class: 'carte' }, h('h2', {}, 'Défis manqués'),
-        h('p', { class: 'doux' }, 'Vous pouvez les rejouer hors série : le score n\'est pas enregistré.'),
+      blocs.push(h('section', { class: 'carte' }, h('h2', {}, t('manques.titre')),
+        h('p', { class: 'doux' }, t('manques.texte')),
         h('div', { class: 'anciens' }, anciens.map(function (j) {
-          return h('a', { class: 'puce', href: '?essai=' + C.numeroDuJour(j) }, 'n° ' + C.numeroDuJour(j));
+          return h('a', { class: 'puce', href: '?essai=' + C.numeroDuJour(j) }, t('manques.numero', { n: C.numeroDuJour(j) }));
         }))));
     }
-    if (stats.parties >= 7 && !codeDejaCopie()) {
-      blocs.push(h('p', { class: 'petit doux centre' }, 'Votre progression n\'existe que sur cet appareil. ',
-        h('a', { href: '#', 'data-vue': 'regles' }, 'Gardez votre code de sauvegarde'), ' pour ne pas la perdre.'));
+    if (stats.parties >= 7 && lire(CLE_COPIE) !== '1') {
+      blocs.push(h('p', { class: 'petit doux centre' }, riche('sauvegarde.rappel', null, { href: '#', 'data-vue': 'regles' })));
     }
     if (!fait && stats.parties === 0) {
       // Première visite un jour difficile : on propose d'abord un ancien défi facile, hors série.
       var facile = null;
       for (var j = JOUR - 1; j >= 0 && facile === null; j--) if (C.niveauDuJour(j) === 1) facile = j;
       if (niveau > 1 && facile !== null) {
-        blocs.push(h('p', { class: 'petit centre' }, 'Première visite ? ',
-          h('a', { href: '?essai=' + C.numeroDuJour(facile) }, 'Essayez d\'abord un défi facile'), ', sans enjeu.'));
+        blocs.push(h('p', { class: 'petit centre' }, riche('accueil.premiere_visite', null, { href: '?essai=' + C.numeroDuJour(facile) })));
       }
-      blocs.push(h('p', { class: 'petit doux centre' }, 'Gratuit, sans compte. Votre progression reste sur cet appareil.'));
+      blocs.push(h('p', { class: 'petit doux centre' }, t('accueil.gratuit')));
     }
     return blocs;
   }
@@ -280,7 +351,7 @@
     var enCours = etat.enCours && etat.enCours.jour === JOUR ? etat.enCours : { jour: JOUR, index: 0, scores: [], partiel: null };
     var index = enCours.index;
     var epreuve = defi.epreuves[index];
-    var etapes = h('div', { class: 'etapes', role: 'img', 'aria-label': 'Épreuve ' + (index + 1) + ' sur 3' },
+    var etapes = h('div', { class: 'etapes', role: 'img', 'aria-label': t('jeu.etape', { n: index + 1 }) },
       [0, 1, 2].map(function (n) { return h('i', { class: n < index ? 'passee' : n === index ? 'ici' : '' }); }));
 
     // Mémorise un essai manqué : recharger la page ne rend pas les essais.
@@ -290,9 +361,9 @@
       sauver();
     }
     // Appelé dès que l'épreuve est tranchée : le score est enregistré tout de suite, on ne peut pas la rejouer.
-    function valider(points) {
+    function valider(score) {
       var jourJoue = JOUR;
-      enCours.scores.push(points);
+      enCours.scores.push(score);
       enCours.index += 1;
       enCours.partiel = null;
       etat.enCours = enCours;
@@ -300,7 +371,7 @@
       if (termine) messageJoker = C.terminerJour(etat, jourJoue, enCours.scores).joker;
       sauver();
       majEntete();
-      return bouton(termine ? 'Voir mon résultat' : 'Épreuve suivante', function () {
+      return bouton(t(termine ? 'jeu.voir_resultat' : 'jeu.suivante'), function () {
         if (termine) resultatDe = jourJoue;
         afficher(termine ? 'accueil' : 'jeu');
       });
@@ -311,19 +382,18 @@
     return [etapes, corps];
   }
 
-  // Épreuve 1 — « D'où ça vient ? » : quatre indices, de la photo rapprochée aux quatre pays proposés.
+  // Épreuve 1 : quatre indices, de la photo rapprochée aux quatre pays proposés.
   function epreuveOrigine(epreuve, partiel, memoriser, conclure) {
     var item = ITEMS[epreuve.item];
     var tentatives = partiel && Array.isArray(partiel.t) ? partiel.t.slice() : []; // code de pays, ou null si indice demandé
     var cadre = h('section', { class: 'carte' });
-    var INDICES = ['Voici un détail de la photo. Chaque erreur débloque un indice, mais coûte des points.',
-      'Voici la photo entière.', 'Voici son nom.', 'Dernière chance : c\'est l\'un de ces quatre pays.'];
 
     function historique() {
       if (!tentatives.length) return null;
       return h('ul', { class: 'essais' }, tentatives.map(function (code) {
-        if (code === null) return h('li', {}, 'Indice demandé');
-        return h('li', {}, h('b', {}, '✗ ' + pays(code)), continent(code) === continent(item.pays) ? ' — bon continent' : ' — autre continent');
+        if (code === null) return h('li', {}, t('origine.indice_demande'));
+        return h('li', {}, riche(continent(code) === continent(item.pays) ? 'origine.essai_bon_continent' : 'origine.essai_autre_continent',
+          { pays: pays(code) }));
       }));
     }
     function proposer(code) {
@@ -336,16 +406,14 @@
     }
     function finir(reussi) {
       var numero = tentatives.length + (reussi ? 1 : 0);
-      var points = C.pointsOrigine(numero, reussi);
+      var score = C.pointsOrigine(numero, reussi);
       // L'atlas ne retient que les curiosités reconnues à la photo, avant que le nom soit donné.
       C.noterReponse(etat, item.id, item.pays, reussi && numero <= 2, JOUR);
-      var texte = reussi
-        ? ['Du premier coup, sur un simple détail : ', 'Trouvé avec la photo entière : ', 'Trouvé grâce au nom : ', 'Trouvé parmi les quatre pays : '][numero - 1] + pays(item.pays) + '.'
-        : 'La réponse était : ' + pays(item.pays) + '.';
-      remplacer(cadre, h('span', { class: 'etiquette' }, 'D\'où ça vient ? · ' + item.cat),
+      var texte = t(reussi ? 'origine.trouve.' + numero : 'origine.rate', { pays: pays(item.pays) });
+      remplacer(cadre, h('span', { class: 'etiquette' }, t('origine.nom') + ' · ' + categorie(item)),
         photo(item), h('p', { class: 'nom' }, item.nom), historique(),
-        h('p', { class: 'verdict ' + (reussi ? (numero === 1 ? 'bon' : 'moyen') : 'mauvais') }, texte + ' +' + points + ' points'),
-        savoir(item), conclure(points));
+        h('p', { class: 'verdict ' + (reussi ? (numero === 1 ? 'bon' : 'moyen') : 'mauvais') }, texte + ' ' + points(score)),
+        savoir(item), conclure(score));
     }
     function dessiner() {
       var etape = tentatives.length;
@@ -356,15 +424,15 @@
         Object.keys(D.pays).forEach(function (code) {
           if (essayes.indexOf(code) < 0) (groupes[continent(code)] = groupes[continent(code)] || []).push(code);
         });
-        var liste = h('select', { 'aria-label': 'Pays proposé' }, h('option', { value: '' }, 'Choisir un pays…'),
-          Object.keys(groupes).sort(function (a, b) { return a.localeCompare(b, 'fr'); }).map(function (nom) {
-            return h('optgroup', { label: nom }, groupes[nom].sort(function (a, b) { return pays(a).localeCompare(pays(b), 'fr'); })
+        var liste = h('select', { 'aria-label': t('origine.select_label') }, h('option', { value: '' }, t('origine.choisir')),
+          Object.keys(groupes).sort(function (a, b) { return parNom(nomContinent(a), nomContinent(b)); }).map(function (cle) {
+            return h('optgroup', { label: nomContinent(cle) }, groupes[cle].sort(function (a, b) { return parNom(pays(a), pays(b)); })
               .map(function (code) { return h('option', { value: code }, pays(code)); }));
           }));
-        var bValider = bouton('Valider', function () { if (liste.value) proposer(liste.value); });
+        var bValider = bouton(t('commun.valider'), function () { if (liste.value) proposer(liste.value); });
         bValider.disabled = true;
         liste.addEventListener('change', function () { bValider.disabled = !liste.value; });
-        saisie = [liste, bValider, bouton('Je ne sais pas : indice suivant', function () { proposer(null); }, 'secondaire')];
+        saisie = [liste, bValider, bouton(t('origine.indice_suivant'), function () { proposer(null); }, 'secondaire')];
       } else {
         saisie = h('div', { class: 'choix' }, epreuve.options.map(function (code) {
           var b = h('button', { type: 'button', onclick: function () { proposer(code); } }, pays(code));
@@ -373,11 +441,11 @@
         }));
       }
       remplacer(cadre,
-        h('span', { class: 'etiquette' }, 'D\'où ça vient ? · indice ' + (etape + 1) + ' sur 4 · ' + C.POINTS_ORIGINE[etape] + ' points'),
+        h('span', { class: 'etiquette' }, t('origine.etiquette', { n: etape + 1, points: C.POINTS_ORIGINE[etape] })),
         photo(item, etape === 0),
-        etape >= 2 ? h('p', { class: 'nom' }, item.nom, h('span', { class: 'categorie' }, ' · ' + item.cat)) : null,
-        h('p', { class: 'consigne' }, 'À quel pays cette curiosité est-elle rattachée ?'),
-        h('p', { class: 'petit doux', 'aria-live': 'polite' }, INDICES[etape]),
+        etape >= 2 ? h('p', { class: 'nom' }, item.nom, h('span', { class: 'categorie' }, ' · ' + categorie(item))) : null,
+        h('p', { class: 'consigne' }, t('origine.consigne')),
+        h('p', { class: 'petit doux', 'aria-live': 'polite' }, t('origine.indice.' + (etape + 1))),
         historique(), saisie);
     }
     cadre.setAttribute('tabindex', '-1');
@@ -402,24 +470,22 @@
         if (!juste) b.classList.add('fausse');
         noter(juste);
         remplacer(suite, h('p', { class: 'verdict ' + (juste ? 'bon' : 'mauvais') },
-          juste ? 'Exact : ' + pays(item.pays) + '.' : 'La réponse était : ' + pays(item.pays) + '.'), savoir(item), suivant());
+          t(juste ? 'revision.exact' : 'origine.rate', { pays: pays(item.pays) })), savoir(item), suivant());
       } }, pays(code));
       return b;
     });
-    return h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, 'Révision · ' + item.cat),
+    return h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, t('revision.titre') + ' · ' + categorie(item)),
       photo(item), h('p', { class: 'nom' }, item.nom),
-      h('p', { class: 'consigne' }, 'À quel pays cette curiosité est-elle rattachée ?'),
+      h('p', { class: 'consigne' }, t('origine.consigne')),
       h('div', { class: 'choix' }, boutons), suite);
   }
 
-  // Épreuve 2 — « L'intruse ».
+  // Épreuve 2 : trois curiosités d'un pays, une intruse.
   function epreuveIntrus(epreuve, partiel, memoriser, conclure) {
     var faux = partiel && Array.isArray(partiel.faux) ? partiel.faux.slice() : [];
     var fini = false;
     var suite = h('div', { 'aria-live': 'polite' });
-    var encore = function () {
-      return h('p', { class: 'verdict moyen' }, 'Non, celle-ci vient bien du même pays que deux autres. Encore un essai.');
-    };
+    var encore = function () { return h('p', { class: 'verdict moyen' }, t('intrus.encore')); };
     var cartes = epreuve.cartes.map(function (id) {
       var item = ITEMS[id];
       var carte = h('button', { type: 'button', class: 'vignette', onclick: function () {
@@ -440,26 +506,26 @@
           autre.appendChild(h('small', {}, pays(autreItem.pays)));
         });
         C.noterReponse(etat, epreuve.intrus, epreuve.paysIntrus, juste && essais === 1, JOUR);
-        var points = C.pointsParEssais(essais, juste);
+        var score = C.pointsParEssais(essais, juste);
         var intrus = ITEMS[epreuve.intrus];
         remplacer(suite,
           h('p', { class: 'verdict ' + (juste ? (essais === 1 ? 'bon' : 'moyen') : 'mauvais') },
-            (juste ? (essais === 1 ? 'Du premier coup. ' : 'Trouvé au deuxième essai. ') : 'Manqué. ') +
-            'L\'intruse était « ' + intrus.nom + ' » (' + pays(epreuve.paysIntrus) + ') ; les trois autres viennent de : ' +
-            pays(epreuve.paysTrio) + '. +' + points + ' points'),
-          savoir(intrus), conclure(points));
-      } }, h('img', { src: item.img, alt: '', width: 280, height: 210 }), h('span', {}, item.nom));
+            [t(juste ? (essais === 1 ? 'intrus.premier' : 'intrus.deuxieme') : 'intrus.manque'),
+              t('intrus.explication', { nom: intrus.nom, pays: pays(epreuve.paysIntrus), trio: pays(epreuve.paysTrio) }),
+              points(score)].join(' ')),
+          savoir(intrus), conclure(score));
+      } }, h('img', { src: image(item), alt: '', width: 280, height: 210 }), h('span', {}, item.nom));
       if (faux.indexOf(id) >= 0) { carte.classList.add('fausse'); carte.disabled = true; }
       return carte;
     });
     if (faux.length) remplacer(suite, encore());
     return h('section', { class: 'carte' },
-      h('span', { class: 'etiquette' }, 'L\'intruse'),
-      h('p', { class: 'consigne' }, 'Trois de ces curiosités viennent du même pays. Laquelle vient d\'ailleurs ?'),
+      h('span', { class: 'etiquette' }, t('intrus.nom')),
+      h('p', { class: 'consigne' }, t('intrus.consigne')),
       h('div', { class: 'grille' }, cartes), suite);
   }
 
-  // Épreuve 3 — « Les liens » : quatre curiosités, cinq pays, donc un pays en trop.
+  // Épreuve 3 : quatre curiosités, cinq pays, donc un pays en trop.
   function epreuveLiens(epreuve, conclure) {
     var choix = {};
     var actif = epreuve.items[0];
@@ -473,7 +539,7 @@
         ligne.bouton.classList.toggle('active', !fini && id === actif);
         ligne.bouton.setAttribute('aria-pressed', !fini && id === actif ? 'true' : 'false');
         if (fini) return; // après validation, la ligne affiche la correction
-        ligne.attribue.textContent = choix[id] ? pays(choix[id]) : 'Pays à choisir';
+        ligne.attribue.textContent = choix[id] ? pays(choix[id]) : t('liens.a_choisir');
         ligne.attribue.classList.toggle('vide', !choix[id]);
       });
       epreuve.pays.forEach(function (code) {
@@ -490,7 +556,7 @@
       if (libres.length) actif = libres[0];
       rafraichir();
     }
-    var bValider = bouton('Valider', function () {
+    var bValider = bouton(t('commun.valider'), function () {
       if (fini) return;
       fini = true;
       var justes = 0;
@@ -502,44 +568,47 @@
         var ligne = lignes[id];
         ligne.bouton.disabled = true;
         ligne.bouton.classList.add(juste ? 'juste' : 'fausse');
-        ligne.attribue.textContent = juste ? '✓ ' + pays(item.pays) : '✗ ' + pays(choix[id]) + ' → ' + pays(item.pays);
+        ligne.attribue.textContent = juste ? t('liens.juste', { pays: pays(item.pays) })
+          : t('liens.faux', { faux: pays(choix[id]), juste: pays(item.pays) });
       });
       epreuve.pays.forEach(function (code) { puces[code].disabled = true; });
-      var points = C.pointsLiens(justes);
+      var score = C.pointsLiens(justes);
       bValider.remove();
       rafraichir();
       remplacer(suite,
         h('p', { class: 'verdict ' + (justes === 4 ? 'bon' : justes > 0 ? 'moyen' : 'mauvais') },
-          (justes === 4 ? 'Tout juste. ' : justes + ' sur 4. ') + 'Le pays en trop était : ' + pays(epreuve.paysEnTrop) + '. +' + points + ' points'),
+          [justes === 4 ? t('liens.tout_juste') : t('liens.partiel', { n: justes }),
+            t('liens.en_trop', { pays: pays(epreuve.paysEnTrop) }), points(score)].join(' ')),
         epreuve.items.map(function (id) {
-          return h('p', { class: 'fait petit' }, h('b', {}, ITEMS[id].nom + ' (' + pays(ITEMS[id].pays) + ') : '), ITEMS[id].fait);
+          return h('p', { class: 'fait petit' },
+            h('b', {}, t('liens.titre_fait', { nom: ITEMS[id].nom, pays: pays(ITEMS[id].pays) }) + ' '), ITEMS[id].fait);
         }),
-        h('p', { class: 'credit' }, 'Photos : ', epreuve.items.map(function (id, n) {
+        h('p', { class: 'credit' }, t('liens.photos') + ' ', epreuve.items.map(function (id, n) {
           return [n ? ' · ' : '', h('a', { href: ITEMS[id].credit.page, target: '_blank', rel: 'noopener' },
-            ITEMS[id].credit.auteur + ' (' + ITEMS[id].credit.licence + ')')];
+            auteur(ITEMS[id]) + ' (' + ITEMS[id].credit.licence + ')')];
         })),
-        conclure(points));
+        conclure(score));
     });
     var rangs = epreuve.items.map(function (id) {
       var item = ITEMS[id];
-      var attribue = h('span', { class: 'attribue vide' }, 'Pays à choisir');
+      var attribue = h('span', { class: 'attribue vide' }, t('liens.a_choisir'));
       var b = h('button', { type: 'button', class: 'lien', 'aria-pressed': 'false', onclick: function () {
         if (fini) return;
         actif = id;
         rafraichir();
-      } }, h('img', { src: item.img, alt: '', width: 72, height: 72 }), h('span', { class: 'lien-texte' }, h('b', {}, item.nom), attribue));
+      } }, h('img', { src: image(item), alt: '', width: 72, height: 72 }), h('span', { class: 'lien-texte' }, h('b', {}, item.nom), attribue));
       lignes[id] = { bouton: b, attribue: attribue };
       return b;
     });
-    var listePays = h('div', { class: 'puces', role: 'group', 'aria-label': 'Pays à attribuer à la curiosité sélectionnée' },
+    var listePays = h('div', { class: 'puces', role: 'group', 'aria-label': t('liens.groupe') },
       epreuve.pays.map(function (code) {
         return (puces[code] = h('button', { type: 'button', class: 'puce', onclick: function () { attribuer(code); } }, pays(code)));
       }));
     rafraichir();
     return h('section', { class: 'carte' },
-      h('span', { class: 'etiquette' }, 'Les liens'),
-      h('p', { class: 'consigne' }, 'Donnez son pays à chaque curiosité. Attention : il y a un pays en trop.'),
-      rangs, h('p', { class: 'petit doux', style: 'margin:12px 0 6px' }, 'Touchez une curiosité, puis son pays.'), listePays, bValider, suite);
+      h('span', { class: 'etiquette' }, t('liens.nom')),
+      h('p', { class: 'consigne' }, t('liens.consigne')),
+      rangs, h('p', { class: 'petit doux', style: 'margin:12px 0 6px' }, t('liens.aide')), listePays, bValider, suite);
   }
 
   // ---------- Atlas ----------
@@ -547,19 +616,19 @@
     var bilan = C.bilanAtlas(etat, D);
     var continents = {};
     Object.keys(D.pays).forEach(function (code) { (continents[continent(code)] = continents[continent(code)] || []).push(code); });
-    var blocs = [h('section', { class: 'carte' }, h('h1', {}, 'Mon atlas'),
-      h('p', {}, bilan.decouverts + ' pays découverts sur ' + bilan.total + ', dont ' + bilan.connus + ' connus et ' + bilan.maitrises + ' maîtrisés.'),
-      h('div', { class: 'jauge', role: 'img', 'aria-label': bilan.decouverts + ' pays sur ' + bilan.total },
+    var blocs = [h('section', { class: 'carte' }, h('h1', {}, t('atlas.titre')),
+      h('p', {}, t('atlas.bilan', bilan)),
+      h('div', { class: 'jauge', role: 'img', 'aria-label': t('atlas.jauge', { n: bilan.decouverts, total: bilan.total }) },
         h('i', { style: 'width:' + Math.round(100 * bilan.decouverts / bilan.total) + '%' })),
-      h('p', { class: 'petit doux' }, 'Découvert : 1 bonne réponse. Connu : 3, sur au moins 2 curiosités différentes. Maîtrisé : 6, sur au moins 3 curiosités différentes, avec au moins 3 bonnes réponses sur 4. Une réponse compte quand elle est trouvée sans aide : avant que le nom soit donné, ou du premier coup.'))];
-    Object.keys(continents).sort(function (a, b) { return a.localeCompare(b, 'fr'); }).forEach(function (nom) {
-      var codes = continents[nom].sort(function (a, b) { return pays(a).localeCompare(pays(b), 'fr'); });
-      blocs.push(h('section', { class: 'carte' }, h('h2', {}, nom), codes.map(function (code) {
+      h('p', { class: 'petit doux' }, t('atlas.regle')))];
+    Object.keys(continents).sort(function (a, b) { return parNom(nomContinent(a), nomContinent(b)); }).forEach(function (cle) {
+      var codes = continents[cle].sort(function (a, b) { return parNom(pays(a), pays(b)); });
+      blocs.push(h('section', { class: 'carte' }, h('h2', {}, nomContinent(cle)), codes.map(function (code) {
         var fiche = etat.atlas[code];
         var n = C.niveau(fiche);
         return h('div', { class: 'pays' },
-          h('span', {}, h('b', {}, pays(code)), fiche ? h('span', { class: 'petit doux' }, '  ' + fiche.ok + ' sur ' + fiche.vu) : null),
-          h('span', { class: 'niveau n' + n }, C.NIVEAUX[n]));
+          h('span', {}, h('b', {}, pays(code)), fiche ? h('span', { class: 'petit doux' }, '  ' + t('atlas.score', fiche)) : null),
+          h('span', { class: 'niveau n' + n }, t('atlas.niveau.' + n)));
       })));
     });
     return blocs;
@@ -570,29 +639,30 @@
     var obtenues = D.items.filter(function (i) { return etat.album[i.id] !== undefined; }).length;
     var fiche = h('div', { 'aria-live': 'polite' });
     function ouvrir(item) {
-      remplacer(fiche, h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, item.cat + ' · ' + pays(item.pays)),
+      remplacer(fiche, h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, categorie(item) + ' · ' + pays(item.pays)),
         photo(item), h('p', { class: 'nom' }, item.nom), savoir(item),
-        bouton('Fermer la fiche', function () { remplacer(fiche); }, 'secondaire')));
+        bouton(t('album.fermer'), function () { remplacer(fiche); }, 'secondaire')));
       window.scrollTo(0, 0);
     }
-    var blocs = [h('section', { class: 'carte' }, h('h1', {}, 'Mon album'),
-      h('p', {}, obtenues + ' curiosités sur ' + D.items.length + '.'),
-      h('div', { class: 'jauge', role: 'img', 'aria-label': obtenues + ' curiosités sur ' + D.items.length },
+    var blocs = [h('section', { class: 'carte' }, h('h1', {}, t('album.titre')),
+      h('p', {}, t('album.bilan', { n: obtenues, total: D.items.length })),
+      h('div', { class: 'jauge', role: 'img', 'aria-label': t('album.jauge', { n: obtenues, total: D.items.length }) },
         h('i', { style: 'width:' + Math.round(100 * obtenues / D.items.length) + '%' })),
-      h('p', { class: 'petit doux' }, 'Chaque curiosité rencontrée dans un défi entre dans votre album, avec sa fiche. Touchez-en une pour la relire.')), fiche];
+      h('p', { class: 'petit doux' }, t('album.texte'))), fiche];
     CATEGORIES.forEach(function (cat) {
       var liste = D.items.filter(function (i) { return i.cat === cat; });
       if (!liste.length) return;
       var eues = liste.filter(function (i) { return etat.album[i.id] !== undefined; })
-        .sort(function (a, b) { return a.nom.localeCompare(b.nom, 'fr'); });
+        .sort(function (a, b) { return parNom(a.nom, b.nom); });
       var manquantes = liste.length - eues.length;
-      blocs.push(h('section', { class: 'carte' }, h('h2', {}, PLURIELS[cat] + ' · ' + eues.length + ' sur ' + liste.length),
+      blocs.push(h('section', { class: 'carte' },
+        h('h2', {}, t('album.categorie', { categorie: t('categories.' + cat), n: eues.length, total: liste.length })),
         h('div', { class: 'album' },
           eues.map(function (item) {
             return h('button', { type: 'button', class: 'case', onclick: function () { ouvrir(item); } },
-              h('img', { src: item.img, alt: '', loading: 'lazy', width: 120, height: 90 }), h('span', {}, item.nom));
+              h('img', { src: image(item), alt: '', loading: 'lazy', width: 120, height: 90 }), h('span', {}, item.nom));
           }),
-          manquantes > 0 ? h('div', { class: 'case vide' }, h('b', {}, '?'), h('span', {}, pluriel(manquantes, 'à découvrir', 'à découvrir'))) : null)));
+          manquantes > 0 ? h('div', { class: 'case vide' }, h('b', {}, '?'), h('span', {}, t('album.a_decouvrir', { n: manquantes }))) : null)));
     });
     return blocs;
   }
@@ -603,12 +673,10 @@
     var liste = C.aRevoir(etat, JOUR);
     var enAttente = Object.keys(etat.revision).length;
     if (liste.length === 0) {
-      return [h('section', { class: 'carte' }, h('h1', {}, 'Révision'),
-        h('p', {}, 'Rien à revoir aujourd\'hui.'),
-        h('p', { class: 'doux' }, enAttente > 0
-          ? (enAttente > 1 ? enAttente + ' curiosités manquées reviendront' : 'Une curiosité manquée reviendra') + ' dans les prochains jours.'
-          : 'Les curiosités que vous manquez dans le défi reviennent ici le lendemain, puis 3 jours et 7 jours après, jusqu\'à ce que vous les connaissiez.'),
-        h('p', { class: 'petit doux' }, 'La révision ne change pas votre score du jour, mais elle fait progresser votre atlas.'))];
+      return [h('section', { class: 'carte' }, h('h1', {}, t('revision.titre')),
+        h('p', {}, t('revision.rien')),
+        h('p', { class: 'doux' }, enAttente > 0 ? t('revision.attente', { n: enAttente }) : t('revision.explication')),
+        h('p', { class: 'petit doux' }, t('revision.note')))];
     }
     var position = 0;
     var justes = 0;
@@ -617,29 +685,29 @@
       if (position >= liste.length) {
         majEntete();
         var reste = C.toutesARevoir(etat, JOUR).length;
-        remplacer(cadre, h('section', { class: 'carte centre' }, h('h1', {}, 'Révision terminée'),
-          h('p', {}, justes + ' sur ' + liste.length + (justes === liste.length ? ', tout est revenu.' : '. Les autres reviendront demain.')),
-          reste > 0 ? bouton('Continuer (' + reste + ' de plus)', function () { afficher('revision'); }) : null,
-          bouton('Voir mon atlas', function () { afficher('atlas'); }, 'secondaire')));
+        remplacer(cadre, h('section', { class: 'carte centre' }, h('h1', {}, t('revision.terminee')),
+          h('p', {}, t(justes === liste.length ? 'revision.bilan_tout' : 'revision.bilan', { n: justes, total: liste.length })),
+          reste > 0 ? bouton(t('revision.continuer', { n: reste }), function () { afficher('revision'); }) : null,
+          bouton(t('revision.voir_atlas'), function () { afficher('atlas'); }, 'secondaire')));
         return;
       }
       var item = ITEMS[liste[position]];
-      remplacer(cadre, h('p', { class: 'petit doux' }, 'Révision ' + (position + 1) + ' sur ' + liste.length +
-          (toutes.length > liste.length ? ' (' + (toutes.length - liste.length) + ' autres ensuite)' : '')),
+      remplacer(cadre, h('p', { class: 'petit doux' }, t('revision.position', { n: position + 1, total: liste.length }) +
+          (toutes.length > liste.length ? ' ' + t('revision.ensuite', { n: toutes.length - liste.length }) : '')),
         questionSimple(C.questionRevision(D, item, JOUR), function (juste) {
           if (juste) justes += 1;
           C.noterReponse(etat, item.id, item.pays, juste, JOUR);
           sauver();
         }, function () {
           position += 1;
-          return bouton(position >= liste.length ? 'Terminer' : 'Suivante', function () { suivante(); window.scrollTo(0, 0); });
+          return bouton(t(position >= liste.length ? 'revision.terminer' : 'revision.suivante'), function () { suivante(); window.scrollTo(0, 0); });
         }));
     }
     suivante();
     return [cadre];
   }
 
-  // ---------- Règles, sauvegarde, crédits ----------
+  // ---------- Règles, langue, sauvegarde, crédits ----------
   function restaurer(lu) {
     // Ce qui a été joué aujourd'hui sur cet appareil est conservé : restaurer un code ne permet pas de rejouer.
     var duJour = etat.jours[JOUR];
@@ -648,55 +716,66 @@
     etat = lu;
     sauver();
   }
+  // Une page par langue : « fr/ », « en/ »… Le choix est retenu pour la page d'accueil commune.
+  function choixDeLangue() {
+    var fichier = location.protocol === 'file:' ? 'index.html' : '';
+    return h('section', { class: 'carte' }, h('h2', {}, t('langue.titre')),
+      h('p', { class: 'doux' }, t('langue.texte')),
+      h('div', { class: 'puces' }, (D.langues || []).map(function (langue) {
+        return h('a', { class: 'puce' + (langue.code === LANGUE ? ' choisie' : ''), href: RACINE + langue.code + '/' + fichier,
+          lang: langue.code, hreflang: langue.code, 'aria-current': langue.code === LANGUE ? 'true' : null,
+          onclick: function () { ecrire(CLE_LANGUE, langue.code); } }, langue.nom);
+      })));
+  }
   function vueRegles() {
-    var code = h('textarea', { rows: 3, readonly: true, 'aria-label': 'Code de sauvegarde' }, C.coderSauvegarde(etat, versBase64));
-    var saisie = h('input', { type: 'text', placeholder: 'Collez ici un code de sauvegarde', 'aria-label': 'Code à restaurer' });
+    var code = h('textarea', { rows: 3, readonly: true, dir: 'ltr', 'aria-label': t('sauvegarde.code') }, C.coderSauvegarde(etat, versBase64));
+    var saisie = h('input', { type: 'text', dir: 'ltr', placeholder: t('sauvegarde.saisie'), 'aria-label': t('sauvegarde.saisie_label') });
     var retour = h('p', { class: 'petit', 'aria-live': 'polite' });
-    var bCopier = bouton('Copier mon code', function () {
+    var bCopier = bouton(t('sauvegarde.copier'), function () {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(code.value).then(function () { bCopier.textContent = 'Code copié'; noterCodeCopie(); }, function () { code.select(); });
+        navigator.clipboard.writeText(code.value).then(function () { bCopier.textContent = t('sauvegarde.copie'); ecrire(CLE_COPIE, '1'); },
+          function () { code.select(); });
       } else code.select();
     }, 'secondaire');
-    var credits = h('details', {}, h('summary', {}, 'Crédits des ' + D.items.length + ' photos'));
+    var credits = h('details', {}, h('summary', {}, t('sources.credits', { n: D.items.length })));
     credits.addEventListener('toggle', function () {
       if (!credits.open || credits.querySelector('ul')) return;
       credits.appendChild(h('ul', { class: 'credits-liste' }, D.items.map(function (item) {
-        return h('li', {}, item.nom + ' : ' + item.credit.auteur + ', ' + item.credit.licence + ', ',
-          h('a', { href: item.credit.page, target: '_blank', rel: 'noopener' }, 'source'));
+        return h('li', {}, riche('sources.credit_ligne', { nom: item.nom, auteur: auteur(item), licence: item.credit.licence },
+          { href: item.credit.page, target: '_blank', rel: 'noopener' }));
       })));
     });
+    var erreur = signaler(null);
     return [
-      h('section', { class: 'carte' }, h('h1', {}, 'Règles'),
-        h('ul', { class: 'regles' },
-          h('li', {}, 'Un défi par jour, le même pour tout le monde. Il change à minuit, heure de votre appareil.'),
-          h('li', {}, 'La semaine monte en difficulté : facile le lundi et le mardi, difficile le samedi, grand défi le dimanche.'),
-          h('li', {}, h('b', {}, 'D\'où ça vient ? '), 'Quatre indices pour retrouver le pays : un détail de la photo (100 points), la photo entière (70), le nom (40), puis quatre pays au choix (20). Après chaque erreur, le jeu vous dit si vous êtes sur le bon continent.'),
-          h('li', {}, h('b', {}, 'L\'intruse. '), 'Trois curiosités viennent du même pays, la quatrième d\'un pays du même continent. 100 points du premier coup, 50 au deuxième essai.'),
-          h('li', {}, h('b', {}, 'Les liens. '), 'Quatre curiosités, cinq pays, donc un pays en trop. 100 points pour quatre liens justes, 70 pour trois, 45 pour deux, 20 pour un.'),
-          h('li', {}, 'Jouer chaque jour allonge votre série. À partir de deux jours d\'affilée, un jour manqué est pardonné, une fois tous les sept jours.'),
-          h('li', {}, 'Une curiosité est rattachée au pays où elle est née ou auquel elle est le plus associée. La réponse attendue est celle de l\'article Wikipédia indiqué après chaque épreuve.')),
-        h('p', { class: 'petit doux' }, 'Le jeu couvre ' + Object.keys(D.pays).length + ' pays et ' + D.items.length + ' curiosités. Une erreur ? Chaque réponse renvoie à sa source. ', signaler(null))),
-      h('section', { class: 'carte' }, h('h2', {}, 'Sauvegarde'),
-        h('p', { class: 'doux' }, 'Aucun compte : votre série, votre atlas et votre album restent sur cet appareil. Pour changer de téléphone ou éviter de les perdre, gardez ce code.'),
+      h('section', { class: 'carte' }, h('h1', {}, t('regles.titre')),
+        h('ul', { class: 'regles' }, ['jour', 'semaine', 'origine', 'intrus', 'liens', 'serie', 'rattachement'].map(function (cle) {
+          return h('li', {}, riche('regles.' + cle));
+        })),
+        h('p', { class: 'petit doux' }, t('regles.couverture', { pays: Object.keys(D.pays).length, curiosites: D.items.length }),
+          erreur ? ' ' : null, erreur)),
+      (D.langues || []).length > 1 ? choixDeLangue() : null,
+      h('section', { class: 'carte' }, h('h2', {}, t('sauvegarde.titre')),
+        h('p', { class: 'doux' }, t('sauvegarde.texte')),
         code, bCopier,
         h('p', { style: 'margin-top:16px' }, saisie),
-        bouton('Restaurer ce code', function () {
+        bouton(t('sauvegarde.restaurer'), function () {
           var lu = C.decoderSauvegarde(saisie.value, depuisBase64);
-          if (!lu) { retour.textContent = 'Ce code n\'est pas valide.'; return; }
-          if (!window.confirm('Remplacer la progression de cet appareil par celle du code ?')) return;
+          if (!lu) { retour.textContent = t('sauvegarde.invalide'); return; }
+          if (!window.confirm(t('sauvegarde.confirmer'))) return;
           restaurer(lu);
           afficher('accueil');
         }, 'secondaire'), retour),
-      h('section', { class: 'carte' }, h('h2', {}, 'Sources et vie privée'),
-        h('p', {}, 'Les textes renvoient aux articles de Wikipédia en français. Les photos viennent de Wikimedia Commons, sous licence libre.'),
-        h('p', {}, 'Le jeu ne demande aucun compte : votre progression reste dans votre navigateur.'),
+      h('section', { class: 'carte' }, h('h2', {}, t('sources.titre')),
+        h('p', {}, t('sources.textes')),
+        h('p', {}, t('sources.vie_privee')),
         credits)
     ];
   }
 
+  habiller();
   if (ESSAI !== null) {
-    document.body.insertBefore(h('div', { class: 'essai' }, 'Ancien défi n° ' + (ESSAI + 1) + ', hors série : rien n\'est enregistré. ',
-      h('a', { href: location.pathname }, 'Revenir au défi du jour')), document.body.firstChild);
+    document.body.insertBefore(h('div', { class: 'essai' }, riche('essai.bandeau', { n: ESSAI + 1 }, { href: location.pathname })),
+      document.body.firstChild);
     document.querySelector('.barre').hidden = true;
   }
   afficher('accueil');

@@ -1,0 +1,9 @@
+[
+  {"code": "fr", "nom": "Français", "dir": "ltr", "locale": "fr", "og": "fr_FR"},
+  {"code": "en", "nom": "English", "dir": "ltr", "locale": "en", "og": "en_US"},
+  {"code": "es", "nom": "Español", "dir": "ltr", "locale": "es", "og": "es_ES"},
+  {"code": "pt", "nom": "Português", "dir": "ltr", "locale": "pt", "og": "pt_BR"},
+  {"code": "de", "nom": "Deutsch", "dir": "ltr", "locale": "de", "og": "de_DE"},
+  {"code": "it", "nom": "Italiano", "dir": "ltr", "locale": "it", "og": "it_IT"},
+  {"code": "ar", "nom": "العربية", "dir": "rtl", "locale": "ar-u-nu-latn", "og": "ar_AR"}
+]

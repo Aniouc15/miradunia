@@ -1,49 +1,103 @@
-// Tests des règles du jeu. Lancer : node tests/core.test.js
+// Tests des règles du jeu, des données et des textes de chaque langue. Lancer : node tests/core.test.js
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const C = require('../site/js/core.js');
 
-const bac = { window: {} };
-vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../site/data/data.js'), 'utf8'), bac);
-const D = bac.window.GC_DATA;
+const SITE = path.join(__dirname, '../site');
+function charger(fichier, nom) {
+  const bac = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(SITE, fichier), 'utf8'), bac);
+  return bac.window[nom];
+}
+const D = charger('data/data.js', 'GC_DATA');
+const LANGUES = Object.fromEntries(D.langues.map((l) => [l.code, charger('lang/' + l.code + '.js', 'GC_LANGUE')]));
+const FR = LANGUES.fr;
 const parId = Object.fromEntries(D.items.map((i) => [i.id, i]));
+const simple = (t) => t.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const reperes = (t) => (String(t).match(/\{\w+\}|<\/?[ab]>/g) || []).sort();
 const versB64 = (t) => Buffer.from(t, 'utf8').toString('base64');
 const depuisB64 = (t) => Buffer.from(t, 'base64').toString('utf8');
 let nb = 0;
 function test(nom, f) { f(); nb += 1; console.log('ok  ' + nom); }
 
-test('données : 60 pays, au moins 4 curiosités par pays, photo, auteur, licence et niveau partout', () => {
-  assert.strictEqual(Object.keys(D.pays).length, 60);
+test('données : au moins 100 pays et 1 000 curiosités, 4 curiosités ou plus par pays, photo, auteur, licence et niveau partout', () => {
+  assert.ok(Object.keys(D.pays).length >= 100, 'pays : ' + Object.keys(D.pays).length);
+  assert.ok(D.items.length >= 1000, 'curiosités : ' + D.items.length);
+  assert.strictEqual(new Set(D.items.map((i) => i.id)).size, D.items.length, 'identifiants en double');
+  assert.strictEqual(new Set(D.items.map((i) => i.img)).size, D.items.length, 'photo utilisée deux fois');
+  for (const [code, p] of Object.entries(D.pays)) assert.ok(['Europe', 'Asie', 'Afrique', 'Amériques', 'Océanie'].includes(p.continent), code);
   const compte = {};
   for (const i of D.items) {
     compte[i.pays] = (compte[i.pays] || 0) + 1;
     assert.ok(D.pays[i.pays], i.id);
     assert.ok([1, 2, 3].includes(i.niv), i.id);
-    assert.ok(i.nom && i.fait && i.lien.startsWith('https://fr.wikipedia.org/wiki/'), i.id);
-    assert.ok(fs.existsSync(path.join(__dirname, '../site', i.img)), 'photo absente : ' + i.id);
+    assert.ok(['monument', 'lieu', 'plat', 'boisson', 'fête', 'tradition', 'instrument', 'objet'].includes(i.cat), i.id);
+    assert.ok(!('nom' in i) && !('fait' in i), 'texte dans les données communes : ' + i.id);
+    assert.ok(fs.existsSync(path.join(SITE, i.img)), 'photo absente : ' + i.id);
     assert.ok(i.credit.licence && i.credit.page.startsWith('https://commons.wikimedia.org/'), i.id);
-    assert.ok(i.credit.auteur && !/non indiqué/.test(i.credit.auteur), 'auteur manquant : ' + i.id);
+    assert.ok(i.credit.auteur && typeof i.credit.depot === 'boolean', 'auteur manquant : ' + i.id);
   }
   for (const code of Object.keys(D.pays)) assert.ok(compte[code] >= 4, code);
-  for (const niv of [1, 2, 3]) assert.ok(D.items.filter((i) => i.niv === niv).length >= 40, 'niveau ' + niv);
+  for (const niv of [1, 2, 3]) assert.ok(D.items.filter((i) => i.niv === niv).length >= 100, 'niveau ' + niv);
 });
 
 test('aucune photo orpheline dans site/img', () => {
   const attendues = new Set(D.items.map((i) => path.basename(i.img)));
-  for (const f of fs.readdirSync(path.join(__dirname, '../site/img'))) assert.ok(attendues.has(f), f);
+  for (const f of fs.readdirSync(path.join(SITE, 'img'))) assert.ok(attendues.has(f), f);
 });
 
-test('le nom affiché ne contient pas le nom du pays à deviner', () => {
-  for (const i of D.items) {
-    assert.ok(!i.nom.toLowerCase().includes(D.pays[i.pays].nom.toLowerCase()), i.id);
+test('chaque langue publiée a sa page, le nom de chaque pays et le nom, la phrase et le lien de chaque curiosité', () => {
+  assert.ok(FR, 'le français est publié');
+  for (const [code, L] of Object.entries(LANGUES)) {
+    assert.strictEqual(L.code, code);
+    assert.ok(['ltr', 'rtl'].includes(L.dir), code);
+    assert.ok(fs.existsSync(path.join(SITE, code, 'index.html')) && fs.existsSync(path.join(SITE, code, 'manifest.webmanifest')), code);
+    for (const pays of Object.keys(D.pays)) assert.ok(L.pays[pays], code + ' : pays ' + pays);
+    assert.strictEqual(Object.keys(L.items).length, D.items.length, code);
+    for (const i of D.items) {
+      const [nom, fait, lien] = L.items[i.id] || [];
+      assert.ok(nom && fait, code + ' : ' + i.id);
+      assert.ok(/^https:\/\/[a-z]{2,3}\.wikipedia\.org\/wiki\/./.test(lien), code + ' : lien de ' + i.id);
+    }
+  }
+});
+
+test('dans chaque langue, le nom affiché ne contient pas le nom du pays à deviner', () => {
+  for (const [code, L] of Object.entries(LANGUES)) {
+    for (const i of D.items) {
+      assert.ok(!simple(L.items[i.id][0]).includes(simple(L.pays[i.pays])), code + ' : ' + i.id + ' (' + L.items[i.id][0] + ')');
+    }
+  }
+});
+
+test('les textes de l\'interface existent dans chaque langue, avec les mêmes repères qu\'en français', () => {
+  for (const [code, L] of Object.entries(LANGUES)) {
+    for (const [cle, francais] of Object.entries(FR.ui)) {
+      const traduit = L.ui[cle];
+      assert.ok(traduit !== undefined, code + ' : ' + cle);
+      if (typeof francais === 'string') {
+        assert.deepStrictEqual(reperes(traduit), reperes(francais), code + ' : ' + cle);
+      } else {
+        assert.ok(typeof traduit.other === 'string', code + ' : ' + cle + ' sans forme « other »');
+        const permis = new Set(Object.values(francais).flatMap(reperes));
+        for (const forme of Object.values(traduit)) for (const r of reperes(forme)) assert.ok(permis.has(r), code + ' : ' + cle);
+      }
+    }
+    // Les règles de pluriel de la langue existent (sinon le jeu prendrait la forme « other »).
+    assert.ok(new Intl.PluralRules(L.locale).select(1), code);
   }
 });
 
 test('le défi du jour est identique pour tout le monde et change chaque jour', () => {
-  assert.deepStrictEqual(C.construireDefi(D, 12), C.construireDefi(D, 12));
-  assert.notDeepStrictEqual(C.construireDefi(D, 12), C.construireDefi(D, 13));
+  const douze = C.construireDefi(D, 12);
+  assert.deepStrictEqual(C.construireDefi(D, 12), douze);
+  assert.notDeepStrictEqual(C.construireDefi(D, 13), douze);
+  C.construireDefi(D, 100); // passage par un autre bloc : le défi se reconstruit à l'identique
+  assert.deepStrictEqual(C.construireDefi(D, 12), douze);
+  douze.epreuves[0].options.length = 0; // modifier une copie ne change pas le défi
+  assert.strictEqual(C.construireDefi(D, 12).epreuves[0].options.length, 4);
 });
 
 test('800 jours de défis sont tous jouables et sans ambiguïté', () => {
@@ -59,6 +113,7 @@ test('800 jours de défis sont tous jouables et sans ambiguïté', () => {
     assert.ok(b.cartes.includes(b.intrus));
     assert.strictEqual(parId[b.intrus].pays, b.paysIntrus);
     assert.notStrictEqual(b.paysIntrus, b.paysTrio);
+    assert.strictEqual(D.pays[b.paysIntrus].continent, D.pays[b.paysTrio].continent, 'intruse venue d\'un autre continent, jour ' + jour);
     assert.strictEqual(b.cartes.filter((id) => parId[id].pays === b.paysTrio).length, 3);
     // Épreuve 3 : 4 curiosités, 5 pays, un seul pays sans curiosité
     assert.strictEqual(c.items.length, 4);
@@ -87,6 +142,17 @@ test('aucune curiosité ne revient deux fois dans un bloc de 14 jours', () => {
   }
 });
 
+test('en semaine rien de difficile, le week-end rien de facile, dans « L\'intruse » et « Les liens »', () => {
+  const admis = { 1: [1, 2], 2: [1, 2], 3: [2, 3] };
+  for (let jour = 0; jour < 800; jour++) {
+    const defi = C.construireDefi(D, jour);
+    const [mini, maxi] = admis[defi.niveau];
+    for (const id of [...defi.epreuves[1].cartes, ...defi.epreuves[2].items]) {
+      assert.ok(parId[id].niv >= mini && parId[id].niv <= maxi, 'jour ' + jour + ' (niveau ' + defi.niveau + ') : ' + id);
+    }
+  }
+});
+
 test('niveau du jour : facile lundi et mardi, moyen ensuite, difficile le week-end', () => {
   // Le 11/11/2026 (jour 0) est un mercredi.
   assert.deepStrictEqual([0, 1, 2, 3, 4, 5, 6].map(C.niveauDuJour), [2, 2, 2, 3, 3, 1, 1]);
@@ -102,6 +168,18 @@ test('la vedette ne se répète pas avant que son niveau soit épuisé', () => {
       if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(D, jour).epreuves[0].item);
     }
     assert.strictEqual(new Set(vues).size, taille, 'niveau ' + niv);
+  }
+});
+
+test('à la jointure de deux cycles, les dernières vedettes ne reviennent pas tout de suite', () => {
+  for (const niv of [1, 2, 3]) {
+    const taille = D.items.filter((i) => i.niv === niv).length;
+    const vues = [];
+    for (let jour = 0; vues.length < taille + C.BLOC; jour++) {
+      if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(D, jour).epreuves[0].item);
+    }
+    const autour = vues.slice(taille - C.BLOC);
+    assert.strictEqual(new Set(autour).size, autour.length, 'niveau ' + niv);
   }
 });
 
@@ -194,10 +272,12 @@ test('statistiques et anciens défis', () => {
   assert.deepStrictEqual(C.joursRejouables(e, 0, 7), []);
 });
 
-test('partage', () => {
-  assert.strictEqual(C.texteDePartage(4, [100, 50, 0], 3),
-    'GlobeCurios n° 5 · 15 novembre — 150/300\n🟩 D\'où ça vient ? 100\n🟨 L\'intruse 50\n🟥 Les liens 0\nSérie : 3 jours\nÀ vous de jouer : globecurious.com');
-  assert.strictEqual(C.carresEnMots([100, 50, 0]), 'épreuve 1 : réussie, épreuve 2 : en partie réussie, épreuve 3 : manquée');
+test('partage : une ligne par épreuve, sans réponse, dans la langue fournie', () => {
+  assert.strictEqual(C.texteDePartage([100, 50, 0], { entete: 'Défi n° 5', epreuves: ['A', 'B', 'C'], serie: 'Série : 3 jours', invite: 'À vous' }),
+    'Défi n° 5\n🟩 A 100\n🟨 B 50\n🟥 C 0\nSérie : 3 jours\nÀ vous');
+  assert.strictEqual(C.texteDePartage([0, 0, 20], { entete: 'X', epreuves: ['A', 'B', 'C'], serie: '', invite: 'Y' }),
+    'X\n🟥 A 0\n🟥 B 0\n🟨 C 20\nY');
+  assert.strictEqual(C.dateDuDefi(4).toISOString().slice(0, 10), '2026-11-15');
 });
 
 test('sauvegarde : aller-retour, et refus des codes abîmés ou fabriqués', () => {

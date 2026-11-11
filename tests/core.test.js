@@ -1,0 +1,227 @@
+// Tests des règles du jeu. Lancer : node tests/core.test.js
+const assert = require('node:assert');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
+const C = require('../site/js/core.js');
+
+const bac = { window: {} };
+vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../site/data/data.js'), 'utf8'), bac);
+const D = bac.window.GC_DATA;
+const parId = Object.fromEntries(D.items.map((i) => [i.id, i]));
+const versB64 = (t) => Buffer.from(t, 'utf8').toString('base64');
+const depuisB64 = (t) => Buffer.from(t, 'base64').toString('utf8');
+let nb = 0;
+function test(nom, f) { f(); nb += 1; console.log('ok  ' + nom); }
+
+test('données : 60 pays, au moins 4 curiosités par pays, photo, auteur, licence et niveau partout', () => {
+  assert.strictEqual(Object.keys(D.pays).length, 60);
+  const compte = {};
+  for (const i of D.items) {
+    compte[i.pays] = (compte[i.pays] || 0) + 1;
+    assert.ok(D.pays[i.pays], i.id);
+    assert.ok([1, 2, 3].includes(i.niv), i.id);
+    assert.ok(i.nom && i.fait && i.lien.startsWith('https://fr.wikipedia.org/wiki/'), i.id);
+    assert.ok(fs.existsSync(path.join(__dirname, '../site', i.img)), 'photo absente : ' + i.id);
+    assert.ok(i.credit.licence && i.credit.page.startsWith('https://commons.wikimedia.org/'), i.id);
+    assert.ok(i.credit.auteur && !/non indiqué/.test(i.credit.auteur), 'auteur manquant : ' + i.id);
+  }
+  for (const code of Object.keys(D.pays)) assert.ok(compte[code] >= 4, code);
+  for (const niv of [1, 2, 3]) assert.ok(D.items.filter((i) => i.niv === niv).length >= 40, 'niveau ' + niv);
+});
+
+test('aucune photo orpheline dans site/img', () => {
+  const attendues = new Set(D.items.map((i) => path.basename(i.img)));
+  for (const f of fs.readdirSync(path.join(__dirname, '../site/img'))) assert.ok(attendues.has(f), f);
+});
+
+test('le nom affiché ne contient pas le nom du pays à deviner', () => {
+  for (const i of D.items) {
+    assert.ok(!i.nom.toLowerCase().includes(D.pays[i.pays].nom.toLowerCase()), i.id);
+  }
+});
+
+test('le défi du jour est identique pour tout le monde et change chaque jour', () => {
+  assert.deepStrictEqual(C.construireDefi(D, 12), C.construireDefi(D, 12));
+  assert.notDeepStrictEqual(C.construireDefi(D, 12), C.construireDefi(D, 13));
+});
+
+test('800 jours de défis sont tous jouables et sans ambiguïté', () => {
+  for (let jour = 0; jour < 800; jour++) {
+    const defi = C.construireDefi(D, jour);
+    const [a, b, c] = defi.epreuves;
+    // Épreuve 1
+    assert.strictEqual(parId[a.item].niv, defi.niveau);
+    assert.strictEqual(new Set(a.options).size, 4);
+    assert.ok(a.options.includes(parId[a.item].pays));
+    // Épreuve 2
+    assert.strictEqual(new Set(b.cartes).size, 4);
+    assert.ok(b.cartes.includes(b.intrus));
+    assert.strictEqual(parId[b.intrus].pays, b.paysIntrus);
+    assert.notStrictEqual(b.paysIntrus, b.paysTrio);
+    assert.strictEqual(b.cartes.filter((id) => parId[id].pays === b.paysTrio).length, 3);
+    // Épreuve 3 : 4 curiosités, 5 pays, un seul pays sans curiosité
+    assert.strictEqual(c.items.length, 4);
+    assert.strictEqual(new Set(c.pays).size, 5);
+    const paysDesItems = c.items.map((id) => parId[id].pays);
+    assert.strictEqual(new Set(paysDesItems).size, 4);
+    assert.ok(paysDesItems.every((p) => c.pays.includes(p)));
+    assert.ok(c.pays.includes(c.paysEnTrop) && !paysDesItems.includes(c.paysEnTrop));
+    // Aucune curiosité ni aucun pays en double dans la journée
+    const ids = [a.item, ...b.cartes, ...c.items];
+    assert.strictEqual(new Set(ids).size, ids.length, 'jour ' + jour);
+    assert.ok(![parId[a.item].pays, b.paysTrio, b.paysIntrus].some((p) => c.pays.includes(p)));
+  }
+});
+
+test('aucune curiosité ne revient deux fois dans un bloc de 14 jours', () => {
+  for (let bloc = 0; bloc < 60; bloc++) {
+    const vues = new Set();
+    for (let jour = bloc * C.BLOC; jour < (bloc + 1) * C.BLOC; jour++) {
+      const [a, b, c] = C.construireDefi(D, jour).epreuves;
+      for (const id of [a.item, ...b.cartes, ...c.items]) {
+        assert.ok(!vues.has(id), 'bloc ' + bloc + ', jour ' + jour + ' : ' + id);
+        vues.add(id);
+      }
+    }
+  }
+});
+
+test('niveau du jour : facile lundi et mardi, moyen ensuite, difficile le week-end', () => {
+  // Le 11/11/2026 (jour 0) est un mercredi.
+  assert.deepStrictEqual([0, 1, 2, 3, 4, 5, 6].map(C.niveauDuJour), [2, 2, 2, 3, 3, 1, 1]);
+  assert.strictEqual(C.estDimanche(4), true);
+  assert.strictEqual(C.estDimanche(3), false);
+});
+
+test('la vedette ne se répète pas avant que son niveau soit épuisé', () => {
+  for (const niv of [1, 2, 3]) {
+    const taille = D.items.filter((i) => i.niv === niv).length;
+    const vues = [];
+    for (let jour = 0; vues.length < taille; jour++) {
+      if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(D, jour).epreuves[0].item);
+    }
+    assert.strictEqual(new Set(vues).size, taille, 'niveau ' + niv);
+  }
+});
+
+test('points', () => {
+  assert.deepStrictEqual([1, 2, 3, 4].map((t) => C.pointsOrigine(t, true)), [100, 70, 40, 20]);
+  assert.strictEqual(C.pointsOrigine(4, false), 0);
+  assert.strictEqual(C.pointsParEssais(1, true), 100);
+  assert.strictEqual(C.pointsParEssais(2, true), 50);
+  assert.strictEqual(C.pointsParEssais(2, false), 0);
+  assert.deepStrictEqual([0, 1, 2, 3, 4].map(C.pointsLiens), [0, 20, 45, 70, 100]);
+});
+
+test('série : jours consécutifs, joker après deux jours au moins et une fois par semaine', () => {
+  const e = C.nouvelEtat();
+  C.terminerJour(e, 0, [100, 100, 100]);
+  assert.strictEqual(C.terminerJour(e, 2, [100, 100, 100]).joker, false); // un seul jour joué : pas de joker
+  assert.strictEqual(e.serie, 1);
+  C.terminerJour(e, 3, [100, 0, 20]);
+  assert.strictEqual(e.serie, 2);
+  assert.strictEqual(e.jours[3].total, 120);
+  assert.strictEqual(C.terminerJour(e, 3, [0, 0, 0]).dejaFait, true); // on ne rejoue pas un jour
+  assert.strictEqual(e.jours[3].total, 120);
+  assert.strictEqual(C.serieActuelle(e, 5), 2); // joker encore disponible
+  assert.strictEqual(C.terminerJour(e, 5, [100, 100, 100]).joker, true); // jour 4 manqué, pardonné
+  assert.strictEqual(e.serie, 3);
+  assert.strictEqual(C.jokerDisponible(e, 6), false);
+  assert.strictEqual(C.terminerJour(e, 7, [100, 100, 100]).joker, false); // second oubli la même semaine
+  assert.strictEqual(e.serie, 1);
+  assert.strictEqual(e.meilleureSerie, 3);
+  assert.strictEqual(C.serieActuelle(e, 8), 1);
+  assert.strictEqual(C.serieActuelle(e, 11), 0);
+});
+
+test('un jour antérieur au dernier jour joué ne casse pas la série', () => {
+  const e = C.nouvelEtat();
+  C.terminerJour(e, 10, [100, 100, 100]);
+  C.terminerJour(e, 11, [100, 100, 100]);
+  C.terminerJour(e, 5, [100, 100, 100]);
+  assert.strictEqual(e.serie, 2);
+  assert.strictEqual(e.dernierJour, 11);
+  assert.ok(e.jours[5]);
+});
+
+test('révision : une curiosité ratée revient à 1, 3 puis 7 jours, puis sort de la liste', () => {
+  const e = C.nouvelEtat();
+  C.noterReponse(e, 'sushi', 'JP', false, 10);
+  assert.deepStrictEqual(C.aRevoir(e, 10), []);
+  assert.deepStrictEqual(C.aRevoir(e, 11), ['sushi']);
+  C.noterReponse(e, 'sushi', 'JP', true, 11);
+  assert.strictEqual(e.revision.sushi.le, 14);
+  C.noterReponse(e, 'sushi', 'JP', true, 14);
+  assert.strictEqual(e.revision.sushi.le, 21);
+  C.noterReponse(e, 'sushi', 'JP', true, 21);
+  assert.strictEqual(e.revision.sushi, undefined);
+  assert.deepStrictEqual(e.atlas.JP, { vu: 4, ok: 3, d: ['sushi'] });
+  assert.strictEqual(e.album.sushi, 10); // entrée dans l'album à la première rencontre
+  C.noterReponse(e, 'kimchi', 'KR', true, 21);
+  assert.strictEqual(e.revision.kimchi, undefined);
+  for (let n = 0; n < 8; n++) C.noterReponse(e, 'x' + n, 'FR', false, 30);
+  assert.strictEqual(C.aRevoir(e, 31).length, 5);
+  assert.strictEqual(C.toutesARevoir(e, 31).length, 8);
+});
+
+test('question de révision : mêmes choix si on recharge la page le même jour', () => {
+  const q = C.questionRevision(D, parId.sushi, 4);
+  assert.deepStrictEqual(q, C.questionRevision(D, parId.sushi, 4));
+  assert.ok(q.options.includes('JP') && new Set(q.options).size === 4);
+});
+
+test('niveaux de l’atlas', () => {
+  assert.strictEqual(C.niveau(undefined), 0);
+  assert.strictEqual(C.niveau({ vu: 3, ok: 0 }), 0);
+  assert.strictEqual(C.niveau({ vu: 1, ok: 1 }), 1);
+  assert.strictEqual(C.niveau({ vu: 5, ok: 3, d: ['a', 'b'] }), 2);
+  assert.strictEqual(C.niveau({ vu: 5, ok: 3, d: ['a'] }), 1); // toujours la même curiosité : pas encore connu
+  assert.strictEqual(C.niveau({ vu: 5, ok: 3 }), 1); // ancienne sauvegarde, sans le détail
+  assert.strictEqual(C.niveau({ vu: 12, ok: 6, d: ['a', 'b', 'c'] }), 2); // trop d'erreurs pour être maîtrisé
+  assert.strictEqual(C.niveau({ vu: 7, ok: 6, d: ['a', 'b'] }), 2); // pas assez de curiosités différentes
+  assert.strictEqual(C.niveau({ vu: 7, ok: 6, d: ['a', 'b', 'c'] }), 3);
+});
+
+test('statistiques et anciens défis', () => {
+  const e = C.nouvelEtat();
+  assert.deepStrictEqual(C.statistiques(e), { parties: 0, moyenne: 0, moyenne7: 0, meilleur: 0, repartition: [0, 0, 0, 0] });
+  C.terminerJour(e, 0, [100, 100, 100]);
+  C.terminerJour(e, 1, [20, 0, 45]);
+  C.terminerJour(e, 4, [100, 50, 70]);
+  assert.deepStrictEqual(C.statistiques(e), { parties: 3, moyenne: 195, moyenne7: 195, meilleur: 300, repartition: [1, 0, 1, 1] });
+  assert.deepStrictEqual(C.joursRejouables(e, 5, 7), [3, 2]);
+  assert.deepStrictEqual(C.joursRejouables(e, 0, 7), []);
+});
+
+test('partage', () => {
+  assert.strictEqual(C.texteDePartage(4, [100, 50, 0], 3),
+    'GlobeCurios n° 5 · 15 novembre — 150/300\n🟩 D\'où ça vient ? 100\n🟨 L\'intruse 50\n🟥 Les liens 0\nSérie : 3 jours\nÀ vous de jouer : globecurious.com');
+  assert.strictEqual(C.carresEnMots([100, 50, 0]), 'épreuve 1 : réussie, épreuve 2 : en partie réussie, épreuve 3 : manquée');
+});
+
+test('sauvegarde : aller-retour, et refus des codes abîmés ou fabriqués', () => {
+  const e = C.nouvelEtat();
+  C.terminerJour(e, 0, [100, 100, 100]);
+  C.noterReponse(e, 'sushi', 'JP', false, 0);
+  assert.deepStrictEqual(C.decoderSauvegarde(C.coderSauvegarde(e, versB64), depuisB64), e);
+  assert.strictEqual(C.decoderSauvegarde('n importe quoi', depuisB64), null);
+  assert.strictEqual(C.decoderSauvegarde('GC1.pasdubase64', depuisB64), null);
+  const fabrique = (modif) => C.decoderSauvegarde('GC1.' + versB64(JSON.stringify(Object.assign(JSON.parse(JSON.stringify(e)), modif))), depuisB64);
+  assert.strictEqual(fabrique({ jours: null }), null);
+  assert.strictEqual(fabrique({ atlas: null }), null);
+  assert.strictEqual(fabrique({ revision: null }), null);
+  assert.strictEqual(fabrique({ serie: 'abc' }), null);
+  assert.strictEqual(fabrique({ serie: 9999, meilleureSerie: 9999 }), null);
+  assert.strictEqual(fabrique({ atlas: { JP: { vu: 1, ok: 5 } } }), null);
+  const ancien = JSON.parse(JSON.stringify(e)); delete ancien.album; // état d'avant l'album
+  assert.deepStrictEqual(C.etatValide(ancien).album, {});
+});
+
+test('calendrier : le 11/11/2026 est le défi n° 1', () => {
+  assert.strictEqual(C.numeroDuJour(C.indexDuJour(new Date(2026, 10, 11, 23, 59))), 1);
+  assert.strictEqual(C.numeroDuJour(C.indexDuJour(new Date(2026, 10, 12, 0, 1))), 2);
+  assert.strictEqual(C.secondesAvantDemain(new Date(2026, 10, 10, 23, 59, 0)), 60);
+});
+
+console.log(nb + ' tests réussis');

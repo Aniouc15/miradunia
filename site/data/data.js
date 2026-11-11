@@ -248,7 +248,7 @@ window.GC_DATA = {
    "pays": "JP",
    "cat": "plat",
    "niv": 1,
-   "fait": "À l'origine, le riz vinaigré servait à conserver le poisson ; la forme actuelle, le nigiri, est née à Edo (Tokyo) au XIXe siècle.",
+   "fait": "À l'origine, le riz fermenté servait à conserver le poisson ; la forme actuelle, le nigiri, est née à Edo (Tokyo) au XIXe siècle.",
    "img": "img/sushi.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Sushi",
    "credit": {
@@ -638,7 +638,7 @@ window.GC_DATA = {
    "pays": "VN",
    "cat": "lieu",
    "niv": 2,
-   "fait": "Plus de 1 600 îles et îlots calcaires émergent de la mer ; son nom signifie « là où le dragon descend ».",
+   "fait": "Près de 2 000 îles et îlots calcaires émergent de la mer ; son nom signifie « là où le dragon descend ».",
    "img": "img/baie-along.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Baie_d%27Along",
    "credit": {
@@ -985,7 +985,7 @@ window.GC_DATA = {
    "niv": 3,
    "fait": "Pour ce papier marbré, on dépose les couleurs à la surface de l'eau avant d'y poser la feuille.",
    "img": "img/ebru.jpg",
-   "lien": "https://fr.wikipedia.org/wiki/Ebru",
+   "lien": "https://fr.wikipedia.org/wiki/Papier_marbr%C3%A9",
    "credit": {
     "auteur": "Dosseman",
     "licence": "CC BY-SA 4.0",
@@ -1178,7 +1178,7 @@ window.GC_DATA = {
    "pays": "ES",
    "cat": "monument",
    "niv": 1,
-   "fait": "Commencée en 1882, cette basilique d'Antoni Gaudí est restée en chantier pendant plus de 140 ans.",
+   "fait": "Commencée en 1882, cette basilique d'Antoni Gaudí est en chantier depuis plus de 140 ans.",
    "img": "img/sagrada-familia.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Sagrada_Fam%C3%ADlia",
    "credit": {
@@ -1343,7 +1343,7 @@ window.GC_DATA = {
    "pays": "FR",
    "cat": "tradition",
    "niv": 1,
-   "fait": "Ce jeu de boules est né au début du XXe siècle à La Ciotat ; son nom vient du provençal « pieds tanqués », c'est-à-dire pieds joints.",
+   "fait": "Ce jeu de boules est né au début du XXe siècle à La Ciotat ; son nom vient du provençal « pèd tanca », c'est-à-dire pieds plantés au sol.",
    "img": "img/petanque.jpg",
    "lien": "https://fr.wikipedia.org/wiki/P%C3%A9tanque",
    "credit": {
@@ -1943,7 +1943,7 @@ window.GC_DATA = {
    "pays": "RU",
    "cat": "lieu",
    "niv": 2,
-   "fait": "C'est le lac le plus profond du monde : il contient environ un cinquième de l'eau douce liquide de la planète.",
+   "fait": "C'est le lac le plus profond du monde : il contient environ un cinquième de l'eau douce de surface de la planète.",
    "img": "img/lac-baikal.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Lac_Ba%C3%AFkal",
    "credit": {
@@ -2033,7 +2033,7 @@ window.GC_DATA = {
    "pays": "MA",
    "cat": "monument",
    "niv": 2,
-   "fait": "Son minaret du XIIe siècle a servi de modèle à la Giralda de Séville et à la tour Hassan de Rabat.",
+   "fait": "Son minaret du XIIe siècle aurait inspiré la Giralda de Séville et la tour Hassan de Rabat.",
    "img": "img/koutoubia.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Mosqu%C3%A9e_Koutoubia",
    "credit": {
@@ -2213,7 +2213,7 @@ window.GC_DATA = {
    "pays": "ET",
    "cat": "plat",
    "niv": 2,
-   "fait": "Cette grande galette fermentée à base de teff sert à la fois d'assiette et de couvert.",
+   "fait": "Cette grande galette fermentée à base de teff, partagée avec l'Érythrée voisine, sert à la fois d'assiette et de couvert.",
    "img": "img/injera.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Injera",
    "credit": {
@@ -2258,7 +2258,7 @@ window.GC_DATA = {
    "pays": "ET",
    "cat": "lieu",
    "niv": 3,
-   "fait": "Ce site volcanique situé sous le niveau de la mer, aux couleurs jaunes et vertes, est l'un des lieux les plus chauds de la planète.",
+   "fait": "Ce site hydrothermal situé sous le niveau de la mer, aux couleurs jaunes et vertes, est l'un des lieux les plus chauds de la planète.",
    "img": "img/dallol.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Dallol_%28volcan%29",
    "credit": {
@@ -2423,7 +2423,7 @@ window.GC_DATA = {
    "pays": "TZ",
    "cat": "lieu",
    "niv": 2,
-   "fait": "Le plus haut sommet d'Afrique, à 5 895 mètres, est un volcan isolé coiffé de glaciers, tout près de l'équateur.",
+   "fait": "Le plus haut sommet d'Afrique, à près de 5 900 mètres, est un volcan isolé coiffé de glaciers, tout près de l'équateur.",
    "img": "img/kilimandjaro.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Kilimandjaro",
    "credit": {
@@ -2483,7 +2483,7 @@ window.GC_DATA = {
    "pays": "TZ",
    "cat": "lieu",
    "niv": 2,
-   "fait": "Ce volcan effondré forme une cuvette de près de vingt kilomètres de large où vivent des milliers d'animaux.",
+   "fait": "Ce volcan effondré forme une cuvette de plus de vingt kilomètres de large où vivent des milliers d'animaux.",
    "img": "img/ngorongoro.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Crat%C3%A8re_du_Ngorongoro",
    "credit": {
@@ -2543,7 +2543,7 @@ window.GC_DATA = {
    "pays": "ZA",
    "cat": "lieu",
    "niv": 3,
-   "fait": "Nelson Mandela a passé 18 de ses 27 années de prison sur cette île, devenue un musée.",
+   "fait": "Nelson Mandela a passé près de 18 de ses 27 années de prison sur cette île, devenue un musée.",
    "img": "img/robben-island.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Robben_Island",
    "credit": {
@@ -2603,7 +2603,7 @@ window.GC_DATA = {
    "pays": "MG",
    "cat": "lieu",
    "niv": 3,
-   "fait": "Cette « forêt » d'aiguilles calcaires tranchantes tire son nom d'un mot signifiant « là où l'on ne peut marcher pieds nus ».",
+   "fait": "Cette « forêt » d'aiguilles calcaires tranchantes porte un nom malgache que l'on traduit souvent par « là où l'on ne peut marcher pieds nus ».",
    "img": "img/tsingy.jpg",
    "lien": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_int%C3%A9grale_du_Tsingy_de_Bemaraha",
    "credit": {
@@ -2723,7 +2723,7 @@ window.GC_DATA = {
    "pays": "PE",
    "cat": "monument",
    "niv": 1,
-   "fait": "Cette cité inca perchée à 2 430 mètres est restée inconnue du monde extérieur jusqu'en 1911.",
+   "fait": "Cette cité inca perchée à 2 430 mètres, longtemps oubliée, n'a été révélée au monde qu'en 1911.",
    "img": "img/machu-picchu.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Machu_Picchu",
    "credit": {
@@ -2783,7 +2783,7 @@ window.GC_DATA = {
    "pays": "PE",
    "cat": "tradition",
    "niv": 3,
-   "fait": "Dans cette danse de séduction, les partenaires agitent chacun un mouchoir blanc sans jamais se toucher.",
+   "fait": "Dans cette danse de séduction, les partenaires tournent l'un autour de l'autre en agitant chacun un mouchoir.",
    "img": "img/marinera.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Marinera",
    "credit": {
@@ -2903,7 +2903,7 @@ window.GC_DATA = {
    "pays": "CU",
    "cat": "objet",
    "niv": 1,
-   "fait": "Les meilleurs sont roulés entièrement à la main par des torcedores, à qui un lecteur lisait autrefois des romans à voix haute.",
+   "fait": "Les meilleurs sont roulés entièrement à la main par des torcedores, à qui un lecteur lit, par tradition, romans et journaux à voix haute.",
    "img": "img/habano.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Habano",
    "credit": {
@@ -3743,7 +3743,7 @@ window.GC_DATA = {
    "pays": "LK",
    "cat": "monument",
    "niv": 3,
-   "fait": "Il abrite une dent attribuée au Bouddha, que l'on promène chaque année à dos d'éléphant.",
+   "fait": "Il abrite une dent attribuée au Bouddha ; chaque année, une réplique de son reliquaire est promenée à dos d'éléphant.",
    "img": "img/temple-dent.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Temple_de_la_Dent",
    "credit": {
@@ -3758,7 +3758,7 @@ window.GC_DATA = {
    "pays": "LK",
    "cat": "boisson",
    "niv": 1,
-   "fait": "Les plantations de thé ont remplacé celles de café, détruites par une maladie dans les années 1860.",
+   "fait": "Les plantations de thé ont remplacé celles de café, détruites par une maladie dans les années 1870.",
    "img": "img/the-ceylan.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Th%C3%A9_au_Sri_Lanka",
    "credit": {
@@ -3788,7 +3788,7 @@ window.GC_DATA = {
    "pays": "MN",
    "cat": "objet",
    "niv": 1,
-   "fait": "Cette tente ronde en feutre se démonte en moins d'une heure et se transporte à dos de chameau.",
+   "fait": "Appelée « ger » en Mongolie, cette tente ronde en feutre se démonte en quelques heures et se transporte à dos de chameau.",
    "img": "img/yourte.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Yourte",
    "credit": {
@@ -4148,7 +4148,7 @@ window.GC_DATA = {
    "pays": "TN",
    "cat": "monument",
    "niv": 2,
-   "fait": "Cet amphithéâtre romain pouvait accueillir environ 35 000 spectateurs, dans une ville qui n'en comptait guère plus.",
+   "fait": "Cet amphithéâtre romain pouvait accueillir environ 30 000 spectateurs : seuls ceux de Rome et de Capoue étaient plus grands.",
    "img": "img/el-jem.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Amphith%C3%A9%C3%A2tre_d%27El_Jem",
    "credit": {
@@ -4223,7 +4223,7 @@ window.GC_DATA = {
    "pays": "AR",
    "cat": "lieu",
    "niv": 3,
-   "fait": "Il y a plus de 9 000 ans, des chasseurs ont peint au pochoir des centaines de mains sur les parois de cette grotte.",
+   "fait": "Pendant des millénaires, des chasseurs de la préhistoire ont peint au pochoir des centaines de mains sur les parois de cette grotte.",
    "img": "img/cueva-manos.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Cueva_de_las_Manos",
    "credit": {
@@ -4283,7 +4283,7 @@ window.GC_DATA = {
    "pays": "CL",
    "cat": "lieu",
    "niv": 2,
-   "fait": "Trois tours de granite de plus de 2 500 mètres dominent des lacs turquoise et des glaciers.",
+   "fait": "Trois tours de granite de plus de 2 000 mètres dominent des lacs turquoise et des glaciers.",
    "img": "img/torres-del-paine.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Parc_national_Torres_del_Paine",
    "credit": {
@@ -4313,7 +4313,7 @@ window.GC_DATA = {
    "pays": "CL",
    "cat": "lieu",
    "niv": 2,
-   "fait": "C'est le désert le plus aride du monde : certaines stations météo n'y ont jamais enregistré de pluie.",
+   "fait": "C'est le désert le plus aride du monde hors des pôles : certaines stations météo n'y ont jamais enregistré de pluie.",
    "img": "img/atacama.jpg",
    "lien": "https://fr.wikipedia.org/wiki/D%C3%A9sert_d%27Atacama",
    "credit": {
@@ -4358,7 +4358,7 @@ window.GC_DATA = {
    "pays": "CO",
    "cat": "monument",
    "niv": 3,
-   "fait": "Cette église a été creusée à 180 mètres sous terre dans une ancienne mine de sel.",
+   "fait": "Cette église a été creusée à près de 200 mètres sous terre dans une mine de sel.",
    "img": "img/cathedrale-sel.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Cath%C3%A9drale_de_sel_de_Zipaquir%C3%A1",
    "credit": {
@@ -4373,7 +4373,7 @@ window.GC_DATA = {
    "pays": "CO",
    "cat": "lieu",
    "niv": 2,
-   "fait": "Ses onze kilomètres de remparts protégeaient l'or des galions contre les pirates.",
+   "fait": "Sa douzaine de kilomètres de remparts protégeait l'or des galions contre les pirates.",
    "img": "img/carthagene.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Carthag%C3%A8ne_des_Indes",
    "credit": {
@@ -4403,7 +4403,7 @@ window.GC_DATA = {
    "pays": "JM",
    "cat": "plat",
    "niv": 3,
-   "fait": "La viande marine dans un mélange de piments très forts et d'épices, puis cuit lentement au-dessus d'un feu de bois.",
+   "fait": "La viande est marinée dans un mélange de piments très forts et d'épices, puis cuite lentement au-dessus d'un feu de bois.",
    "img": "img/jerk.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Cuisine_jama%C3%AFcaine",
    "credit": {
@@ -4433,7 +4433,7 @@ window.GC_DATA = {
    "pays": "JM",
    "cat": "lieu",
    "niv": 3,
-   "fait": "Ce repaire de pirates, surnommé « la ville la plus dépravée du monde », a été en partie englouti par un séisme en 1692.",
+   "fait": "Ce repaire de pirates, réputé « la ville la plus dépravée de la chrétienté », a été en partie englouti par un séisme en 1692.",
    "img": "img/port-royal.jpg",
    "lien": "https://fr.wikipedia.org/wiki/Port_Royal",
    "credit": {

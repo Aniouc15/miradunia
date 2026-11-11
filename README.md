@@ -46,6 +46,14 @@ Règles de contenu : au moins 4 curiosités par pays (sinon le pays est écarté
 
 Chaque envoi sur la branche `main` relance les tests puis publie `site/` sur GitHub Pages (`.github/workflows/pages.yml`).
 
+Hébergement prévu sur netvtc.com, à l'adresse https://miradunia.netvtc.com/ (gratuit, compte Cloudflare de netvtc.com) : `wrangler.jsonc` décrit un Worker sans code qui sert `site/`. Première mise en ligne (elle crée l'adresse dans les réglages DNS de netvtc.com), depuis ce dossier :
+
+```
+C:\dev\netvtc-auto\node_modules\.bin\wrangler deploy --config wrangler.jsonc
+```
+
+Ensuite : régler `url` et `adresse` de `outils/site.json` sur cette adresse, `python outils/construire_site.py`, relancer la même commande, et faire de GitHub Pages une simple redirection.
+
 ## Règles du jeu
 
 - Défi n° 1 = 11/11/2026 (`LANCEMENT` dans `core.js`). Le défi est calculé à partir de la date : identique pour tous et dans toutes les langues, il change à minuit (heure de l'appareil).

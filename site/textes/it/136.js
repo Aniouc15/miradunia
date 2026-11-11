@@ -1,0 +1,1 @@
+GC_PAQUET("it",136,{"tanghulu":["Tanghulu","Il suo nome significa «zucca dolce»: questi spiedini di frutta ricoperti da un sottile guscio di zucchero croccante sono una specialità invernale di Pechino.","https://it.wikipedia.org/wiki/Tanghulu","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

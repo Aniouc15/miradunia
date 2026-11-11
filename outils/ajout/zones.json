@@ -1,0 +1,20 @@
+{
+  "1": {"nom": "Europe de l'Ouest et du Sud", "codes": ["FR", "ES", "PT", "IT", "GR", "GB", "IE", "DE", "CH", "AT", "BE", "NL", "LU", "MT", "CY", "MC", "AD", "SM", "VA", "LI"],
+        "nouveaux": "Liechtenstein"},
+  "2": {"nom": "Europe du Nord, centrale et de l'Est", "continent": "Europe", "sauf_zone": "1",
+        "nouveaux": "tout État souverain d'Europe du Nord, centrale ou de l'Est encore absent"},
+  "3": {"nom": "Afrique du Nord, Moyen-Orient, Caucase et Asie centrale",
+        "codes": ["MA", "DZ", "TN", "EG", "LY", "MR", "SD", "TR", "IR", "IQ", "JO", "LB", "SY", "SA", "AE", "OM", "YE", "QA", "BH", "KW", "IL", "GE", "AM", "AZ", "UZ", "KZ", "KG", "TJ", "TM", "AF"],
+        "nouveaux": "Oman, Émirats arabes unis, Qatar, Bahreïn, Koweït, Kirghizistan, Tadjikistan, Turkménistan, Soudan s'ils sont absents"},
+  "4": {"nom": "Afrique subsaharienne", "continent": "Afrique", "sauf_zone": "3",
+        "nouveaux": "en priorité les pays absents ou faibles : Angola, Congo, Guinée, Mozambique, Ouganda, Zambie, Zimbabwe, Sierra Leone, Liberia, Gambie, Guinée-Bissau, Érythrée, Djibouti, Burundi, Eswatini, Comores, Sao Tomé-et-Principe, Guinée équatoriale, Centrafrique"},
+  "5": {"nom": "Asie de l'Est", "codes": ["CN", "JP", "KR", "MN", "KP"],
+        "nouveaux": "aucun (Taïwan et Hong Kong ne sont pas des pays du jeu)"},
+  "6": {"nom": "Asie du Sud-Est et Asie du Sud",
+        "codes": ["TH", "VN", "KH", "LA", "MM", "MY", "SG", "ID", "PH", "BN", "TL", "IN", "PK", "BD", "NP", "BT", "LK", "MV"],
+        "nouveaux": "Brunei, Timor oriental, Maldives s'ils sont absents"},
+  "7": {"nom": "Amérique du Nord, Amérique centrale et Caraïbes", "continent": "Amériques", "sauf_codes": ["AR", "BO", "BR", "CL", "CO", "EC", "GY", "PY", "PE", "SR", "UY", "VE"],
+        "nouveaux": "États souverains des Caraïbes encore absents (Dominique, Grenade, Saint-Kitts-et-Nevis, Saint-Vincent-et-les-Grenadines, Antigua-et-Barbuda)"},
+  "8": {"nom": "Amérique du Sud et Océanie", "codes": ["AR", "BO", "BR", "CL", "CO", "EC", "GY", "PY", "PE", "SR", "UY", "VE"], "continent_en_plus": "Océanie",
+        "nouveaux": "Samoa, Îles Salomon, Kiribati, Tuvalu, Nauru, Îles Marshall s'ils sont absents"}
+}

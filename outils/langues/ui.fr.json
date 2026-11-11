@@ -5,7 +5,6 @@
   "statique.titre": "Le tour du monde en 3 curiosités par jour",
   "statique.texte": "{marque} est un jeu quotidien gratuit : trois énigmes en images sur les plats, les monuments, les fêtes, les traditions et les objets du monde, à rattacher à leur pays. Sans compte, en quelques minutes.",
   "statique.sans_javascript": "{marque} a besoin de JavaScript pour fonctionner.",
-
   "entete.accueil": "{marque}, accueil",
   "entete.serie_titre": "Jours joués d'affilée",
   "entete.serie": { "one": "Série : {n} jour", "other": "Série : {n} jours" },
@@ -16,13 +15,11 @@
   "nav.revision": "Révision",
   "nav.regles": "Règles",
   "nav.a_revoir": { "one": "{n} curiosité à revoir", "other": "{n} curiosités à revoir" },
-
   "continent.Europe": "Europe",
   "continent.Asie": "Asie",
   "continent.Afrique": "Afrique",
   "continent.Amériques": "Amériques",
   "continent.Océanie": "Océanie",
-
   "categorie.monument": "monument",
   "categorie.lieu": "lieu",
   "categorie.plat": "plat",
@@ -39,26 +36,32 @@
   "categories.tradition": "Traditions",
   "categories.instrument": "Instruments",
   "categories.objet": "Objets",
-
   "niveau.1": "facile",
   "niveau.2": "moyen",
   "niveau.3": "difficile",
-
   "commun.valider": "Valider",
   "commun.points": { "one": "+{n} point", "other": "+{n} points" },
   "commun.detail_alt": "Détail de la curiosité à deviner",
   "commun.savoir_plus": "En savoir plus sur Wikipédia",
+  "commun.photo_alt": "Photo de la curiosité à deviner",
+  "commun.chargement": "Chargement…",
+  "commun.erreur_chargement": "Impossible de charger cette page. Vérifiez votre connexion.",
+  "commun.reessayer": "Réessayer",
+  "jeu.quitter": "Revenir à l'accueil",
+  "origine.recherche": "Tapez le nom d'un pays…",
+  "origine.aucun": "Aucun pays ne correspond.",
+  "intrus.encore_pays": "Non : celle-ci vient de {pays}, comme deux autres. Encore un essai.",
+  "accueil.apercu": "Le détail du jour",
+  "atlas.a_decouvrir": { "one": "{n} pays à découvrir", "other": "{n} pays à découvrir" },
   "credit.photo": "Photo : {auteur}, {licence}, <a>Wikimedia Commons</a>",
   "credit.compte": "compte Commons {nom}",
   "signaler.lien": "Signaler une erreur",
   "signaler.sujet": "{marque} — erreur",
   "signaler.sujet_fiche": "{marque} — erreur sur « {nom} » ({id})",
   "signaler.corps": "Bonjour,\n\nVoici ce qui me semble faux ou ambigu :\n\n",
-
   "defi.numero": "Défi n° {n}",
   "defi.hors_serie": "hors série",
   "defi.niveau": "niveau {niveau}",
-
   "accueil.titre": "Trois énigmes en images, une découverte du monde",
   "accueil.titre_dimanche": "Grand défi du dimanche",
   "accueil.texte": "Un plat, un monument, une fête, un instrument… À quel pays les rattacher ? Quelques minutes par jour, et chaque réponse vous apprend quelque chose.",
@@ -69,13 +72,11 @@
   "accueil.reviser": "Réviser",
   "accueil.premiere_visite": "Première visite ? <a>Essayez d'abord un défi facile</a>, sans enjeu.",
   "accueil.gratuit": "Gratuit, sans compte. Votre progression reste sur cet appareil.",
-
   "chiffres.serie": { "one": "jour d'affilée", "other": "jours d'affilée" },
   "chiffres.record": "record",
   "chiffres.pays": "pays découverts",
   "joker.disponible": "Joker disponible : un jour manqué ne cassera pas votre série.",
   "joker.utilise": { "one": "Joker utilisé : il revient dans {n} jour.", "other": "Joker utilisé : il revient dans {n} jours." },
-
   "stats.titre": "Mes statistiques",
   "stats.parties": { "one": "{n} défi joué", "other": "{n} défis joués" },
   "stats.moyenne": "moyenne {n}",
@@ -85,11 +86,9 @@
   "stats.tranche.1": "100 à 199",
   "stats.tranche.2": "200 à 299",
   "stats.tranche.3": "300",
-
   "manques.titre": "Défis manqués",
   "manques.texte": "Vous pouvez les rejouer hors série : le score n'est pas enregistré.",
   "manques.numero": "n° {n}",
-
   "resultat.partager": "Partager mon résultat",
   "resultat.copier": "Copier mon résultat",
   "resultat.copie": "Résultat copié, il reste à le coller",
@@ -103,15 +102,12 @@
   "resultat.epreuve_reussie": "épreuve {n} : réussie",
   "resultat.epreuve_partielle": "épreuve {n} : en partie réussie",
   "resultat.epreuve_manquee": "épreuve {n} : manquée",
-
   "partage.entete": "{marque} n° {n} · {date} — {total}/300",
   "partage.serie": { "one": "Série : {n} jour", "other": "Série : {n} jours" },
   "partage.invite": "À vous de jouer : {adresse}",
-
   "jeu.etape": "Épreuve {n} sur 3",
   "jeu.suivante": "Épreuve suivante",
   "jeu.voir_resultat": "Voir mon résultat",
-
   "origine.nom": "D'où ça vient ?",
   "origine.etiquette": "D'où ça vient ? · indice {n} sur 4 · {points} points",
   "origine.consigne": "À quel pays cette curiosité est-elle rattachée ?",
@@ -130,7 +126,6 @@
   "origine.trouve.3": "Trouvé grâce au nom : {pays}.",
   "origine.trouve.4": "Trouvé parmi les quatre pays : {pays}.",
   "origine.rate": "La réponse était : {pays}.",
-
   "intrus.nom": "L'intruse",
   "intrus.consigne": "Trois de ces curiosités viennent du même pays. Laquelle vient d'ailleurs ?",
   "intrus.encore": "Non, celle-ci vient bien du même pays que deux autres. Encore un essai.",
@@ -138,7 +133,6 @@
   "intrus.deuxieme": "Trouvé au deuxième essai.",
   "intrus.manque": "Manqué.",
   "intrus.explication": "L'intruse était « {nom} » ({pays}) ; les trois autres viennent de : {trio}.",
-
   "liens.nom": "Les liens",
   "liens.consigne": "Donnez son pays à chaque curiosité. Attention : il y a un pays en trop.",
   "liens.aide": "Touchez une curiosité, puis son pays.",
@@ -151,7 +145,6 @@
   "liens.en_trop": "Le pays en trop était : {pays}.",
   "liens.titre_fait": "{nom} ({pays}) :",
   "liens.photos": "Photos :",
-
   "atlas.titre": "Mon atlas",
   "atlas.bilan": "{decouverts} pays découverts sur {total}, dont {connus} connus et {maitrises} maîtrisés.",
   "atlas.jauge": "{n} pays sur {total}",
@@ -161,7 +154,6 @@
   "atlas.niveau.1": "Découvert",
   "atlas.niveau.2": "Connu",
   "atlas.niveau.3": "Maîtrisé",
-
   "album.titre": "Mon album",
   "album.bilan": "{n} curiosités sur {total}.",
   "album.jauge": "{n} curiosités sur {total}",
@@ -169,7 +161,6 @@
   "album.fermer": "Fermer la fiche",
   "album.categorie": "{categorie} · {n} sur {total}",
   "album.a_decouvrir": { "one": "{n} à découvrir", "other": "{n} à découvrir" },
-
   "revision.titre": "Révision",
   "revision.rien": "Rien à revoir aujourd'hui.",
   "revision.attente": { "one": "Une curiosité manquée reviendra dans les prochains jours.", "other": "{n} curiosités manquées reviendront dans les prochains jours." },
@@ -185,7 +176,6 @@
   "revision.bilan": "{n} sur {total}. Les autres reviendront demain.",
   "revision.continuer": "Continuer ({n} de plus)",
   "revision.voir_atlas": "Voir mon atlas",
-
   "regles.titre": "Règles",
   "regles.jour": "Un défi par jour, le même pour tout le monde. Il change à minuit, heure de votre appareil.",
   "regles.semaine": "La semaine monte en difficulté : facile le lundi et le mardi, difficile le samedi, grand défi le dimanche.",
@@ -195,10 +185,8 @@
   "regles.serie": "Jouer chaque jour allonge votre série. À partir de deux jours d'affilée, un jour manqué est pardonné, une fois tous les sept jours.",
   "regles.rattachement": "Une curiosité est rattachée au pays où elle est née ou auquel elle est le plus associée. La réponse attendue est celle de l'article Wikipédia indiqué après chaque épreuve.",
   "regles.couverture": "Le jeu couvre {pays} pays et {curiosites} curiosités. Une erreur ? Chaque réponse renvoie à sa source.",
-
   "langue.titre": "Langue",
   "langue.texte": "Le jeu existe en plusieurs langues. Votre progression est la même dans toutes.",
-
   "sauvegarde.titre": "Sauvegarde",
   "sauvegarde.texte": "Aucun compte : votre série, votre atlas et votre album restent sur cet appareil. Pour changer de téléphone ou éviter de les perdre, gardez ce code.",
   "sauvegarde.code": "Code de sauvegarde",
@@ -210,12 +198,10 @@
   "sauvegarde.invalide": "Ce code n'est pas valide.",
   "sauvegarde.confirmer": "Remplacer la progression de cet appareil par celle du code ?",
   "sauvegarde.rappel": "Votre progression n'existe que sur cet appareil. <a>Gardez votre code de sauvegarde</a> pour ne pas la perdre.",
-
   "sources.titre": "Sources et vie privée",
   "sources.textes": "Les textes renvoient aux articles de Wikipédia. Les photos viennent de Wikimedia Commons, sous licence libre.",
   "sources.vie_privee": "Le jeu ne demande aucun compte : votre progression reste dans votre navigateur.",
   "sources.credits": "Crédits des {n} photos",
   "sources.credit_ligne": "{nom} : {auteur}, {licence}, <a>source</a>",
-
   "essai.bandeau": "Ancien défi n° {n}, hors série : rien n'est enregistré. <a>Revenir au défi du jour</a>"
 }

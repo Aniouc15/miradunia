@@ -1,0 +1,1 @@
+GC_PAQUET("ar",136,{"tanghulu":["تانغهولو","يعني اسمه «القرعة المحلّاة»: هذه الأسياخ من الفواكه المغلّفة بقشرة رقيقة مقرمشة من السكر من أطباق بكين الشتوية المميزة.","https://ar.wikipedia.org/wiki/%D8%AA%D8%A7%D9%86%D8%BA%D9%88%D9%84%D9%88","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

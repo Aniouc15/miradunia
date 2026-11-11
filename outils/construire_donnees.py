@@ -146,12 +146,13 @@ def telecharger(url, identifiant, fichier):
     """Enregistre la photo en JPEG de 560 px de large au plus (environ 50 Ko)."""
     from io import BytesIO
     from PIL import Image
-    cible = DOSSIER_IMG / (identifiant + ".jpg")
+    from construire_site import nom_photo
+    cible = DOSSIER_IMG / (nom_photo(identifiant) + ".jpg")
     trace = TRACES / (identifiant + ".source")
     TRACES.mkdir(exist_ok=True)
     if not cible.exists() or not trace.exists() or trace.read_text(encoding="utf-8") != fichier:
-        for ancien in DOSSIER_IMG.glob(identifiant + ".*"):
-            ancien.unlink()
+        if cible.exists():
+            cible.unlink()
         requete = urllib.request.Request(url, headers={"User-Agent": AGENT})
         for essai in range(6):  # Wikimedia limite le débit : on patiente puis on réessaie
             try:
@@ -251,11 +252,13 @@ def main():
     SORTIE.write_text(json.dumps({"pays": pays_sortie, "items": sortie_items}, ensure_ascii=False, indent=1) + "\n",
                       encoding="utf-8")
     # Ménage : les photos et les traces qui ne servent plus sont supprimées.
+    from construire_site import nom_photo
     utiles = {item["id"] for item in sortie_items}
+    photos_utiles = {nom_photo(i) for i in utiles}
     supprimees = 0
-    for dossier, motif in ((DOSSIER_IMG, "*.jpg"), (TRACES, "*.source")):
+    for dossier, motif, garder in ((DOSSIER_IMG, "*.jpg", photos_utiles), (TRACES, "*.source", utiles)):
         for chemin in dossier.glob(motif):
-            if chemin.stem not in utiles:
+            if chemin.stem not in garder:
                 chemin.unlink()
                 supprimees += 1
     lignes = [f"{len(sortie_items)} curiosités sur {len(items)} retenues, pour {len(pays_sortie)} pays",

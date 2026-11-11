@@ -1,0 +1,1 @@
+GC_PAQUET("es",136,{"tanghulu":["Tanghulu","Su nombre significa «calabaza azucarada»: estas brochetas de frutas recubiertas de una fina capa de azúcar crujiente son una especialidad invernal de Pekín.","https://es.wikipedia.org/wiki/Tanghulu","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

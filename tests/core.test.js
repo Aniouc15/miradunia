@@ -13,6 +13,23 @@ function charger(fichier, nom) {
 }
 const D = charger('data/data.js', 'GC_DATA');
 const LANGUES = Object.fromEntries(D.langues.map((l) => [l.code, charger('lang/' + l.code + '.js', 'GC_LANGUE')]));
+// Textes des curiosités, rangés par paquets : textes/<langue>/<n>.js appelle GC_PAQUET(langue, n, {id: [nom, fait, lien, auteur, licence, page, depot]}).
+const TEXTES = {};
+for (const code of Object.keys(LANGUES)) {
+  TEXTES[code] = {};
+  for (let n = 0; n < D.paquets; n++) {
+    vm.runInNewContext(fs.readFileSync(path.join(SITE, 'textes', code, n + '.js'), 'utf8'), {
+      GC_PAQUET: (langue, numero, contenu) => {
+        assert.strictEqual(langue, code);
+        assert.strictEqual(numero, n);
+        for (const [id, x] of Object.entries(contenu)) {
+          assert.strictEqual(C.paquetDe(id, D.paquets), n, 'curiosité dans le mauvais paquet : ' + id);
+          TEXTES[code][id] = x;
+        }
+      }
+    });
+  }
+}
 const FR = LANGUES.fr;
 const parId = Object.fromEntries(D.items.map((i) => [i.id, i]));
 const simple = (t) => t.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -22,11 +39,11 @@ const depuisB64 = (t) => Buffer.from(t, 'base64').toString('utf8');
 let nb = 0;
 function test(nom, f) { f(); nb += 1; console.log('ok  ' + nom); }
 
-test('données : au moins 100 pays et 1 000 curiosités, 4 curiosités ou plus par pays, photo, auteur, licence et niveau partout', () => {
+test('données : au moins 100 pays et 1 000 curiosités, 4 curiosités ou plus par pays, photo et niveau partout', () => {
   assert.ok(Object.keys(D.pays).length >= 100, 'pays : ' + Object.keys(D.pays).length);
   assert.ok(D.items.length >= 1000, 'curiosités : ' + D.items.length);
   assert.strictEqual(new Set(D.items.map((i) => i.id)).size, D.items.length, 'identifiants en double');
-  assert.strictEqual(new Set(D.items.map((i) => i.img)).size, D.items.length, 'photo utilisée deux fois');
+  assert.strictEqual(new Set(D.items.map((i) => C.nomPhoto(i.id))).size, D.items.length, 'deux curiosités pour un même nom de photo');
   for (const [code, p] of Object.entries(D.pays)) assert.ok(['Europe', 'Asie', 'Afrique', 'Amériques', 'Océanie'].includes(p.continent), code);
   const compte = {};
   for (const i of D.items) {
@@ -34,40 +51,43 @@ test('données : au moins 100 pays et 1 000 curiosités, 4 curiosités ou plus p
     assert.ok(D.pays[i.pays], i.id);
     assert.ok([1, 2, 3].includes(i.niv), i.id);
     assert.ok(['monument', 'lieu', 'plat', 'boisson', 'fête', 'tradition', 'instrument', 'objet'].includes(i.cat), i.id);
-    assert.ok(!('nom' in i) && !('fait' in i), 'texte dans les données communes : ' + i.id);
-    assert.ok(fs.existsSync(path.join(SITE, i.img)), 'photo absente : ' + i.id);
-    assert.ok(i.credit.licence && i.credit.page.startsWith('https://commons.wikimedia.org/'), i.id);
-    assert.ok(i.credit.auteur && typeof i.credit.depot === 'boolean', 'auteur manquant : ' + i.id);
+    assert.ok(!('nom' in i) && !('fait' in i) && !('credit' in i), 'texte dans les données communes : ' + i.id);
+    assert.ok(fs.existsSync(path.join(SITE, 'img', C.nomPhoto(i.id) + '.jpg')), 'photo absente : ' + i.id);
+    assert.ok(i.v === undefined || (Number.isInteger(i.v) && i.v > 0 && D.versions.some((p) => p[1] === i.v)), 'vague inconnue : ' + i.id);
   }
   for (const code of Object.keys(D.pays)) assert.ok(compte[code] >= 4, code);
   for (const niv of [1, 2, 3]) assert.ok(D.items.filter((i) => i.niv === niv).length >= 100, 'niveau ' + niv);
 });
 
-test('aucune photo orpheline dans site/img', () => {
-  const attendues = new Set(D.items.map((i) => path.basename(i.img)));
+test('les photos portent un nom neutre, et aucune n\'est orpheline dans site/img', () => {
+  const attendues = new Set(D.items.map((i) => C.nomPhoto(i.id) + '.jpg'));
   for (const f of fs.readdirSync(path.join(SITE, 'img'))) assert.ok(attendues.has(f), f);
+  assert.ok(/^[0-9a-f]{12}$/.test(C.nomPhoto('sushi')));
 });
 
-test('chaque langue publiée a sa page, le nom de chaque pays et le nom, la phrase et le lien de chaque curiosité', () => {
+test('chaque langue publiée a sa page, le nom de chaque pays et le nom, la phrase, le lien et le crédit de chaque curiosité', () => {
   assert.ok(FR, 'le français est publié');
   for (const [code, L] of Object.entries(LANGUES)) {
     assert.strictEqual(L.code, code);
     assert.ok(['ltr', 'rtl'].includes(L.dir), code);
+    assert.ok(!('items' in L), code + ' : les textes des curiosités sont dans les paquets');
     assert.ok(fs.existsSync(path.join(SITE, code, 'index.html')) && fs.existsSync(path.join(SITE, code, 'manifest.webmanifest')), code);
     for (const pays of Object.keys(D.pays)) assert.ok(L.pays[pays], code + ' : pays ' + pays);
-    assert.strictEqual(Object.keys(L.items).length, D.items.length, code);
+    assert.strictEqual(Object.keys(TEXTES[code]).length, D.items.length, code);
     for (const i of D.items) {
-      const [nom, fait, lien] = L.items[i.id] || [];
+      const [nom, fait, lien, auteur, licence, page, depot] = TEXTES[code][i.id] || [];
       assert.ok(nom && fait, code + ' : ' + i.id);
       assert.ok(/^https:\/\/[a-z]{2,3}\.wikipedia\.org\/wiki\/./.test(lien), code + ' : lien de ' + i.id);
+      assert.ok(auteur && licence && page.startsWith('https://commons.wikimedia.org/') && (depot === 0 || depot === 1), code + ' : crédit de ' + i.id);
     }
   }
+  assert.ok(!fs.readdirSync(path.join(SITE, 'textes')).some((code) => !LANGUES[code]), 'paquets d\'une langue non publiée');
 });
 
 test('dans chaque langue, le nom affiché ne contient pas le nom du pays à deviner', () => {
   for (const [code, L] of Object.entries(LANGUES)) {
     for (const i of D.items) {
-      assert.ok(!simple(L.items[i.id][0]).includes(simple(L.pays[i.pays])), code + ' : ' + i.id + ' (' + L.items[i.id][0] + ')');
+      assert.ok(!simple(TEXTES[code][i.id][0]).includes(simple(L.pays[i.pays])), code + ' : ' + i.id + ' (' + TEXTES[code][i.id][0] + ')');
     }
   }
 });
@@ -183,6 +203,27 @@ test('à la jointure de deux cycles, les dernières vedettes ne reviennent pas t
   }
 });
 
+test('vagues : des curiosités ajoutées n\'entrent dans les défis qu\'à leur date, sans changer les jours d\'avant', () => {
+  const base = { pays: D.pays, items: D.items.filter((i) => !i.v), versions: [[0, 0]] };
+  const jours = [0, 5, 13, 20, 27];
+  const avant = jours.map((j) => C.construireDefi(base, j));
+  const ajout = base.items.slice(0, 300).map((i) => Object.assign({}, i, { id: i.id + '-bis', v: 1 }));
+  const avec = { pays: D.pays, items: base.items.concat(ajout), versions: [[0, 0], [28, 1]] };
+  assert.deepStrictEqual(jours.map((j) => C.construireDefi(avec, j)), avant);
+  assert.deepStrictEqual(C.questionRevision(avec, parId.sushi, 20), C.questionRevision(base, parId.sushi, 20));
+  assert.strictEqual(C.versionDuJour(avec, 27), 0);
+  assert.strictEqual(C.versionDuJour(avec, 28), 1);
+  assert.strictEqual(C.versionDuJour(avec, 33), 1);
+  let nouvelles = 0;
+  for (let j = 28; j < 28 + 56; j++) {
+    const [a, b, c] = C.construireDefi(avec, j).epreuves;
+    nouvelles += [a.item, ...b.cartes, ...c.items].filter((id) => id.endsWith('-bis')).length;
+  }
+  assert.ok(nouvelles > 0, 'les nouvelles curiosités finissent par sortir');
+  // Retour en arrière après être passé à la vague suivante : toujours les mêmes défis.
+  assert.deepStrictEqual(C.construireDefi(avec, 13), avant[2]);
+});
+
 test('points', () => {
   assert.deepStrictEqual([1, 2, 3, 4].map((t) => C.pointsOrigine(t, true)), [100, 70, 40, 20]);
   assert.strictEqual(C.pointsOrigine(4, false), 0);
@@ -274,9 +315,11 @@ test('statistiques et anciens défis', () => {
 
 test('partage : une ligne par épreuve, sans réponse, dans la langue fournie', () => {
   assert.strictEqual(C.texteDePartage([100, 50, 0], { entete: 'Défi n° 5', epreuves: ['A', 'B', 'C'], serie: 'Série : 3 jours', invite: 'À vous' }),
-    'Défi n° 5\n🟩 A 100\n🟨 B 50\n🟥 C 0\nSérie : 3 jours\nÀ vous');
+    'Défi n° 5\n🟩 A 100\n⬛🟩 B 50\n⬛⬛⬛⬛ C 0\nSérie : 3 jours\nÀ vous');
   assert.strictEqual(C.texteDePartage([0, 0, 20], { entete: 'X', epreuves: ['A', 'B', 'C'], serie: '', invite: 'Y' }),
-    'X\n🟥 A 0\n🟥 B 0\n🟨 C 20\nY');
+    'X\n⬛⬛⬛⬛ A 0\n⬛⬛ B 0\n🟩⬛⬛⬛ C 20\nY');
+  assert.strictEqual(C.carres([40, 100, 70]), '⬛⬛🟩 🟩 🟩🟩🟩⬛');
+  assert.ok(!/🟥|🟨/u.test(C.carres([20, 50, 45])), 'ni rouge ni jaune');
   assert.strictEqual(C.dateDuDefi(4).toISOString().slice(0, 10), '2026-11-15');
 });
 

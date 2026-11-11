@@ -1,0 +1,1 @@
+GC_PAQUET("fr",123,{"pu-erh":["Thé pu-erh","Ce thé sombre du Yunnan était compressé pour voyager en caravane jusqu'au Tibet ; il peut se bonifier avec le temps, à l'instar du vin.","https://fr.wikipedia.org/wiki/Pu-erh","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

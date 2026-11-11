@@ -77,10 +77,28 @@
   // en semaine, rien de difficile ; le week-end, rien de facile.
   var NIVEAUX_ADMIS = { 1: [1, 2], 2: [1, 2], 3: [2, 3] };
 
+  // Les curiosités arrivent par vagues (« versions ») : une vague n'entre dans les défis qu'au début d'un bloc
+  // postérieur à sa mise en ligne. Ainsi un ajout ne change ni le défi du jour ni les anciens défis.
+  // donnees.versions = [[premier jour, numéro], …] ; item.v = numéro de sa vague (0 si absent).
+  function versionDuJour(donnees, jour) {
+    var debut = Math.floor(jour / BLOC) * BLOC, v = 0;
+    (donnees.versions || []).forEach(function (p) { if (p[0] <= debut && p[1] > v) v = p[1]; });
+    return v;
+  }
+  var vues = { source: null, parVersion: {} };
+  function donneesDuJour(donnees, jour) {
+    if (!donnees.versions || !donnees.versions.length) return donnees;
+    if (vues.source !== donnees) vues = { source: donnees, parVersion: {} };
+    var v = versionDuJour(donnees, jour);
+    if (!vues.parVersion[v]) {
+      vues.parVersion[v] = { pays: donnees.pays, items: donnees.items.filter(function (i) { return (i.v || 0) <= v; }) };
+    }
+    return vues.parVersion[v];
+  }
   // Index par pays et bassins par niveau, calculés une seule fois par jeu de données.
-  var memoire = { donnees: null };
+  var PREP = typeof Symbol === 'function' ? Symbol('preparation') : '__preparation';
   function preparer(donnees) {
-    if (memoire.donnees !== donnees) {
+    if (!donnees[PREP]) {
       var index = {};
       var bassins = { 1: [], 2: [], 3: [] };
       donnees.items.forEach(function (item) {
@@ -90,9 +108,9 @@
       [1, 2, 3].forEach(function (n) {
         bassins[n].sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
       });
-      memoire = { donnees: donnees, index: index, codes: Object.keys(index), bassins: bassins, ordres: {}, bloc: null };
+      Object.defineProperty(donnees, PREP, { value: { index: index, codes: Object.keys(index), bassins: bassins, ordres: {}, bloc: null } });
     }
-    return memoire;
+    return donnees[PREP];
   }
   // Pays proposés à tort : de préférence sur le même continent, pour que la question reste intéressante.
   function fauxPays(donnees, bonPays, combien, hasard, exclus) {
@@ -138,11 +156,13 @@
   }
   // Question de révision : toujours les mêmes choix pour une curiosité un jour donné (recharger n'apprend rien).
   function questionRevision(donnees, item, jour) {
+    donnees = donneesDuJour(donnees, jour);
     return { item: item.id, options: quatreChoix(donnees, item, generateur('globecurios-revision-' + item.id + '-' + jour)) };
   }
   // Défi d'un jour. Les jours d'un bloc se construisent dans l'ordre, chacun évitant les curiosités des précédents ;
   // le bloc en cours est gardé en mémoire pour ne pas tout recalculer à chaque appel.
   function construireDefi(donnees, jour) {
+    donnees = donneesDuJour(donnees, jour);
     var prep = preparer(donnees);
     var debut = Math.floor(jour / BLOC) * BLOC;
     if (!prep.bloc || prep.bloc.debut !== debut) {
@@ -399,8 +419,20 @@
   }
 
   // ---------- Partage et sauvegarde ----------
+  // Le parcours de chaque épreuve, déduit de son score : une case par essai (épreuves 1 et 2) ou par lien (épreuve 3).
+  // ⬛ raté, 🟩 trouvé ; pas de rouge, que les daltoniens confondent avec le vert.
+  function repeter(c, n) { var s = ''; for (var i = 0; i < n; i++) s += c; return s; }
+  function parcours(score, epreuve) {
+    if (epreuve === 0) {
+      var essai = POINTS_ORIGINE.indexOf(score);
+      return essai < 0 ? repeter('⬛', POINTS_ORIGINE.length) : repeter('⬛', essai) + '🟩';
+    }
+    if (epreuve === 1) return score >= 100 ? '🟩' : score > 0 ? '⬛🟩' : '⬛⬛';
+    var justes = Math.max(0, POINTS_LIENS.indexOf(score));
+    return repeter('🟩', justes) + repeter('⬛', 4 - justes);
+  }
   function carres(scores) {
-    return scores.map(function (s) { return s >= 100 ? '🟩' : s > 0 ? '🟨' : '🟥'; }).join('');
+    return scores.map(parcours).join(' ');
   }
   // Date du défi, à minuit UTC : l'affichage la met en forme dans la langue du joueur (fuseau UTC).
   function dateDuDefi(jour) {
@@ -410,7 +442,7 @@
   // Les textes (entête, noms des épreuves, série, invitation) sont fournis dans la langue du joueur.
   function texteDePartage(scores, textes) {
     return [textes.entete].concat(scores.map(function (s, n) {
-      return carres([s]) + ' ' + textes.epreuves[n] + ' ' + s;
+      return parcours(s, n) + ' ' + textes.epreuves[n] + ' ' + s;
     }), textes.serie ? [textes.serie] : [], [textes.invite]).join('\n');
   }
   function coderSauvegarde(etat, versBase64) { return 'GC1.' + versBase64(JSON.stringify(etat)); }
@@ -420,7 +452,17 @@
     try { return etatValide(JSON.parse(depuisBase64(texte.slice(4)))); } catch (e) { return null; }
   }
 
+  // Les textes des curiosités sont rangés en paquets (un fichier par paquet et par langue) : le jeu ne charge
+  // que ceux dont il a besoin. Même calcul dans outils/construire_site.py.
+  function paquetDe(id, nombre) { return hacher('paquet-' + id) % nombre; }
+  // Nom neutre de la photo d'une curiosité (img/<nom>.jpg) : un appui long sur l'image ne doit pas trahir la réponse.
+  function nomPhoto(id) {
+    var a = hacher('photo-a-' + id).toString(16), b = (hacher('photo-b-' + id) >>> 16).toString(16);
+    return ('00000000' + a).slice(-8) + ('0000' + b).slice(-4);
+  }
+
   return {
+    versionDuJour: versionDuJour, donneesDuJour: donneesDuJour, paquetDe: paquetDe, nomPhoto: nomPhoto,
     DELAIS_REVISION: DELAIS_REVISION, MAX_REVISION: MAX_REVISION,
     POINTS_ORIGINE: POINTS_ORIGINE, POINTS_LIENS: POINTS_LIENS,
     generateur: generateur, melanger: melanger, indexDuJour: indexDuJour, numeroDuJour: numeroDuJour,

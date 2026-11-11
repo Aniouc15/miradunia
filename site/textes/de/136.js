@@ -1,0 +1,1 @@
+GC_PAQUET("de",136,{"tanghulu":["Tanghulu","Sein Name bedeutet „gezuckerter Flaschenkürbis“: Diese Spieße mit Früchten in einer dünnen, knusprigen Zuckerhülle sind eine Winterspezialität Pekings.","https://de.wikipedia.org/wiki/Tanghulu","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

@@ -6,13 +6,15 @@ Entrées :
 - outils/langues/langues.json : langues prévues ;
 - outils/langues/ui.fr.json : textes de l'interface en français (la référence) ;
 - outils/langues/<code>.json pour chaque autre langue : {"ui": {...}, "pays": {code: nom}, "items": {id: {"nom", "fait"}}}.
-Une langue n'est publiée que si sa traduction est complète et passe les contrôles.
+Une langue n'est publiée que si son interface est complète ; une curiosité, que si elle est prête dans toutes les langues publiées.
 
-Sorties : site/data/data.js (données communes à toutes les langues), site/lang/<code>.js (textes d'une langue),
+Sorties : site/data/data.js (données communes à toutes les langues), site/lang/<code>.js (interface et pays d'une langue),
+site/textes/<code>/<n>.js (nom, phrase, lien et crédit des curiosités, par paquets), outils/publication.json (vagues),
 site/<code>/index.html et manifest.webmanifest (une page par langue), site/index.html (choix de la langue).
 
 Usage : python outils/construire_site.py
 """
+import datetime
 import html
 import json
 import re
@@ -23,6 +25,10 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parent.parent
 OUTILS = RACINE / "outils"
 SITE = RACINE / "site"
+PUBLICATION = OUTILS / "publication.json"  # vague de chaque curiosité publiée (voir versions_et_vagues)
+PAQUETS = 256  # nombre de fichiers de textes par langue
+BLOC = 14  # comme dans site/js/core.js
+LANCEMENT = datetime.date(2026, 11, 11)  # défi n° 1, comme dans site/js/core.js
 REPERES = re.compile(r"\{\w+\}|</?[ab]>")
 LOGO = ('<svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" '
         'stroke="currentColor" stroke-width="4"/><path d="M4 32h56M32 4c-14 14-14 42 0 56M32 4c14 14 14 42 0 56" '
@@ -193,22 +199,68 @@ def controler_ui(ui, reference):
     return erreurs
 
 
-def controler_contenu(langue, pays, items, donnees):
-    erreurs = []
-    for code in donnees["pays"]:
-        if not str(pays.get(code, "")).strip():
-            erreurs.append("pays manquant : " + code)
-    for item in donnees["items"]:
-        texte = items.get(item["id"])
-        if not texte or not str(texte.get("nom", "")).strip() or not str(texte.get("fait", "")).strip():
-            erreurs.append("curiosité manquante : " + item["id"])
-            continue
-        nom_pays = pays.get(item["pays"], "")
-        if nom_pays and simple(nom_pays) in simple(texte["nom"]):
-            erreurs.append("le nom contient le pays : %s (%s)" % (item["id"], texte["nom"]))
-        if len(texte["fait"]) > 320:
-            erreurs.append("phrase trop longue : " + item["id"])
-    return erreurs
+def controler_pays(pays, donnees):
+    return ["pays manquant : " + code for code in donnees["pays"] if not str(pays.get(code, "")).strip()]
+
+
+def probleme_item(item, texte, pays):
+    """Raison pour laquelle une curiosité ne peut pas être publiée dans une langue, ou None."""
+    if not texte or not str(texte.get("nom", "")).strip() or not str(texte.get("fait", "")).strip():
+        return "texte manquant"
+    nom_pays = pays.get(item["pays"], "")
+    if nom_pays and simple(nom_pays) in simple(texte["nom"]):
+        return "le nom contient le pays (%s)" % texte["nom"]
+    if len(texte["fait"]) > 320:
+        return "phrase trop longue"
+    return None
+
+
+def hacher(texte):
+    """Même calcul que hacher() dans site/js/core.js (FNV-1a sur 32 bits)."""
+    h = 2166136261
+    for c in texte:
+        h = ((h ^ ord(c)) * 16777619) & 0xFFFFFFFF
+    return h
+
+
+def paquet_de(ident):
+    return hacher("paquet-" + ident) % PAQUETS
+
+
+def nom_photo(ident):
+    """Nom neutre de la photo d'une curiosité (img/<nom>.jpg) : le nom du fichier ne doit pas trahir la réponse.
+    Même calcul que nomPhoto() dans site/js/core.js."""
+    return "%08x%04x" % (hacher("photo-a-" + ident), hacher("photo-b-" + ident) >> 16)
+
+
+def jour_du_defi(date):
+    return (date - LANCEMENT).days
+
+
+def versions_et_vagues(ids):
+    """Numéro de vague de chaque curiosité publiée. Une curiosité déjà publiée garde sa vague ; les nouvelles rejoignent
+    une vague qui n'entre dans les défis qu'au début d'un bloc de 14 jours qui commence au plus tôt après-demain
+    (le défi du jour ne change jamais, même pour un joueur qui a déjà un jour d'avance sur Paris)."""
+    registre = lire(PUBLICATION) if PUBLICATION.exists() else {"versions": [], "items": {}}
+    versions, vagues = [list(p) for p in registre["versions"]], dict(registre["items"])
+    nouveaux = [i for i in ids if i not in vagues]
+    if nouveaux:
+        if not versions:
+            versions.append([0, 0])
+            numero = 0
+        else:
+            aujourd_hui = jour_du_defi(datetime.date.today())
+            debut, numero = versions[-1]
+            if debut < aujourd_hui + 2:  # la dernière vague est déjà en jeu (ou presque) : on en ouvre une nouvelle
+                debut = -(-(aujourd_hui + 2) // BLOC) * BLOC
+                numero += 1
+                versions.append([debut, numero])
+        for i in nouveaux:
+            vagues[i] = numero
+    with open(PUBLICATION, "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"versions": versions, "items": vagues}, f, ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+        f.write("\n")
+    return versions, vagues
 
 
 def main():
@@ -218,14 +270,17 @@ def main():
     reference = lire(OUTILS / "langues" / "ui.fr.json")
     url = config["url"]
 
-    publiees, rapport = [], []
+    # 1. Langues : une langue est publiée si son interface et ses noms de pays sont complets et si elle traduit
+    #    au moins 90 % des curiosités. Une curiosité n'est publiée que si elle est prête dans toutes ces langues :
+    #    les autres attendent leur traduction (le défi du jour doit être le même pour tous).
+    candidates, rapport = [], []
     for langue in prevues:
         code = langue["code"]
         if code == "fr":
             ui = reference
             pays = {c: p["nom"] for c, p in donnees["pays"].items()}
             items = {i["id"]: {"nom": i["nom"], "fait": i["fait"]} for i in donnees["items"]}
-            erreurs = controler_contenu(code, pays, items, donnees)
+            erreurs = []
         else:
             chemin = OUTILS / "langues" / (code + ".json")
             if not chemin.exists():
@@ -233,38 +288,85 @@ def main():
                 continue
             traduction = lire(chemin)
             ui, pays, items = traduction.get("ui", {}), traduction.get("pays", {}), traduction.get("items", {})
-            erreurs = controler_ui(ui, reference) + controler_contenu(code, pays, items, donnees)
+            erreurs = controler_ui(ui, reference)
+        erreurs += controler_pays(pays, donnees)
+        problemes = {}
+        for item in donnees["items"]:
+            raison = probleme_item(item, items.get(item["id"]), pays)
+            if raison:
+                problemes[item["id"]] = raison
+        if len(problemes) > 0.1 * len(donnees["items"]):
+            erreurs.append("%d curiosités sans traduction utilisable" % len(problemes))
         if erreurs:
             rapport.append("%s : non publiée, %d problème(s) : %s" % (code, len(erreurs), " ; ".join(erreurs[:8])))
             continue
-        publiees.append(dict(langue, ui=ui, pays=pays, items=items))
-        rapport.append("%s : publiée" % code)
-    if not any(langue["code"] == "fr" for langue in publiees):
+        candidates.append(dict(langue, ui=ui, pays=pays, items=items, problemes=problemes))
+    if not any(langue["code"] == "fr" for langue in candidates):
         raise SystemExit("Le français ne passe pas les contrôles :\n" + "\n".join(rapport))
+    publiees = candidates
+    attente = {}
+    for langue in publiees:
+        for ident, raison in langue["problemes"].items():
+            attente.setdefault(ident, []).append("%s : %s" % (langue["code"], raison))
+        rapport.append("%s : publiée%s" % (langue["code"], " (%d curiosités en attente dans cette langue)" % len(langue["problemes"]) if langue["problemes"] else ""))
+    items = [i for i in donnees["items"] if i["id"] not in attente]
+    compte = {}
+    for i in items:
+        compte[i["pays"]] = compte.get(i["pays"], 0) + 1
+    # Un pays n'entre dans le jeu qu'avec au moins 4 curiosités publiées.
+    trop_peu = {c for c in donnees["pays"] if compte.get(c, 0) < 4}
+    for i in items:
+        if i["pays"] in trop_peu:
+            attente.setdefault(i["id"], []).append("pays avec moins de 4 curiosités publiées")
+    items = [i for i in items if i["pays"] not in trop_peu]
+    pays_publies = {c: p for c, p in donnees["pays"].items() if c not in trop_peu}
+    if attente:
+        rapport.append("%d curiosité(s) en attente, détail dans outils/rapport_site.txt" % len(attente))
+    (OUTILS / "rapport_site.txt").write_text("\n".join("%s | %s" % (i, " ; ".join(r)) for i, r in sorted(attente.items())) + "\n", encoding="utf-8")
 
     codes = [langue["code"] for langue in publiees]
     defaut = config.get("langue_par_defaut") if config.get("langue_par_defaut") in codes else "fr"
+    versions, vagues = versions_et_vagues([i["id"] for i in items])
 
-    # Données communes : règles et photos, sans aucun texte propre à une langue.
+    # 2. Données communes : règles et vagues, sans aucun texte propre à une langue. Photo : img/<nom_photo(id)>.jpg.
+    for i in items:
+        if i["img"] != "img/" + nom_photo(i["id"]) + ".jpg" or not (SITE / i["img"]).exists():
+            raise SystemExit("photo mal nommée ou absente : " + i["id"])
+    def neutre(i):
+        fiche = {"id": i["id"], "pays": i["pays"], "cat": i["cat"], "niv": i["niv"]}
+        if vagues[i["id"]]:
+            fiche["v"] = vagues[i["id"]]
+        return fiche
     ecrire(SITE / "data" / "data.js", js("GC_DATA", {
         "marque": config["marque"], "adresse": config["adresse"], "contact": config.get("contact", ""),
         "langues": [{"code": langue["code"], "nom": langue["nom"]} for langue in publiees],
-        "pays": {code: {"continent": fiche["continent"]} for code, fiche in donnees["pays"].items()},
-        "items": [{"id": i["id"], "pays": i["pays"], "cat": i["cat"], "niv": i["niv"], "img": i["img"],
-                   "credit": i["credit"]} for i in donnees["items"]],
-    }))
+        "pays": {code: {"continent": fiche["continent"]} for code, fiche in pays_publies.items()},
+        "versions": versions, "paquets": PAQUETS,
+        "items": [neutre(i) for i in items],
+    }).replace('{"id":', '\n{"id":'))
 
+    # 3. Textes de chaque langue : interface et pays dans lang/<code>.js ; nom, phrase, lien et crédit de chaque curiosité
+    #    dans textes/<code>/<paquet>.js, chargés à la demande.
+    if (SITE / "textes").exists():
+        shutil.rmtree(SITE / "textes")
     alternatives = "\n".join('<link rel="alternate" hreflang="%s" href="%s%s/">' % (c, e(url), c) for c in codes)
     alternatives += '\n<link rel="alternate" hreflang="x-default" href="%s">' % e(url)
     for langue in publiees:
         code, ui = langue["code"], langue["ui"]
-        liens = {}
-        for item in donnees["items"]:
-            liens[item["id"]] = item["liens"].get(code) or item["liens"].get("en") or item["liens"]["fr"]
         ecrire(SITE / "lang" / (code + ".js"), js("GC_LANGUE", {
-            "code": code, "locale": langue["locale"], "dir": langue["dir"], "ui": ui, "pays": langue["pays"],
-            "items": {i: [langue["items"][i]["nom"], langue["items"][i]["fait"], liens[i]] for i in liens},
+            "code": code, "locale": langue["locale"], "dir": langue["dir"], "ui": ui,
+            "pays": {c: langue["pays"][c] for c in pays_publies},
         }))
+        paquets = [dict() for _ in range(PAQUETS)]
+        for item in items:
+            texte = langue["items"][item["id"]]
+            lien = item["liens"].get(code) or item["liens"].get("en") or item["liens"]["fr"]
+            credit = item["credit"]
+            paquets[paquet_de(item["id"])][item["id"]] = [texte["nom"], texte["fait"], lien, credit["auteur"],
+                                                         credit["licence"], credit["page"], 1 if credit["depot"] else 0]
+        for n, contenu in enumerate(paquets):
+            ecrire(SITE / "textes" / code / ("%d.js" % n), "GC_PAQUET(%s,%d,%s);\n" % (
+                json.dumps(code), n, json.dumps(contenu, ensure_ascii=False, separators=(",", ":"))))
         image = "partage-%s.png" % code if (SITE / ("partage-%s.png" % code)).exists() else "partage.png"
         boutons = []
         for vue in ["accueil", "atlas", "album", "revision", "regles"]:
@@ -301,7 +403,8 @@ def main():
         "code": defaut, "dir": premiere["dir"], "marque": e(config["marque"]), "logo": LOGO,
         "titre": e(remplir(premiere["ui"]["meta.titre"], {"marque": config["marque"]})),
         "description": e(premiere["ui"]["meta.description"]), "partage": e(premiere["ui"]["meta.partage"]),
-        "url": e(url), "image": e(url + "partage.png"), "alternatives": alternatives,
+        "url": e(url), "alternatives": alternatives,
+        "image": e(url + ("partage-%s.png" % defaut if (SITE / ("partage-%s.png" % defaut)).exists() else "partage.png")),
         "langues_js": json.dumps(codes), "defaut_js": json.dumps(defaut), "liens": liens,
     }))
     ecrire(SITE / "manifest.webmanifest", json.dumps({
@@ -311,6 +414,13 @@ def main():
                   {"src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
                   {"src": "icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}],
     }, ensure_ascii=False, indent=2) + "\n")
+
+    # Pour les moteurs de recherche : une adresse par langue, chacune avec ses équivalents dans les autres langues.
+    liens_alt = "".join('<xhtml:link rel="alternate" hreflang="%s" href="%s%s/"/>' % (c, e(url), c) for c in codes)
+    ecrire(SITE / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+           + "".join("<url><loc>%s%s/</loc>%s</url>\n" % (e(url), c, liens_alt) for c in codes) + "</urlset>\n")
+    ecrire(SITE / "robots.txt", "User-agent: *\nAllow: /\nSitemap: %ssitemap.xml\n" % url)
 
     # Ménage : rien ne reste en ligne d'une langue qui n'est plus publiée.
     for langue in prevues:
@@ -323,7 +433,7 @@ def main():
         dossier = SITE / code
         if dossier.is_dir() and (dossier / "index.html").exists() and len(code) == 2:
             shutil.rmtree(dossier)
-    print("Site : %d curiosités, %d pays ; langues : %s" % (len(donnees["items"]), len(donnees["pays"]), ", ".join(codes)))
+    print("Site : %d curiosités, %d pays ; langues : %s" % (len(items), len(pays_publies), ", ".join(codes)))
     print("\n".join("  " + ligne for ligne in rapport))
 
 

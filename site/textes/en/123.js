@@ -1,0 +1,1 @@
+GC_PAQUET("en",123,{"pu-erh":["Pu'er tea","This dark tea from Yunnan was compressed to travel by caravan to Tibet; it can improve with age, like wine.","https://en.wikipedia.org/wiki/Pu%27er_tea","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

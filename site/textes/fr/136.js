@@ -1,0 +1,1 @@
+GC_PAQUET("fr",136,{"tanghulu":["Tanghulu","Son nom signifie « calebasse sucrée » : ces brochettes de fruits enrobés d'une fine coque de sucre croquante sont une spécialité hivernale de Pékin.","https://fr.wikipedia.org/wiki/Tanghulu","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

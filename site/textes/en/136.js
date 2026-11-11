@@ -1,0 +1,1 @@
+GC_PAQUET("en",136,{"tanghulu":["Tanghulu","Its name means “sugar gourd”: these skewers of fruit coated in a thin, crunchy sugar shell are a winter specialty of Beijing.","https://en.wikipedia.org/wiki/Tanghulu","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

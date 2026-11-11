@@ -1,0 +1,1 @@
+GC_PAQUET("de",123,{"pu-erh":["Pu-Erh-Tee","Dieser dunkle Tee aus Yunnan wurde gepresst, um mit Karawanen bis nach Tibet zu reisen; er kann mit der Zeit besser werden, ähnlich wie Wein.","https://de.wikipedia.org/wiki/Pu-Erh","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

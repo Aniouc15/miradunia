@@ -1,0 +1,1 @@
+GC_PAQUET("pt",136,{"tanghulu":["Tanghulu","Seu nome significa “cabaça açucarada”: estes espetinhos de frutas envoltas em uma fina casca de açúcar crocante são uma especialidade de inverno de Pequim.","https://pt.wikipedia.org/wiki/Tanghulu","Popo le Chien","CC0","https://commons.wikimedia.org/wiki/File:TangHuLu.JPG",0]});

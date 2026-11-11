@@ -1,0 +1,1 @@
+GC_PAQUET("it",123,{"pu-erh":["Tè Pu'er","Questo tè scuro dello Yunnan veniva compresso per viaggiare in carovana fino al Tibet; può migliorare con il tempo, come il vino.","https://it.wikipedia.org/wiki/T%C3%A8_Pu%27er","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

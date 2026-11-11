@@ -1,0 +1,1 @@
+GC_PAQUET("fr",72,{"zabid":["Zabid","L'une des plus anciennes cités du pays, elle en fut la capitale entre le XIIIe et le XVe siècle ; son université était alors prestigieuse.","https://fr.wikipedia.org/wiki/Zabid","Ahron de Leeuw from Amsterdam, Netherlands","CC BY 2.0","https://commons.wikimedia.org/wiki/File:Zabid,_Yemen.jpg",0]});

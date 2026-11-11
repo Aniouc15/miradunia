@@ -55,7 +55,8 @@ main { max-width: 560px; margin: 0 auto; padding: 8px 16px 24px; outline: none; 
 .chiffres span { font-size: .8rem; color: var(--doux); }
 
 .score { font: 700 2.6rem Georgia, serif; font-variant-numeric: tabular-nums; margin: 0; }
-.carres { font-size: 1.7rem; letter-spacing: 4px; margin: 0 0 8px; }
+.carres { font-size: 1.35rem; letter-spacing: 1px; word-spacing: 10px; margin: 0 0 8px; direction: ltr; unicode-bidi: isolate; }
+.score { direction: ltr; unicode-bidi: isolate; }
 .compte { font-variant-numeric: tabular-nums; font-weight: 700; }
 
 .etapes { display: flex; gap: 6px; margin: 4px 0 14px; }
@@ -164,8 +165,50 @@ ul.regles { padding-inline-start: 20px; margin: 0 0 .8em; } ul.regles li { margi
   color: var(--encre); font-weight: 700; text-decoration: none; }
 .choix-langue a:hover { border-color: var(--accent); }
 
+/* Pendant le défi : pas de barre du bas, un bouton pour sortir. */
+body.en-jeu { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+body.en-jeu .barre { display: none; }
+.haut-jeu { display: flex; align-items: center; gap: 10px; margin: 4px 0 14px; }
+.haut-jeu .etapes { flex: 1; margin: 0; }
+.quitter { width: 40px; height: 40px; border-radius: 20px; border: 1px solid var(--trait); background: var(--carte);
+  font-size: 1.4rem; line-height: 1; color: var(--doux); flex: none; }
+
+/* Recherche d'un pays */
+input.champ-pays { width: 100%; font: 1rem system-ui, sans-serif; min-height: 52px; padding: 10px 14px; border: 2px solid var(--trait);
+  border-radius: 12px; background: var(--carte); }
+input.champ-pays:focus { border-color: var(--accent); outline: none; }
+.resultats { margin: 10px 0 0; }
+.resultats p { grid-column: 1 / -1; margin: 4px 0; }
+
+/* Essais : ambre quand le continent est bon (on se rapproche), neutre pour un indice demandé. */
+.essais li.proche { background: #fbecd3; color: #8a5206; }
+.essais li.neutre { background: var(--accent-clair); color: var(--doux); }
+@media (prefers-color-scheme: dark) { .essais li.proche { background: #3a2a10; color: var(--ambre); } }
+
+/* Aperçu du jour sur l'accueil : une loupe sur le détail de la photo. */
+.loupe { float: inline-end; width: 96px; height: 96px; margin: 0 0 8px; margin-inline-start: 12px; border-radius: 50%; overflow: hidden;
+  border: 3px solid var(--ambre); background: var(--trait); }
+.loupe img { width: 100%; height: 100%; object-fit: cover; transform: scale(2.6); }
+.loupe ~ .etiquette { display: block; }
+.a-decouvrir summary { color: var(--doux); font-weight: 600; }
+details.credit summary { font-weight: 600; padding: 4px 0; }
+
+/* L'arabe se lie : ni espacement entre les lettres, ni capitales. */
+:lang(ar) .etiquette { letter-spacing: 0; text-transform: none; }
+
 @media (min-width: 480px) { .photo img { height: 300px; } .vignette img { height: 150px; } .album { grid-template-columns: repeat(4, 1fr); } }
 @media (prefers-reduced-motion: no-preference) {
   .carte { animation: entree .25s ease-out; }
   @keyframes entree { from { opacity: 0; transform: translateY(6px); } }
+  .bouton, .choix button, .puce, .vignette, .lien, .quitter { transition: transform 80ms ease-out; }
+  .bouton:active, .choix button:active, .puce:active, .vignette:active, .lien:active, .quitter:active { transform: scale(.97); }
+  /* La photo entière se dévoile en reculant depuis le détail. */
+  .photo.dezoom img { animation: dezoom .9s cubic-bezier(.16, 1, .3, 1); }
+  @keyframes dezoom { from { transform: scale(2.6); } to { transform: scale(1); } }
+  .secoue { animation: secoue .32s ease-out; }
+  @keyframes secoue { 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+  .rebond { animation: rebond .25s ease-out; }
+  @keyframes rebond { 50% { transform: scale(1.06); } }
+  .loupe { animation: pouls 2.4s ease-in-out infinite; }
+  @keyframes pouls { 50% { box-shadow: 0 0 0 6px rgba(217, 138, 31, .25); } }
 }

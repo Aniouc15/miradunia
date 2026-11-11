@@ -11,12 +11,52 @@
   var MARQUE = D.marque;
   var app = document.getElementById('app');
   var ITEMS = {};
-  // Les textes de la langue (nom, phrase, lien) rejoignent les données neutres de chaque curiosité.
-  D.items.forEach(function (i) {
-    var textes = L.items[i.id] || [i.id, '', ''];
-    i.nom = textes[0]; i.fait = textes[1]; i.lien = textes[2];
-    ITEMS[i.id] = i;
-  });
+  D.items.forEach(function (i) { ITEMS[i.id] = i; });
+
+  // ---------- Textes des curiosités, chargés à la demande ----------
+  // Nom, phrase, lien et crédit photo sont rangés par paquets dans textes/<langue>/<n>.js : le jeu ne charge
+  // que ceux des curiosités à afficher. Un paquet appelle GC_PAQUET en arrivant.
+  var paquetsCharges = {}, paquetsAttendus = {};
+  window.GC_PAQUET = function (code, n, contenu) {
+    if (code !== L.code) return;
+    Object.keys(contenu).forEach(function (id) {
+      var x = contenu[id], i = ITEMS[id];
+      if (!i) return;
+      i.nom = x[0]; i.fait = x[1]; i.lien = x[2];
+      i.credit = { auteur: x[3], licence: x[4], page: x[5], depot: !!x[6] };
+    });
+    paquetsCharges[n] = true;
+  };
+  function chargerPaquet(n, fini) {
+    if (paquetsCharges[n]) { fini(false); return; }
+    if (paquetsAttendus[n]) { paquetsAttendus[n].push(fini); return; }
+    paquetsAttendus[n] = [fini];
+    var script = document.createElement('script');
+    var terminer = function () {
+      var attente = paquetsAttendus[n] || [];
+      delete paquetsAttendus[n]; // en cas d'échec, un prochain affichage réessaiera
+      script.remove();
+      attente.forEach(function (f) { f(!paquetsCharges[n]); });
+    };
+    script.onload = terminer;
+    script.onerror = terminer;
+    script.src = (window.GC_PAGE && window.GC_PAGE.racine || '') + 'textes/' + L.code + '/' + n + '.js';
+    document.head.appendChild(script);
+  }
+  // Appelle fini(erreur) quand les textes de toutes ces curiosités sont là (tout de suite s'ils y sont déjà).
+  function textes(ids, fini) {
+    var besoins = {};
+    ids.forEach(function (id) { if (ITEMS[id] && ITEMS[id].nom === undefined) besoins[C.paquetDe(id, D.paquets)] = true; });
+    var liste = Object.keys(besoins), reste = liste.length, erreur = false;
+    if (!reste) { fini(false); return; }
+    liste.forEach(function (n) {
+      chargerPaquet(Number(n), function (echec) { if (echec) erreur = true; if (--reste === 0) fini(erreur); });
+    });
+  }
+  function idsDuDefi(defi) {
+    var e = defi.epreuves;
+    return [e[0].item].concat(e[1].cartes, e[2].items);
+  }
   var CLE = 'globecurios_etat_v1';
   var CLE_COPIE = 'globecurios_code_copie';
   var CLE_LANGUE = 'globecurios_langue';
@@ -127,10 +167,11 @@
   function bouton(texte, action, classe) {
     return h('button', { type: 'button', class: 'bouton' + (classe ? ' ' + classe : ''), onclick: action }, texte);
   }
-  function image(item) { return RACINE + item.img; }
-  function photo(item, rapprochee) {
+  function image(item) { return RACINE + 'img/' + C.nomPhoto(item.id) + '.jpg'; }
+  // Tant que le nom n'est pas donné, le texte de remplacement de la photo ne le donne pas non plus.
+  function photo(item, rapprochee, nomCache) {
     return h('figure', { class: 'photo' + (rapprochee ? ' zoom' : '') },
-      h('img', { src: image(item), alt: rapprochee ? t('commun.detail_alt') : item.nom, width: 560, height: 420 }));
+      h('img', { src: image(item), alt: rapprochee ? t('commun.detail_alt') : nomCache ? t('commun.photo_alt') : item.nom, width: 560, height: 420 }));
   }
   function auteur(item) {
     return item.credit.depot ? t('credit.compte', { nom: item.credit.auteur }) : item.credit.auteur;
@@ -159,7 +200,8 @@
       entete: t('partage.entete', { marque: MARQUE, n: C.numeroDuJour(jour), date: dateDuDefi(jour), total: total }),
       epreuves: [t('origine.nom'), t('intrus.nom'), t('liens.nom')],
       serie: serie > 1 ? t('partage.serie', { n: serie }) : '',
-      invite: t('partage.invite', { adresse: D.adresse })
+      // Lien complet vers la page de la langue : l'aperçu du message est alors dans la bonne langue.
+      invite: t('partage.invite', { adresse: 'https://' + D.adresse + '/' + LANGUE + '/' })
     });
   }
   function resultatEnMots(scores) {
@@ -185,6 +227,22 @@
     } else presse();
   }
   function estTactile() { return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches); }
+  var ANIMER = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  // Fait apparaître un élément (verdict, bouton suivant) s'il est sous le bord de l'écran.
+  function montrer(el) {
+    requestAnimationFrame(function () {
+      if (el && el.isConnected) el.scrollIntoView({ block: 'nearest', behavior: ANIMER ? 'smooth' : 'auto' });
+    });
+  }
+  // Petite animation (secousse, rebond) rejouée à chaque appel.
+  function animer(el, classe) {
+    if (!ANIMER || !el) return;
+    el.classList.remove(classe);
+    void el.offsetWidth;
+    el.classList.add(classe);
+  }
+  function vibrer(motif) { if (navigator.vibrate) { try { navigator.vibrate(motif); } catch (e) { /* refusé */ } } }
+  function precharger(ids) { ids.forEach(function (id) { var i = new Image(); i.src = image(ITEMS[id]); }); }
 
   // ---------- Navigation ----------
   function partieEnCours() {
@@ -200,8 +258,27 @@
       if (maintenant !== JOUR && !(vue === 'jeu' && partieEnCours())) JOUR = maintenant;
     }
     if (etat.enCours && etat.enCours.jour !== JOUR) etat.enCours = null;
+    // Textes nécessaires à la vue : on les charge d'abord (le plus souvent ils sont déjà là).
+    var ids = vue === 'jeu' && !etat.jours[JOUR] ? idsDuDefi(C.construireDefi(D, JOUR))
+      : vue === 'revision' ? C.aRevoir(etat, JOUR)
+        : vue === 'album' ? Object.keys(etat.album) : [];
+    var monJeton = ++jeton, pret = false;
+    textes(ids, function (erreur) {
+      if (monJeton !== jeton) return; // le joueur est passé à autre chose entre-temps
+      pret = true;
+      if (erreur) {
+        remplacer(app, h('section', { class: 'carte centre' }, h('p', {}, t('commun.erreur_chargement')),
+          bouton(t('commun.reessayer'), function () { afficher(); })));
+      } else dessinerVue();
+    });
+    if (!pret) remplacer(app, h('section', { class: 'carte centre', 'aria-busy': 'true' }, h('p', { class: 'doux' }, t('commun.chargement'))));
+  }
+  var jeton = 0;
+  function dessinerVue() {
     var contenu = { accueil: vueAccueil, jeu: vueJeu, atlas: vueAtlas, album: vueAlbum, revision: vueRevision, regles: vueRegles }[vue]();
     remplacer(app, contenu);
+    // Pendant le défi, la barre du bas disparaît : toute la hauteur de l'écran sert au jeu.
+    document.body.classList.toggle('en-jeu', vue === 'jeu');
     document.querySelectorAll('.barre button').forEach(function (b) {
       var actif = b.getAttribute('data-vue') === (vue === 'jeu' ? 'accueil' : vue);
       if (actif) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
@@ -292,7 +369,10 @@
           bouton(t('accueil.reviser'), function () { afficher('revision'); }, 'secondaire')));
       }
     } else {
+      // Aperçu : le détail de la photo du jour, c'est-à-dire le premier indice (rien n'est dévoilé).
+      var vedette = ITEMS[C.construireDefi(D, JOUR).epreuves[0].item];
       blocs.push(h('section', { class: 'carte' },
+        h('figure', { class: 'loupe', 'aria-hidden': 'true' }, h('img', { src: image(vedette), alt: '', width: 560, height: 420 })),
         h('span', { class: 'etiquette' }, [t('defi.numero', { n: C.numeroDuJour(JOUR) }), ESSAI === null ? dateDuJour() : t('defi.hors_serie'),
           t('defi.niveau', { niveau: t('niveau.' + niveau) })].join(' · ')),
         h('h1', {}, t(C.estDimanche(JOUR) ? 'accueil.titre_dimanche' : 'accueil.titre')),
@@ -301,15 +381,18 @@
     }
     if (ESSAI !== null) return blocs;
 
-    blocs.push(h('div', { class: 'chiffres' },
-      h('div', {}, h('b', {}, serie), h('span', {}, t('chiffres.serie', { n: serie }))),
-      h('div', {}, h('b', {}, etat.meilleureSerie), h('span', {}, t('chiffres.record'))),
-      h('div', {}, h('b', {}, bilan.decouverts + '/' + bilan.total), h('span', {}, t('chiffres.pays')))));
+    var stats = C.statistiques(etat);
+    // Avant la première partie, des compteurs à zéro n'apprennent rien : on les montre ensuite.
+    if (stats.parties > 0) {
+      blocs.push(h('div', { class: 'chiffres' },
+        h('div', {}, h('b', {}, serie), h('span', {}, t('chiffres.serie', { n: serie }))),
+        h('div', {}, h('b', {}, etat.meilleureSerie), h('span', {}, t('chiffres.record'))),
+        h('div', {}, h('b', {}, bilan.decouverts + '/' + bilan.total), h('span', {}, t('chiffres.pays')))));
+    }
     if (serie >= 2) {
       var attente = etat.jokerLe === null ? 0 : Math.max(0, 7 - (JOUR - etat.jokerLe));
       blocs.push(h('p', { class: 'petit doux centre' }, attente === 0 ? t('joker.disponible') : t('joker.utilise', { n: attente })));
     }
-    var stats = C.statistiques(etat);
     if (stats.parties > 0) {
       var maxi = Math.max.apply(null, stats.repartition) || 1;
       var resume = [t('stats.parties', { n: stats.parties }), t('stats.moyenne', { n: stats.moyenne }), t('stats.meilleur', { n: stats.meilleur })];
@@ -351,8 +434,12 @@
     var enCours = etat.enCours && etat.enCours.jour === JOUR ? etat.enCours : { jour: JOUR, index: 0, scores: [], partiel: null };
     var index = enCours.index;
     var epreuve = defi.epreuves[index];
-    var etapes = h('div', { class: 'etapes', role: 'img', 'aria-label': t('jeu.etape', { n: index + 1 }) },
-      [0, 1, 2].map(function (n) { return h('i', { class: n < index ? 'passee' : n === index ? 'ici' : '' }); }));
+    var etapes = h('div', { class: 'haut-jeu' },
+      h('div', { class: 'etapes', role: 'img', 'aria-label': t('jeu.etape', { n: index + 1 }) },
+        [0, 1, 2].map(function (n) { return h('i', { class: n < index ? 'passee' : n === index ? 'ici' : '' }); })),
+      h('button', { type: 'button', class: 'quitter', 'aria-label': t('jeu.quitter'), title: t('jeu.quitter'),
+        onclick: function () { afficher('accueil'); } }, '×'));
+    if (index === 0) precharger(idsDuDefi(defi));
 
     // Mémorise un essai manqué : recharger la page ne rend pas les essais.
     function memoriser(partiel) {
@@ -371,10 +458,12 @@
       if (termine) messageJoker = C.terminerJour(etat, jourJoue, enCours.scores).joker;
       sauver();
       majEntete();
-      return bouton(t(termine ? 'jeu.voir_resultat' : 'jeu.suivante'), function () {
+      var suite = bouton(t(termine ? 'jeu.voir_resultat' : 'jeu.suivante'), function () {
         if (termine) resultatDe = jourJoue;
         afficher(termine ? 'accueil' : 'jeu');
       });
+      montrer(suite);
+      return suite;
     }
     var corps = epreuve.type === 'origine' ? epreuveOrigine(epreuve, enCours.partiel, memoriser, valider)
       : epreuve.type === 'intrus' ? epreuveIntrus(epreuve, enCours.partiel, memoriser, valider)
@@ -387,21 +476,27 @@
     var item = ITEMS[epreuve.item];
     var tentatives = partiel && Array.isArray(partiel.t) ? partiel.t.slice() : []; // code de pays, ou null si indice demandé
     var cadre = h('section', { class: 'carte' });
+    var dezoomer = false; // vrai juste après l'indice 1 : la photo se dévoile en reculant
 
     function historique() {
       if (!tentatives.length) return null;
-      return h('ul', { class: 'essais' }, tentatives.map(function (code) {
-        if (code === null) return h('li', {}, t('origine.indice_demande'));
-        return h('li', {}, riche(continent(code) === continent(item.pays) ? 'origine.essai_bon_continent' : 'origine.essai_autre_continent',
-          { pays: pays(code) }));
-      }));
+      var demandes = tentatives.filter(function (c) { return c === null; }).length;
+      var lignes = tentatives.filter(function (c) { return c !== null; }).map(function (code) {
+        var proche = continent(code) === continent(item.pays);
+        return h('li', { class: proche ? 'proche' : '' },
+          riche(proche ? 'origine.essai_bon_continent' : 'origine.essai_autre_continent', { pays: pays(code) }));
+      });
+      if (demandes) lignes.push(h('li', { class: 'neutre' }, t('origine.indice_demande') + (demandes > 1 ? ' ×' + demandes : '')));
+      return h('ul', { class: 'essais' }, lignes);
     }
     function proposer(code) {
       if (code === item.pays) { finir(true); return; }
       tentatives.push(code);
       if (tentatives.length >= 4) { finir(false); return; }
       memoriser({ t: tentatives });
+      dezoomer = tentatives.length === 1;
       dessiner();
+      if (code !== null) { animer(cadre, 'secoue'); vibrer(40); }
       cadre.focus({ preventScroll: true });
     }
     function finir(reussi) {
@@ -410,29 +505,51 @@
       // L'atlas ne retient que les curiosités reconnues à la photo, avant que le nom soit donné.
       C.noterReponse(etat, item.id, item.pays, reussi && numero <= 2, JOUR);
       var texte = t(reussi ? 'origine.trouve.' + numero : 'origine.rate', { pays: pays(item.pays) });
+      var verdict = h('p', { class: 'verdict ' + (reussi ? (numero === 1 ? 'bon' : 'moyen') : 'mauvais') }, texte + ' ' + points(score));
+      var cliche = photo(item);
+      if (tentatives.length === 0) cliche.classList.add('dezoom'); // trouvé sur le détail : on recule pour voir la photo
       remplacer(cadre, h('span', { class: 'etiquette' }, t('origine.nom') + ' · ' + categorie(item)),
-        photo(item), h('p', { class: 'nom' }, item.nom), historique(),
-        h('p', { class: 'verdict ' + (reussi ? (numero === 1 ? 'bon' : 'moyen') : 'mauvais') }, texte + ' ' + points(score)),
-        savoir(item), conclure(score));
+        cliche, h('p', { class: 'nom' }, item.nom), historique(), verdict, savoir(item), conclure(score));
+      if (reussi) { animer(verdict, 'rebond'); vibrer(20); } else vibrer([30, 50, 30]);
+    }
+    // Recherche d'un pays : on tape quelques lettres, les pays qui correspondent s'affichent.
+    // Après un essai sur le bon continent, les pays de ce continent passent en tête.
+    function recherche(essayes) {
+      var proche = null;
+      tentatives.forEach(function (c) { if (c !== null && continent(c) === continent(item.pays)) proche = continent(c); });
+      var reduire = function (s) { return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
+      var candidats = Object.keys(D.pays).filter(function (c) { return essayes.indexOf(c) < 0; })
+        .map(function (c) { return { code: c, nom: pays(c), cle: reduire(pays(c)) }; });
+      var champ = h('input', { type: 'search', class: 'champ-pays', placeholder: t('origine.recherche'), 'aria-label': t('origine.select_label'),
+        autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', enterkeyhint: 'go' });
+      var resultats = h('div', { class: 'choix resultats', 'aria-live': 'polite' });
+      function filtrer() {
+        var q = reduire(champ.value.trim());
+        if (!q) { remplacer(resultats); return; }
+        var trouves = candidats.filter(function (c) {
+          return c.cle.indexOf(q) === 0 || c.cle.split(/[\s'’-]+/).some(function (mot) { return mot.indexOf(q) === 0; });
+        }).sort(function (a, b) {
+          var pa = proche && continent(a.code) === proche ? 0 : 1, pb = proche && continent(b.code) === proche ? 0 : 1;
+          return pa - pb || (a.cle.indexOf(q) === 0 ? 0 : 1) - (b.cle.indexOf(q) === 0 ? 0 : 1) || parNom(a.nom, b.nom);
+        }).slice(0, 6);
+        remplacer(resultats, trouves.length ? trouves.map(function (c) {
+          return h('button', { type: 'button', onclick: function () { proposer(c.code); } }, c.nom);
+        }) : h('p', { class: 'petit doux' }, t('origine.aucun')));
+      }
+      champ.addEventListener('input', filtrer);
+      champ.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+        var premier = resultats.querySelector('button');
+        if (premier) { e.preventDefault(); premier.click(); }
+      });
+      return [champ, resultats];
     }
     function dessiner() {
       var etape = tentatives.length;
       var essayes = tentatives.filter(function (c) { return c !== null; });
       var saisie;
       if (etape < 3) {
-        var groupes = {};
-        Object.keys(D.pays).forEach(function (code) {
-          if (essayes.indexOf(code) < 0) (groupes[continent(code)] = groupes[continent(code)] || []).push(code);
-        });
-        var liste = h('select', { 'aria-label': t('origine.select_label') }, h('option', { value: '' }, t('origine.choisir')),
-          Object.keys(groupes).sort(function (a, b) { return parNom(nomContinent(a), nomContinent(b)); }).map(function (cle) {
-            return h('optgroup', { label: nomContinent(cle) }, groupes[cle].sort(function (a, b) { return parNom(pays(a), pays(b)); })
-              .map(function (code) { return h('option', { value: code }, pays(code)); }));
-          }));
-        var bValider = bouton(t('commun.valider'), function () { if (liste.value) proposer(liste.value); });
-        bValider.disabled = true;
-        liste.addEventListener('change', function () { bValider.disabled = !liste.value; });
-        saisie = [liste, bValider, bouton(t('origine.indice_suivant'), function () { proposer(null); }, 'secondaire')];
+        saisie = recherche(essayes).concat([bouton(t('origine.indice_suivant'), function () { proposer(null); }, 'secondaire')]);
       } else {
         saisie = h('div', { class: 'choix' }, epreuve.options.map(function (code) {
           var b = h('button', { type: 'button', onclick: function () { proposer(code); } }, pays(code));
@@ -440,9 +557,12 @@
           return b;
         }));
       }
+      var cliche = photo(item, etape === 0, etape < 2);
+      if (dezoomer) cliche.classList.add('dezoom');
+      dezoomer = false;
       remplacer(cadre,
         h('span', { class: 'etiquette' }, t('origine.etiquette', { n: etape + 1, points: C.POINTS_ORIGINE[etape] })),
-        photo(item, etape === 0),
+        cliche,
         etape >= 2 ? h('p', { class: 'nom' }, item.nom, h('span', { class: 'categorie' }, ' · ' + categorie(item))) : null,
         h('p', { class: 'consigne' }, t('origine.consigne')),
         h('p', { class: 'petit doux', 'aria-live': 'polite' }, t('origine.indice.' + (etape + 1))),
@@ -469,13 +589,20 @@
         });
         if (!juste) b.classList.add('fausse');
         noter(juste);
-        remplacer(suite, h('p', { class: 'verdict ' + (juste ? 'bon' : 'mauvais') },
-          t(juste ? 'revision.exact' : 'origine.rate', { pays: pays(item.pays) })), savoir(item), suivant());
+        // Le nom n'apparaît qu'après la réponse : on se souvient de la photo, pas de l'étiquette.
+        nom.textContent = item.nom;
+        nom.hidden = false;
+        var verdict = h('p', { class: 'verdict ' + (juste ? 'bon' : 'mauvais') },
+          t(juste ? 'revision.exact' : 'origine.rate', { pays: pays(item.pays) }));
+        remplacer(suite, verdict, savoir(item), suivant());
+        if (juste) animer(verdict, 'rebond'); else animer(b, 'secoue');
+        montrer(suite.lastChild);
       } }, pays(code));
       return b;
     });
+    var nom = h('p', { class: 'nom', hidden: true });
     return h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, t('revision.titre') + ' · ' + categorie(item)),
-      photo(item), h('p', { class: 'nom' }, item.nom),
+      photo(item, false, true), nom,
       h('p', { class: 'consigne' }, t('origine.consigne')),
       h('div', { class: 'choix' }, boutons), suite);
   }
@@ -485,16 +612,19 @@
     var faux = partiel && Array.isArray(partiel.faux) ? partiel.faux.slice() : [];
     var fini = false;
     var suite = h('div', { 'aria-live': 'polite' });
-    var encore = function () { return h('p', { class: 'verdict moyen' }, t('intrus.encore')); };
+    // Après une erreur, on dit d'où vient la carte touchée : le second essai devient un raisonnement.
+    var encore = function () { return h('p', { class: 'verdict moyen' }, t('intrus.encore_pays', { pays: pays(epreuve.paysTrio) })); };
+    // Les noms ne s'affichent qu'une fois l'épreuve tranchée : on juge sur les photos.
     var cartes = epreuve.cartes.map(function (id) {
       var item = ITEMS[id];
-      var carte = h('button', { type: 'button', class: 'vignette', onclick: function () {
+      var carte = h('button', { type: 'button', class: 'vignette', 'aria-label': t('commun.photo_alt'), onclick: function () {
         if (fini || carte.disabled) return;
         var juste = id === epreuve.intrus;
         if (!juste) {
           faux.push(id);
           carte.classList.add('fausse');
           carte.disabled = true;
+          animer(carte, 'secoue'); vibrer(40);
           if (faux.length < 2) { memoriser({ faux: faux }); remplacer(suite, encore()); return; }
         }
         fini = true;
@@ -502,8 +632,12 @@
         cartes.forEach(function (autre, n) {
           var autreItem = ITEMS[epreuve.cartes[n]];
           autre.disabled = true;
+          autre.removeAttribute('aria-label');
           if (autreItem.id === epreuve.intrus) autre.classList.add('juste');
+          autre.appendChild(h('span', {}, autreItem.nom));
           autre.appendChild(h('small', {}, pays(autreItem.pays)));
+          // Les trois cartes du même pays entrent aussi dans l'album : on les a vues.
+          if (ESSAI === null && etat.album[autreItem.id] === undefined) etat.album[autreItem.id] = JOUR;
         });
         C.noterReponse(etat, epreuve.intrus, epreuve.paysIntrus, juste && essais === 1, JOUR);
         var score = C.pointsParEssais(essais, juste);
@@ -514,7 +648,8 @@
               t('intrus.explication', { nom: intrus.nom, pays: pays(epreuve.paysIntrus), trio: pays(epreuve.paysTrio) }),
               points(score)].join(' ')),
           savoir(intrus), conclure(score));
-      } }, h('img', { src: image(item), alt: '', width: 280, height: 210 }), h('span', {}, item.nom));
+        if (juste) { animer(cartes[epreuve.cartes.indexOf(epreuve.intrus)], 'rebond'); vibrer(20); }
+      } }, h('img', { src: image(item), alt: '', width: 280, height: 210 }));
       if (faux.indexOf(id) >= 0) { carte.classList.add('fausse'); carte.disabled = true; }
       return carte;
     });
@@ -575,19 +710,22 @@
       var score = C.pointsLiens(justes);
       bValider.remove();
       rafraichir();
-      remplacer(suite,
-        h('p', { class: 'verdict ' + (justes === 4 ? 'bon' : justes > 0 ? 'moyen' : 'mauvais') },
-          [justes === 4 ? t('liens.tout_juste') : t('liens.partiel', { n: justes }),
-            t('liens.en_trop', { pays: pays(epreuve.paysEnTrop) }), points(score)].join(' ')),
+      var verdict = h('p', { class: 'verdict ' + (justes === 4 ? 'bon' : justes > 0 ? 'moyen' : 'mauvais') },
+        [justes === 4 ? t('liens.tout_juste') : t('liens.partiel', { n: justes }),
+          t('liens.en_trop', { pays: pays(epreuve.paysEnTrop) }), points(score)].join(' '));
+      remplacer(suite, verdict,
         epreuve.items.map(function (id) {
           return h('p', { class: 'fait petit' },
             h('b', {}, t('liens.titre_fait', { nom: ITEMS[id].nom, pays: pays(ITEMS[id].pays) }) + ' '), ITEMS[id].fait);
         }),
-        h('p', { class: 'credit' }, t('liens.photos') + ' ', epreuve.items.map(function (id, n) {
-          return [n ? ' · ' : '', h('a', { href: ITEMS[id].credit.page, target: '_blank', rel: 'noopener' },
-            auteur(ITEMS[id]) + ' (' + ITEMS[id].credit.licence + ')')];
-        })),
+        // Crédits des quatre photos, repliés pour ne pas noyer la fin de l'épreuve.
+        h('details', { class: 'credit' }, h('summary', {}, t('liens.photos').replace(/\s*[:：]\s*$/, '')),
+          epreuve.items.map(function (id, n) {
+            return [n ? ' · ' : '', h('a', { href: ITEMS[id].credit.page, target: '_blank', rel: 'noopener' },
+              auteur(ITEMS[id]) + ' (' + ITEMS[id].credit.licence + ')')];
+          })),
         conclure(score));
+      if (justes === 4) { animer(verdict, 'rebond'); vibrer(20); } else if (justes === 0) vibrer([30, 50, 30]);
     });
     var rangs = epreuve.items.map(function (id) {
       var item = ITEMS[id];
@@ -621,15 +759,23 @@
       h('div', { class: 'jauge', role: 'img', 'aria-label': t('atlas.jauge', { n: bilan.decouverts, total: bilan.total }) },
         h('i', { style: 'width:' + Math.round(100 * bilan.decouverts / bilan.total) + '%' })),
       h('p', { class: 'petit doux' }, t('atlas.regle')))];
+    // Par continent : d'abord les pays rencontrés, du mieux connu au moins connu ; les autres sont repliés.
     Object.keys(continents).sort(function (a, b) { return parNom(nomContinent(a), nomContinent(b)); }).forEach(function (cle) {
-      var codes = continents[cle].sort(function (a, b) { return parNom(pays(a), pays(b)); });
-      blocs.push(h('section', { class: 'carte' }, h('h2', {}, nomContinent(cle)), codes.map(function (code) {
+      var codes = continents[cle].sort(function (a, b) {
+        return C.niveau(etat.atlas[b]) - C.niveau(etat.atlas[a]) || parNom(pays(a), pays(b));
+      });
+      var ligne = function (code) {
         var fiche = etat.atlas[code];
         var n = C.niveau(fiche);
         return h('div', { class: 'pays' },
           h('span', {}, h('b', {}, pays(code)), fiche ? h('span', { class: 'petit doux' }, '  ' + t('atlas.score', fiche)) : null),
           h('span', { class: 'niveau n' + n }, t('atlas.niveau.' + n)));
-      })));
+      };
+      var connus = codes.filter(function (c) { return C.niveau(etat.atlas[c]) > 0; });
+      var autres = codes.filter(function (c) { return C.niveau(etat.atlas[c]) === 0; });
+      blocs.push(h('section', { class: 'carte' }, h('h2', {}, nomContinent(cle) + ' · ' + connus.length + '/' + codes.length),
+        connus.map(ligne),
+        autres.length ? h('details', { class: 'a-decouvrir' }, h('summary', {}, t('atlas.a_decouvrir', { n: autres.length })), autres.map(ligne)) : null));
     });
     return blocs;
   }
@@ -687,7 +833,9 @@
         var reste = C.toutesARevoir(etat, JOUR).length;
         remplacer(cadre, h('section', { class: 'carte centre' }, h('h1', {}, t('revision.terminee')),
           h('p', {}, t(justes === liste.length ? 'revision.bilan_tout' : 'revision.bilan', { n: justes, total: liste.length })),
-          reste > 0 ? bouton(t('revision.continuer', { n: reste }), function () { afficher('revision'); }) : null,
+          // Défi du jour pas encore joué : c'est la suite naturelle.
+          !etat.jours[JOUR] && ESSAI === null ? bouton(t('accueil.jouer'), function () { afficher('jeu'); }) : null,
+          reste > 0 ? bouton(t('revision.continuer', { n: reste }), function () { afficher('revision'); }, etat.jours[JOUR] ? '' : 'secondaire') : null,
           bouton(t('revision.voir_atlas'), function () { afficher('atlas'); }, 'secondaire')));
         return;
       }
@@ -739,11 +887,19 @@
     }, 'secondaire');
     var credits = h('details', {}, h('summary', {}, t('sources.credits', { n: D.items.length })));
     credits.addEventListener('toggle', function () {
-      if (!credits.open || credits.querySelector('ul')) return;
-      credits.appendChild(h('ul', { class: 'credits-liste' }, D.items.map(function (item) {
-        return h('li', {}, riche('sources.credit_ligne', { nom: item.nom, auteur: auteur(item), licence: item.credit.licence },
-          { href: item.credit.page, target: '_blank', rel: 'noopener' }));
-      })));
+      if (!credits.open || credits.querySelector('ul, .attente')) return;
+      var echec = credits.querySelector('.echec');
+      if (echec) echec.remove();
+      var attente = h('p', { class: 'petit doux attente', 'aria-busy': 'true' }, t('commun.chargement'));
+      credits.appendChild(attente);
+      textes(D.items.map(function (i) { return i.id; }), function (erreur) {
+        attente.remove();
+        if (erreur) { credits.appendChild(h('p', { class: 'petit echec' }, t('commun.erreur_chargement'))); return; }
+        credits.appendChild(h('ul', { class: 'credits-liste' }, D.items.map(function (item) {
+          return h('li', {}, riche('sources.credit_ligne', { nom: item.nom, auteur: auteur(item), licence: item.credit.licence },
+            { href: item.credit.page, target: '_blank', rel: 'noopener' }));
+        })));
+      });
     });
     var erreur = signaler(null);
     return [
@@ -779,4 +935,6 @@
     document.querySelector('.barre').hidden = true;
   }
   afficher('accueil');
+  // Les textes du défi du jour arrivent pendant que le joueur lit l'accueil : « Jouer » s'ouvre aussitôt.
+  if (!etat.jours[JOUR]) textes(idsDuDefi(C.construireDefi(D, JOUR)), function () {});
 })();

@@ -1,0 +1,1 @@
+GC_PAQUET("ar",123,{"pu-erh":["شاي بوير","كان هذا الشاي الداكن من يونان يُضغط ليسافر مع القوافل حتى التبت؛ ويمكن أن تتحسن جودته مع الزمن، كما هو حال النبيذ.","https://ar.wikipedia.org/wiki/%D8%B4%D8%A7%D9%8A_%D8%A8%D9%88%D9%8A%D8%B1","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

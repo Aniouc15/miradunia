@@ -1,0 +1,1 @@
+GC_PAQUET("pt",123,{"pu-erh":["Chá pu-erh","Este chá escuro de Yunnan era prensado para viajar em caravana até o Tibete; ele pode melhorar com o tempo, assim como o vinho.","https://pt.wikipedia.org/wiki/Ch%C3%A1_puerh","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

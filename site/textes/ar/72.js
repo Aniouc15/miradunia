@@ -1,0 +1,1 @@
+GC_PAQUET("ar",72,{"zabid":["زبيد","إحدى أقدم مدن البلاد، كانت عاصمتها بين القرن الثالث عشر والقرن الخامس عشر؛ وكانت جامعتها آنذاك مرموقة.","https://ar.wikipedia.org/wiki/%D8%B2%D8%A8%D9%8A%D8%AF_%28%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AF%D8%A9%29","Ahron de Leeuw from Amsterdam, Netherlands","CC BY 2.0","https://commons.wikimedia.org/wiki/File:Zabid,_Yemen.jpg",0]});

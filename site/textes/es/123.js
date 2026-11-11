@@ -1,0 +1,1 @@
+GC_PAQUET("es",123,{"pu-erh":["Té pu-erh","Este té oscuro de Yunnan se prensaba para viajar en caravana hasta el Tíbet; puede mejorar con el tiempo, al igual que el vino.","https://es.wikipedia.org/wiki/Pu-erh","Jason Fasi","CC BY 2.5","https://commons.wikimedia.org/wiki/File:Xiaguan_1992_tuo_cha.jpg",0]});

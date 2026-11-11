@@ -1,6 +1,6 @@
 {
-  "name": "GlobeCurios",
-  "short_name": "GlobeCurios",
+  "name": "GlobeCurious",
+  "short_name": "GlobeCurious",
   "description": "Around the world in 3 curiosities a day",
   "start_url": "./",
   "scope": "./",

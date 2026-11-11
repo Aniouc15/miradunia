@@ -25,7 +25,7 @@ DOSSIER_IMG = RACINE / "site" / "img"
 TRACES = RACINE / "outils" / "traces"
 SORTIE = RACINE / "outils" / "cache" / "donnees.json"
 RAPPORT = RACINE / "outils" / "rapport_donnees.txt"
-AGENT = "GlobeCuriousDataBuilder/0.2 (https://aniouc15.github.io/globecurios/; jeu educatif statique)"
+AGENT = "MiraduniaDataBuilder/0.2 (https://aniouc15.github.io/miradunia/; jeu educatif statique)"
 MINIMUM_PAR_PAYS = 4
 LICENCES_OK = ("cc", "public domain", "pd", "gfdl", "gpl", "lgpl", "fal", "no restrictions", "attribution",
                "copyrighted free use", "licence ouverte", "kogl type 1")

@@ -1,12 +1,12 @@
-# GlobeCurious
+# Miradunia
 
 Jeu quotidien gratuit : trois épreuves par jour sur les curiosités du monde (plats, monuments, fêtes, traditions, instruments, objets) à rattacher à leur pays. Site statique, sans serveur, sans compte, sans dépendance, prévu pour plusieurs langues (une page par langue).
 
-En ligne : https://aniouc15.github.io/globecurios/ (la page d'accueil envoie vers la langue du joueur, par exemple `fr/`).
+En ligne : https://aniouc15.github.io/miradunia/ (anciens noms : GlobeCurios, puis GlobeCurious ; l'ancienne adresse aniouc15.github.io/globecurios redirige ici) (la page d'accueil envoie vers la langue du joueur, par exemple `fr/`).
 
 ## Jouer en local
 
-Double-cliquer sur `Ouvrir GlobeCurious.bat`, ou ouvrir `site\index.html` dans un navigateur.
+Double-cliquer sur `Ouvrir Miradunia.bat`, ou ouvrir `site\index.html` dans un navigateur.
 
 - `site\fr\index.html?essai=12` joue le défi n° 12 hors série, sans rien enregistrer. En ligne, seuls les défis passés s'ouvrent ainsi ; sur le PC (fichier local ou `localhost`), tous s'ouvrent, pour tester.
 - La progression (série, atlas, album, révisions) reste dans le navigateur ; elle est commune à toutes les langues.

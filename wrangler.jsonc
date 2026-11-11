@@ -1,0 +1,17 @@
+// Hébergement du jeu sur Cloudflare (compte de netvtc.com), à l'adresse https://miradunia.netvtc.com/.
+// Worker sans code : il sert seulement les fichiers du dossier site/ (gratuit). Mise en ligne : voir le README.
+{
+  "$schema": "https://unpkg.com/wrangler@4.92.0/config-schema.json",
+  "name": "miradunia",
+  "compatibility_date": "2026-05-15",
+  "assets": {
+    "directory": "./site",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "miradunia.netvtc.com", "custom_domain": true }
+  ],
+  "workers_dev": false,
+  "preview_urls": false
+}

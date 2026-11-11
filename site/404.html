@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miradunia</title>
+<meta name="robots" content="noindex">
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f5efe3; color: #1f2a2e;
+    font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 16px; }
+  h1 { color: #0f6b6b; font: 700 1.8rem Georgia, serif; margin: 0 0 8px; }
+  a { color: #0f6b6b; font-weight: 700; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Miradunia</h1>
+  <p>Cette page n'existe pas. · This page does not exist.</p>
+  <p><a id="accueil" href="/">Miradunia</a></p>
+</main>
+<script>
+  // Le jeu vit à la racine de son adresse, ou sous /miradunia/ sur GitHub Pages.
+  if (location.pathname.indexOf('/miradunia/') === 0) document.getElementById('accueil').href = '/miradunia/';
+</script>
+</body>
+</html>

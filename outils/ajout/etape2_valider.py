@@ -59,6 +59,19 @@ existants_nom = {simple(i["nom"]) for i in SOURCE["items"]}
 existants_qid = set()
 if DONNEES.exists():
     existants_qid = {i.get("wikidata") for i in json.loads(DONNEES.read_text(encoding="utf-8"))["items"] if i.get("wikidata")}
+# Curiosités refusées à une tranche précédente (photo ou relecture) : ni le même identifiant ni le même article.
+for refus in glob.glob(str(RACINE / "travail" / "tranche_*" / "photos_refusees.txt")) + glob.glob(str(RACINE / "travail" / "tranche_*" / "retraits_relecture.txt")):
+    if Path(refus).parent == DOSSIER:
+        continue
+    wikis = {}
+    if (Path(refus).parent / "valides.json").exists():
+        wikis = {i["id"]: i["wiki"] for i in json.loads((Path(refus).parent / "valides.json").read_text(encoding="utf-8"))["items"]}
+    for ligne in Path(refus).read_text(encoding="utf-8").splitlines():
+        ident = ligne.split(" | ")[0].strip()
+        if ident:
+            existants_id.add(ident)
+            if ident in wikis:
+                existants_wiki.add(simple(wikis[ident]))
 # Propositions déjà validées dans les autres zones de la tranche.
 for chemin in glob.glob(str(DOSSIER / "valides_z*.json")):
     if int(re.search(r"valides_z(\d+)", chemin).group(1)) in ZONES:

@@ -72,7 +72,7 @@ ROMAINS = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "M": 1000}
 def siecles(texte):
     """Siècles écrits en chiffres romains (XIIe, xiie) ou arabes (12e siècle)."""
     trouves = set()
-    for m in re.finditer(r"\b([IVXivx]+)(?:e|ᵉ|er)\b", texte):
+    for m in re.finditer(r"\b([IVX]+)(?:e|ᵉ|er)\b", texte):
         valeur, chiffres = 0, m.group(1).upper()
         for k, c in enumerate(chiffres):
             v = ROMAINS[c]

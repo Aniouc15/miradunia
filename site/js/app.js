@@ -117,11 +117,20 @@
   var surPosteLocal = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   var ESSAI = parametre !== null && /^\d{1,6}$/.test(parametre) ? parseInt(parametre, 10) - 1 : null;
   if (ESSAI !== null && (ESSAI < 0 || (ESSAI >= C.indexDuJour() && !surPosteLocal))) ESSAI = null;
+  // Défi lancé par un ami : « ?ami=210&n=12 » (son score, le numéro du défi). Un défi passé se rejoue hors série.
+  var AMI = (function () {
+    var p = new URLSearchParams(location.search), s = p.get('ami'), n = p.get('n');
+    if (!s || !n || !/^\d{1,3}$/.test(s) || !/^\d{1,6}$/.test(n)) return null;
+    var score = parseInt(s, 10), jour = parseInt(n, 10) - 1;
+    return score <= 300 && jour >= 0 && jour <= C.indexDuJour() ? { score: score, jour: jour } : null;
+  })();
+  if (ESSAI === null && AMI && AMI.jour < C.indexDuJour()) ESSAI = AMI.jour;
   var JOUR = ESSAI !== null ? ESSAI : C.indexDuJour();
   var etat = charger();
   var vue = 'accueil';
   var minuteur = null;
   var messageJoker = false;
+  var messageJokerGagne = false;
   var resultatDe = null; // jour dont on vient de finir le défi (utile si minuit est passé entre-temps)
 
   // ---------- Outils ----------
@@ -209,8 +218,9 @@
       entete: t('partage.entete', { marque: MARQUE, n: C.numeroDuJour(jour), date: dateDuDefi(jour), total: total }),
       epreuves: [t('origine.nom'), t('intrus.nom'), t('liens.nom')],
       serie: serie > 1 ? t('partage.serie', { n: serie }) : '',
-      // Lien complet vers la page de la langue : l'aperçu du message est alors dans la bonne langue.
-      invite: t('partage.invite', { adresse: 'https://' + D.adresse + '/' + LANGUE + '/' })
+      // Lien vers la page du défi dans la langue du joueur : son aperçu montre le détail du jour, et l'ami qui l'ouvre
+      // voit le score à battre.
+      invite: t('partage.invite', { adresse: 'https://' + D.adresse + '/' + LANGUE + '/j/' + C.numeroDuJour(jour) + '/?ami=' + total })
     });
   }
   function resultatEnMots(scores) {
@@ -270,7 +280,8 @@
     // Textes nécessaires à la vue : on les charge d'abord (le plus souvent ils sont déjà là).
     var ids = vue === 'jeu' && !etat.jours[JOUR] ? idsDuDefi(C.construireDefi(D, JOUR))
       : vue === 'revision' ? C.aRevoir(etat, JOUR)
-        : vue === 'album' ? Object.keys(etat.album) : [];
+        : vue === 'bonus' ? C.vedettesDeLaSemaine(D, JOUR)
+          : vue === 'album' ? Object.keys(etat.album) : [];
     var monJeton = ++jeton, pret = false;
     textes(ids, function (erreur) {
       if (monJeton !== jeton) return; // le joueur est passé à autre chose entre-temps
@@ -284,12 +295,12 @@
   }
   var jeton = 0;
   function dessinerVue() {
-    var contenu = { accueil: vueAccueil, jeu: vueJeu, atlas: vueAtlas, album: vueAlbum, revision: vueRevision, regles: vueRegles }[vue]();
+    var contenu = { accueil: vueAccueil, jeu: vueJeu, bonus: vueBonus, atlas: vueAtlas, album: vueAlbum, revision: vueRevision, regles: vueRegles }[vue]();
     remplacer(app, contenu);
     // Pendant le défi, la barre du bas disparaît : toute la hauteur de l'écran sert au jeu.
     document.body.classList.toggle('en-jeu', vue === 'jeu');
     document.querySelectorAll('.barre button').forEach(function (b) {
-      var actif = b.getAttribute('data-vue') === (vue === 'jeu' ? 'accueil' : vue);
+      var actif = b.getAttribute('data-vue') === (vue === 'jeu' || vue === 'bonus' ? 'accueil' : vue);
       if (actif) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
     majEntete();
@@ -357,6 +368,9 @@
       h('p', { class: 'score' }, fait.total + ' / 300'),
       h('p', { class: 'carres', role: 'img', 'aria-label': t('resultat.aria', { detail: resultatEnMots(fait.scores) }) }, C.carres(fait.scores)),
       messageJoker ? h('p', { class: 'petit' }, t('resultat.joker')) : null,
+      messageJokerGagne ? h('p', { class: 'petit' }, t('joker.gagne')) : null,
+      AMI && AMI.jour === jour ? h('p', { class: 'verdict ' + (fait.total > AMI.score ? 'bon' : fait.total < AMI.score ? 'mauvais' : 'moyen') },
+        t(fait.total > AMI.score ? 'ami.gagne' : fait.total < AMI.score ? 'ami.perdu' : 'ami.egal', { vous: fait.total, ami: AMI.score })) : null,
       decouverte, bPartage, bCopie,
       avecCompte ? h('p', { class: 'doux', style: 'margin:14px 0 0' }, riche('resultat.prochain', { duree: compte })) : null,
       avecCompte ? h('p', { class: 'petit doux', style: 'margin:4px 0 0' }, t('resultat.demain', { niveau: t('niveau.' + C.niveauDuJour(JOUR + 1)) })) : null);
@@ -378,6 +392,80 @@
     }
     return carte;
   }
+  // Rappel quotidien sans serveur : un rendez-vous répété chaque jour dans l'agenda du joueur.
+  var CLE_RAPPEL = 'miradunia_rappel_ajoute';
+  function deuxChiffres(n) { return (n < 10 ? '0' : '') + n; }
+  function dateAgenda(d) { return d.getFullYear() + deuxChiffres(d.getMonth() + 1) + deuxChiffres(d.getDate()); }
+  function carteRappel(fermable) {
+    var lien = 'https://' + D.adresse + '/' + LANGUE + '/';
+    var titre = t('rappel.evenement', { marque: MARQUE });
+    var heure = h('input', { type: 'time', value: '08:00', 'aria-label': t('rappel.heure'), class: 'heure-rappel' });
+    function debut() {
+      var hm = (heure.value || '08:00').split(':');
+      var d = new Date(); d.setDate(d.getDate() + 1);
+      return { jour: dateAgenda(d), h: deuxChiffres(parseInt(hm[0], 10) || 0), m: deuxChiffres(parseInt(hm[1], 10) || 0) };
+    }
+    function fait() { ecrire(CLE_RAPPEL, '1'); }
+    var bIcs = bouton(t('rappel.ics'), function () {
+      var x = debut(), maintenant = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+      var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Miradunia//FR', 'BEGIN:VEVENT', 'UID:rappel-quotidien@' + D.adresse,
+        'DTSTAMP:' + maintenant, 'DTSTART:' + x.jour + 'T' + x.h + x.m + '00', 'DURATION:PT5M', 'RRULE:FREQ=DAILY',
+        'SUMMARY:' + titre, 'URL:' + lien, 'DESCRIPTION:' + lien,
+        'BEGIN:VALARM', 'ACTION:DISPLAY', 'TRIGGER:PT0M', 'DESCRIPTION:' + titre, 'END:VALARM',
+        'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      var a = h('a', { href: URL.createObjectURL(new Blob([ics], { type: 'text/calendar' })), download: 'miradunia.ics' });
+      document.body.appendChild(a); a.click(); a.remove();
+      fait();
+    }, 'secondaire');
+    var bGoogle = h('a', { class: 'bouton secondaire', target: '_blank', rel: 'noopener', href: '#', onclick: function () {
+      var x = debut(), fin = new Date(2000, 0, 1, parseInt(x.h, 10), parseInt(x.m, 10) + 5);
+      bGoogle.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(titre) +
+        '&dates=' + x.jour + 'T' + x.h + x.m + '00/' + x.jour + 'T' + deuxChiffres(fin.getHours()) + deuxChiffres(fin.getMinutes()) + '00' +
+        '&recur=' + encodeURIComponent('RRULE:FREQ=DAILY') + '&details=' + encodeURIComponent(lien);
+      fait();
+    } }, t('rappel.google'));
+    return h('section', { class: 'carte' }, h('h2', {}, t('rappel.titre')), h('p', { class: 'doux' }, t('rappel.texte')),
+      h('p', { class: 'ligne-heure' }, h('label', {}, t('rappel.heure') + ' '), heure), bIcs, bGoogle,
+      fermable ? bouton(t('installer.plus_tard'), function (e) { fait(); e.target.closest('section').remove(); }, 'secondaire') : null);
+  }
+  // Bonus du dimanche : une fois le défi fait, retrouver le pays des vedettes de la semaine.
+  function carteBonus() {
+    if (ESSAI !== null || !C.estDimanche(JOUR) || !etat.jours[JOUR]) return null;
+    var total = C.vedettesDeLaSemaine(D, JOUR).length;
+    if (!total) return null;
+    if (etat.bonus[JOUR] !== undefined) return h('p', { class: 'petit doux centre' }, t('bonus.fait', { n: etat.bonus[JOUR], total: total }));
+    return h('section', { class: 'carte' }, h('h2', {}, t('bonus.titre')), h('p', { class: 'doux' }, t('bonus.texte')),
+      bouton(t('bonus.jouer'), function () { afficher('bonus'); }));
+  }
+  function vueBonus() {
+    var liste = C.vedettesDeLaSemaine(D, JOUR);
+    if (ESSAI !== null || !C.estDimanche(JOUR) || !etat.jours[JOUR] || etat.bonus[JOUR] !== undefined || !liste.length) {
+      vue = 'accueil'; return vueAccueil();
+    }
+    var position = 0, justes = 0, cadre = h('div', {});
+    function suivante() {
+      if (position >= liste.length) {
+        etat.bonus[JOUR] = justes;
+        sauver();
+        remplacer(cadre, h('section', { class: 'carte centre' }, h('h1', {}, t('bonus.titre')),
+          h('p', {}, t('bonus.fait', { n: justes, total: liste.length })),
+          bouton(t('revision.voir_atlas'), function () { afficher('atlas'); }, 'secondaire'),
+          bouton(t('nav.accueil'), function () { afficher('accueil'); })));
+        return;
+      }
+      var item = ITEMS[liste[position]];
+      remplacer(cadre, h('p', { class: 'petit doux' }, t('bonus.position', { n: position + 1, total: liste.length })),
+        questionSimple(C.questionRevision(D, item, JOUR), function (juste) {
+          if (juste) justes += 1;
+          C.noterReponse(etat, item.id, item.pays, juste, JOUR, true);
+        }, function () {
+          position += 1;
+          return bouton(t(position >= liste.length ? 'revision.terminer' : 'revision.suivante'), function () { suivante(); window.scrollTo(0, 0); });
+        }, t('bonus.titre').split(/\s*[:：]/)[0]));
+    }
+    suivante();
+    return [cadre];
+  }
   function vueAccueil() {
     var fait = etat.jours[JOUR];
     var bilan = C.bilanAtlas(etat, D);
@@ -389,6 +477,9 @@
     }
     if (fait) {
       blocs.push(carteResultat(JOUR, ESSAI === null));
+      var bonus = carteBonus();
+      if (bonus) blocs.push(bonus);
+      if (ESSAI === null && lire(CLE_RAPPEL) !== '1') blocs.push(carteRappel(true));
       var install = proposerInstallation();
       if (install) blocs.push(install);
       var nb = C.toutesARevoir(etat, JOUR).length;
@@ -400,6 +491,7 @@
     } else {
       // Aperçu : le détail de la photo du jour, c'est-à-dire le premier indice (rien n'est dévoilé).
       var vedette = ITEMS[C.construireDefi(D, JOUR).epreuves[0].item];
+      if (AMI && AMI.jour === JOUR) blocs.push(h('p', { class: 'verdict moyen centre' }, t('ami.bandeau', { score: AMI.score })));
       blocs.push(h('section', { class: 'carte' },
         h('figure', { class: 'loupe', 'aria-hidden': 'true' }, h('img', { src: image(vedette), alt: '', width: 560, height: 420 })),
         h('span', { class: 'etiquette' }, [t('defi.numero', { n: C.numeroDuJour(JOUR) }), ESSAI === null ? dateDuJour() : t('defi.hors_serie'),
@@ -418,9 +510,9 @@
         h('div', {}, h('b', {}, etat.meilleureSerie), h('span', {}, t('chiffres.record'))),
         h('div', {}, h('b', {}, bilan.decouverts + '/' + bilan.total), h('span', {}, t('chiffres.pays')))));
     }
-    if (serie >= 2) {
-      var attente = etat.jokerLe === null ? 0 : Math.max(0, 7 - (JOUR - etat.jokerLe));
-      blocs.push(h('p', { class: 'petit doux centre' }, attente === 0 ? t('joker.disponible') : t('joker.utilise', { n: attente })));
+    if (serie >= 1) {
+      var reserve = C.jokers(etat);
+      blocs.push(h('p', { class: 'petit doux centre' }, reserve > 0 ? t('joker.stock', { n: reserve }) : t('joker.aucun')));
     }
     if (stats.parties > 0) {
       var maxi = Math.max.apply(null, stats.repartition) || 1;
@@ -484,7 +576,11 @@
       enCours.partiel = null;
       etat.enCours = enCours;
       var termine = enCours.index >= 3;
-      if (termine) messageJoker = C.terminerJour(etat, jourJoue, enCours.scores).joker;
+      if (termine) {
+        var fin = C.terminerJour(etat, jourJoue, enCours.scores);
+        messageJoker = fin.joker;
+        messageJokerGagne = fin.jokerGagne;
+      }
       sauver();
       majEntete();
       var suite = bouton(t(termine ? 'jeu.voir_resultat' : 'jeu.suivante'), function () {
@@ -605,7 +701,7 @@
   }
 
   // Question simple à quatre choix, un seul essai : sert à la révision.
-  function questionSimple(question, noter, suivant) {
+  function questionSimple(question, noter, suivant, etiquette) {
     var item = ITEMS[question.item];
     var fini = false;
     var suite = h('div', { 'aria-live': 'polite' });
@@ -632,7 +728,7 @@
       return b;
     });
     var nom = h('p', { class: 'nom', hidden: true });
-    return h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, t('revision.titre') + ' · ' + categorie(item)),
+    return h('section', { class: 'carte' }, h('span', { class: 'etiquette' }, (etiquette || t('revision.titre')) + ' · ' + categorie(item)),
       photo(item, false, true), nom,
       h('p', { class: 'consigne' }, t('origine.consigne')),
       h('div', { class: 'choix' }, boutons), suite);
@@ -941,6 +1037,7 @@
         h('p', { class: 'petit doux' }, t('regles.couverture', { pays: Object.keys(D.pays).length, curiosites: D.items.length }),
           erreur ? ' ' : null, erreur)),
       (D.langues || []).length > 1 ? choixDeLangue() : null,
+      carteRappel(false),
       h('section', { class: 'carte' }, h('h2', {}, t('sauvegarde.titre')),
         h('p', { class: 'doux' }, t('sauvegarde.texte')),
         code, bCopier,

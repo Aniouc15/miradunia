@@ -266,6 +266,97 @@ def versions_et_vagues(ids):
     return versions, vagues
 
 
+MODELE_JOUR = """<!doctype html>
+<html lang="{code}" dir="{dir}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{titre}</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="{description}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{marque}">
+<meta property="og:title" content="{titre}">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{url_page}">
+<meta property="og:image" content="{image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="{og}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{url_langue}">
+<link rel="icon" href="../../../icone.svg" type="image/svg+xml">
+<script>location.replace('../../' + (location.protocol === 'file:' ? 'index.html' : '') + '?n={n}' + (location.search ? '&' + location.search.slice(1) : ''));</script>
+</head>
+<body><p><a href="../../">{marque}</a></p></body>
+</html>
+"""
+
+
+def vedettes_par_jour(premier, dernier):
+    """Vedette de chaque défi, calculée par site/js/core.js (le même calcul que dans le navigateur)."""
+    import subprocess
+    script = ("const vm=require('vm'),fs=require('fs');const b={window:{}};"
+              "vm.runInNewContext(fs.readFileSync(process.argv[1],'utf8'),b);const C=require(process.argv[2]);const r={};"
+              "for(let j=%d;j<=%d;j++)r[j]=C.construireDefi(b.window.GC_DATA,j).epreuves[0].item;process.stdout.write(JSON.stringify(r))") % (premier, dernier)
+    sortie = subprocess.run(["node", "-e", script, str(SITE / "data" / "data.js"), str(SITE / "js" / "core.js")],
+                            capture_output=True, text=True, encoding="utf-8", check=True).stdout
+    return {int(j): i for j, i in json.loads(sortie).items()}
+
+
+def image_du_jour(cible, numero, photo, credit, marque):
+    """Aperçu d'un défi pour les partages : le détail de la photo (le premier indice, qui ne dévoile rien), le numéro et le crédit."""
+    from PIL import Image, ImageDraw, ImageFont
+    def police(nom, taille):
+        try:
+            return ImageFont.truetype(nom, taille)
+        except OSError:
+            return ImageFont.load_default()
+    fond = Image.new("RGB", (1200, 630), "#f5efe3")
+    dessin = ImageDraw.Draw(fond)
+    source = Image.open(photo).convert("RGB")
+    cote = int(min(source.size) / 2.2)
+    cx, cy = source.size[0] // 2, source.size[1] // 2
+    detail = source.crop((cx - cote // 2, cy - cote // 2, cx + cote // 2, cy + cote // 2)).resize((440, 440), Image.LANCZOS)
+    masque = Image.new("L", (440, 440), 0)
+    ImageDraw.Draw(masque).ellipse((0, 0, 439, 439), fill=255)
+    dessin.ellipse((688, 83, 1152, 547), fill="#d98a1f")
+    fond.paste(detail, (700, 95), masque)
+    dessin.text((64, 70), marque, font=police("georgiab.ttf", 84), fill="#0f6b6b")
+    dessin.text((64, 190), "#%d" % numero, font=police("georgiab.ttf", 150), fill="#1f2a2e")
+    dessin.text((70, 380), "?", font=police("georgiab.ttf", 150), fill="#d98a1f")
+    dessin.text((66, 585), "Photo : %s · %s · Wikimedia Commons" % (credit["auteur"] if len(credit["auteur"]) <= 48 else credit["auteur"][:46] + "…", credit["licence"]),
+                font=police("segoeui.ttf", 20), fill="#55636a")
+    fond.save(cible, "JPEG", quality=82, optimize=True, progressive=True)
+
+
+def pages_des_jours(publiees, items, url, marque):
+    """Une page par défi et par langue (/<langue>/j/<n>/), avec l'aperçu du détail du jour, pour les liens partagés.
+    De 7 jours avant aujourd'hui à 90 jours après ; au-delà, _redirects renvoie vers la page de la langue."""
+    for dossier in [SITE / "j"] + [SITE / langue["code"] / "j" for langue in publiees]:
+        if dossier.exists():
+            shutil.rmtree(dossier)
+    aujourd_hui = jour_du_defi(datetime.date.today())
+    premier, dernier = max(0, aujourd_hui - 7), aujourd_hui + 90
+    vedettes = vedettes_par_jour(premier, dernier)
+    parId = {i["id"]: i for i in items}
+    (SITE / "j").mkdir(parents=True, exist_ok=True)
+    for jour, ident in vedettes.items():
+        item = parId[ident]
+        image_du_jour(SITE / "j" / ("%d.jpg" % (jour + 1)), jour + 1, SITE / item["img"], item["credit"], marque)
+    for langue in publiees:
+        code, ui = langue["code"], langue["ui"]
+        for jour in vedettes:
+            n = jour + 1
+            ecrire(SITE / code / "j" / str(n) / "index.html", remplir(MODELE_JOUR, {
+                "code": code, "dir": langue["dir"], "og": langue["og"], "marque": e(marque), "n": n,
+                "titre": e(remplir(ui["jour.titre"], {"marque": marque, "n": n})), "description": e(ui["meta.partage"]),
+                "url_page": e("%s%s/j/%d/" % (url, code, n)), "url_langue": e(url + code + "/"), "image": e("%sj/%d.jpg" % (url, n)),
+            }))
+    ecrire(SITE / "_redirects", "/:langue/j/* /:langue/ 302\n")
+    print("Pages des défis : n° %d à %d, %d langues" % (premier + 1, dernier + 1, len(publiees)))
+
+
 def main():
     config = lire(OUTILS / "site.json")
     donnees = lire(OUTILS / "cache" / "donnees.json")
@@ -428,6 +519,8 @@ def main():
                   {"src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
                   {"src": "icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}],
     }, ensure_ascii=False, indent=2) + "\n")
+
+    pages_des_jours(publiees, items, url, config["marque"])
 
     # Pour les moteurs de recherche : une adresse par langue, chacune avec ses équivalents dans les autres langues.
     liens_alt = "".join('<xhtml:link rel="alternate" hreflang="%s" href="%s%s/"/>' % (c, e(url), c) for c in codes)

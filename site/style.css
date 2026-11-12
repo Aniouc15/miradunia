@@ -212,3 +212,8 @@ details.credit summary { font-weight: 600; padding: 4px 0; }
   .loupe { animation: pouls 2.4s ease-in-out infinite; }
   @keyframes pouls { 50% { box-shadow: 0 0 0 6px rgba(217, 138, 31, .25); } }
 }
+
+/* Rappel quotidien */
+a.bouton { text-decoration: none; }
+.ligne-heure { display: flex; align-items: center; gap: 10px; margin: 6px 0 2px; }
+.heure-rappel { font: 1rem system-ui, sans-serif; padding: 8px 10px; border-radius: 10px; border: 2px solid var(--trait); background: var(--carte); color: var(--encre); }

@@ -8,7 +8,6 @@
   var LANCEMENT = [2026, 10, 11]; // 11 novembre 2026 (mois compté à partir de 0) = défi n° 1
   var DELAIS_REVISION = [1, 3, 7]; // jours avant de revoir une curiosité ratée, selon sa boîte
   var MAX_REVISION = 5;
-  var JOKER_TOUS_LES = 7;
   var POINTS_ORIGINE = [100, 70, 40, 20]; // selon le nombre d'indices utilisés
   var POINTS_LIENS = [0, 20, 45, 70, 100]; // selon le nombre de liens justes sur 4
   var NIVEAU_PAR_JOUR = [3, 1, 1, 2, 2, 2, 3]; // dimanche, lundi … samedi (1 facile, 2 moyen, 3 difficile)
@@ -286,7 +285,7 @@
   // ---------- État du joueur ----------
   function nouvelEtat() {
     return { v: 1, jours: {}, enCours: null, serie: 0, meilleureSerie: 0, dernierJour: null,
-      jokerLe: null, atlas: {}, revision: {}, album: {} };
+      jokerLe: null, jokers: 1, atlas: {}, revision: {}, album: {}, bonus: {} };
   }
   function estObjet(x) { return x !== null && typeof x === 'object' && !Array.isArray(x); }
   function estEntier(x) { return typeof x === 'number' && isFinite(x) && Math.floor(x) === x; }
@@ -296,6 +295,9 @@
     if (!estObjet(e.jours) || !estObjet(e.atlas) || !estObjet(e.revision)) return null;
     if (e.album === undefined) e.album = {};
     if (!estObjet(e.album)) return null;
+    if (e.bonus === undefined) e.bonus = {};
+    if (!estObjet(e.bonus)) return null;
+    if (e.jokers !== undefined && (!estEntier(e.jokers) || e.jokers < 0 || e.jokers > JOKERS_MAX)) return null;
     if (!estEntier(e.serie) || e.serie < 0 || !estEntier(e.meilleureSerie) || e.meilleureSerie < e.serie) return null;
     if (e.dernierJour !== null && !estEntier(e.dernierJour)) return null;
     if (e.jokerLe !== null && !estEntier(e.jokerLe)) return null;
@@ -348,37 +350,52 @@
       .sort(function (a, b) { return etat.revision[a].le - etat.revision[b].le || (a < b ? -1 : 1); });
   }
   function aRevoir(etat, jour) { return toutesARevoir(etat, jour).slice(0, MAX_REVISION); }
-  function jokerDisponible(etat, jour) {
-    return etat.jokerLe === null || jour - etat.jokerLe >= JOKER_TOUS_LES;
-  }
-  // Clôt le défi du jour et met la série à jour. Un jour manqué est pardonné une fois tous les 7 jours (joker).
+  // Jokers : un jour manqué est pardonné par joker. On en gagne un à chaque série de 7 jours, au plus 2 en réserve.
+  // (Ancienne règle : un joker tous les 7 jours, noté par jokerLe ; un état ancien reçoit 1 joker.)
+  var JOKERS_MAX = 2;
+  function jokers(etat) { return estEntier(etat.jokers) ? etat.jokers : 1; }
+  function jokerDisponible(etat) { return jokers(etat) > 0; }
+  // Clôt le défi du jour et met la série à jour.
   function terminerJour(etat, jour, scores) {
-    if (etat.jours[jour]) return { dejaFait: true, joker: false };
-    var joker = false;
+    if (etat.jours[jour]) return { dejaFait: true, joker: false, jokerGagne: false };
+    var joker = false, gagne = false;
+    etat.jokers = jokers(etat);
     etat.jours[jour] = { scores: scores.slice(), total: scores.reduce(function (a, b) { return a + b; }, 0) };
     etat.enCours = null;
-    // Un jour antérieur au dernier jour joué (horloge reculée, voyage) est enregistré sans toucher à la série.
-    if (etat.dernierJour !== null && jour <= etat.dernierJour) return { dejaFait: false, joker: false };
-    if (etat.dernierJour === jour - 1) {
+    // Un jour antérieur au dernier jour joué (horloge reculée, voyage, ancien défi) est enregistré sans toucher à la série.
+    if (etat.dernierJour !== null && jour <= etat.dernierJour) return { dejaFait: false, joker: false, jokerGagne: false };
+    var manques = etat.dernierJour === null ? Infinity : jour - etat.dernierJour - 1;
+    if (manques === 0) {
       etat.serie += 1;
-    } else if (etat.dernierJour === jour - 2 && etat.serie >= 2 && jokerDisponible(etat, jour)) {
+    } else if (manques <= etat.jokers && etat.serie >= 1) {
       etat.serie += 1;
+      etat.jokers -= manques;
       etat.jokerLe = jour;
       joker = true;
     } else {
       etat.serie = 1;
     }
+    if (etat.serie % 7 === 0 && etat.jokers < JOKERS_MAX) {
+      etat.jokers += 1;
+      gagne = true;
+    }
     etat.dernierJour = jour;
     etat.meilleureSerie = Math.max(etat.meilleureSerie, etat.serie);
-    return { dejaFait: false, joker: joker };
+    return { dejaFait: false, joker: joker, jokerGagne: gagne };
   }
-  // Série affichée : elle retombe à zéro si le joueur a laissé passer trop de jours.
+  // Série affichée : elle tient tant que les jours manqués peuvent encore être couverts par les jokers.
   function serieActuelle(etat, jour) {
     if (etat.dernierJour === null) return 0;
-    var ecart = jour - etat.dernierJour;
-    if (ecart <= 1) return etat.serie;
-    if (ecart === 2 && etat.serie >= 2 && jokerDisponible(etat, jour)) return etat.serie;
+    var manques = jour - etat.dernierJour - 1;
+    if (manques <= 0) return etat.serie;
+    if (manques <= jokers(etat) && etat.serie >= 1) return etat.serie;
     return 0;
+  }
+  // Bonus du dimanche : les vedettes des six jours précédents (lundi à samedi), à rattacher à leur pays.
+  function vedettesDeLaSemaine(donnees, jour) {
+    var liste = [];
+    for (var j = jour - 6; j < jour; j++) if (j >= 0) liste.push(construireDefi(donnees, j).epreuves[0].item);
+    return liste;
   }
 
   // ---------- Atlas, statistiques, anciens défis ----------
@@ -472,7 +489,8 @@
     pointsOrigine: pointsOrigine, pointsParEssais: pointsParEssais, pointsLiens: pointsLiens,
     nouvelEtat: nouvelEtat, etatValide: etatValide, noterReponse: noterReponse,
     aRevoir: aRevoir, toutesARevoir: toutesARevoir, jokerDisponible: jokerDisponible,
-    terminerJour: terminerJour, serieActuelle: serieActuelle, niveau: niveau, bilanAtlas: bilanAtlas,
+    terminerJour: terminerJour, serieActuelle: serieActuelle, jokers: jokers, JOKERS_MAX: JOKERS_MAX,
+    vedettesDeLaSemaine: vedettesDeLaSemaine, niveau: niveau, bilanAtlas: bilanAtlas,
     statistiques: statistiques, joursRejouables: joursRejouables,
     carres: carres, texteDePartage: texteDePartage,
     coderSauvegarde: coderSauvegarde, decoderSauvegarde: decoderSauvegarde

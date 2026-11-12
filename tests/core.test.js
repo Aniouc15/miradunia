@@ -238,25 +238,46 @@ test('points', () => {
   assert.deepStrictEqual([0, 1, 2, 3, 4].map(C.pointsLiens), [0, 20, 45, 70, 100]);
 });
 
-test('série : jours consécutifs, joker après deux jours au moins et une fois par semaine', () => {
+test('série : jours consécutifs, jokers (1 au départ, un de plus tous les 7 jours, 2 au plus) qui couvrent les jours manqués', () => {
   const e = C.nouvelEtat();
+  assert.strictEqual(C.jokers(e), 1);
   C.terminerJour(e, 0, [100, 100, 100]);
-  assert.strictEqual(C.terminerJour(e, 2, [100, 100, 100]).joker, false); // un seul jour joué : pas de joker
-  assert.strictEqual(e.serie, 1);
-  C.terminerJour(e, 3, [100, 0, 20]);
+  assert.strictEqual(C.terminerJour(e, 2, [100, 100, 100]).joker, true); // jour 1 manqué, pardonné
   assert.strictEqual(e.serie, 2);
+  assert.strictEqual(C.jokers(e), 0);
+  assert.strictEqual(C.serieActuelle(e, 3), 2);
+  assert.strictEqual(C.serieActuelle(e, 4), 0); // un jour manqué sans joker
+  C.terminerJour(e, 3, [100, 0, 20]);
+  assert.strictEqual(e.serie, 3);
   assert.strictEqual(e.jours[3].total, 120);
   assert.strictEqual(C.terminerJour(e, 3, [0, 0, 0]).dejaFait, true); // on ne rejoue pas un jour
-  assert.strictEqual(e.jours[3].total, 120);
-  assert.strictEqual(C.serieActuelle(e, 5), 2); // joker encore disponible
-  assert.strictEqual(C.terminerJour(e, 5, [100, 100, 100]).joker, true); // jour 4 manqué, pardonné
-  assert.strictEqual(e.serie, 3);
-  assert.strictEqual(C.jokerDisponible(e, 6), false);
-  assert.strictEqual(C.terminerJour(e, 7, [100, 100, 100]).joker, false); // second oubli la même semaine
+  let gagne = false;
+  for (let j = 4; j <= 7; j++) gagne = C.terminerJour(e, j, [100, 100, 100]).jokerGagne || gagne;
+  assert.strictEqual(e.serie, 7);
+  assert.ok(gagne, 'un joker gagné à 7 jours');
+  assert.strictEqual(C.jokers(e), 1);
+  for (let j = 8; j <= 14; j++) C.terminerJour(e, j, [100, 100, 100]);
+  assert.strictEqual(e.serie, 14);
+  assert.strictEqual(C.jokers(e), 2);
+  for (let j = 15; j <= 21; j++) C.terminerJour(e, j, [100, 100, 100]);
+  assert.strictEqual(C.jokers(e), 2, 'deux jokers au plus');
+  assert.strictEqual(C.serieActuelle(e, 24), 21); // deux jours manqués, deux jokers
+  assert.strictEqual(C.terminerJour(e, 24, [100, 100, 100]).joker, true);
+  assert.strictEqual(e.serie, 22);
+  assert.strictEqual(C.jokers(e), 0);
+  assert.strictEqual(C.terminerJour(e, 26, [100, 100, 100]).joker, false); // plus de joker : la série repart
   assert.strictEqual(e.serie, 1);
-  assert.strictEqual(e.meilleureSerie, 3);
-  assert.strictEqual(C.serieActuelle(e, 8), 1);
-  assert.strictEqual(C.serieActuelle(e, 11), 0);
+  assert.strictEqual(e.meilleureSerie, 22);
+  const ancien = JSON.parse(JSON.stringify(C.nouvelEtat())); delete ancien.jokers; delete ancien.bonus; // sauvegarde d'avant les jokers
+  assert.strictEqual(C.jokers(C.etatValide(ancien)), 1);
+  assert.deepStrictEqual(C.etatValide(ancien).bonus, {});
+});
+
+test('bonus du dimanche : les six vedettes de la semaine, du lundi au samedi', () => {
+  const dimanche = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].find((j) => j >= 6 && C.estDimanche(j));
+  const liste = C.vedettesDeLaSemaine(D, dimanche);
+  assert.strictEqual(liste.length, 6);
+  assert.deepStrictEqual(liste, [1, 2, 3, 4, 5, 6].map((k) => C.construireDefi(D, dimanche - 7 + k).epreuves[0].item));
 });
 
 test('un jour antérieur au dernier jour joué ne casse pas la série', () => {

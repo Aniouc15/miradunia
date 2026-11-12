@@ -1,6 +1,6 @@
-# Relecture des noms traduits de GlobeCurios
+# Relecture des noms traduits de Miradunia
 
-GlobeCurios est un jeu public : le joueur voit une curiosité du monde et doit retrouver le PAYS auquel elle est rattachée. Son NOM est affiché pendant le jeu. Un nom qui contient le pays, son adjectif ou un indice trop direct donne la réponse : le jeu devient sans intérêt. D'autres agents viennent de traduire les noms dans une langue (indiquée dans ton message). Tu les relis TOUS. Tu n'as pas besoin d'internet.
+Miradunia est un jeu public : le joueur voit une curiosité du monde et doit retrouver le PAYS auquel elle est rattachée. Son NOM est affiché pendant le jeu. Un nom qui contient le pays, son adjectif ou un indice trop direct donne la réponse : le jeu devient sans intérêt. D'autres agents viennent de traduire les noms dans une langue (indiquée dans ton message). Tu les relis TOUS. Tu n'as pas besoin d'internet.
 
 ## Entrée (dossier indiqué dans ton message)
 

@@ -5,15 +5,20 @@ ou déjà proposé), article français existant, pas une homonymie, une fiche Wi
 d'au moins 120 caractères ; un nouveau pays doit garder au moins 4 propositions valides.
 Prépare ensuite les lots à rédiger (introduction de l'article comprise).
 
-Usage : python outils/ajout/etape2_valider.py <tranche> [taille_des_lots=175]
-Écrit travail/tranche_NN/valides.json, rejets.txt et arediger_NN.md ; cache commun travail/cache_wiki.json
+Les zones peuvent être traitées à mesure qu'elles arrivent : les propositions déjà validées des autres zones comptent
+comme existantes (pas de doublon entre zones).
+
+Usage : python outils/ajout/etape2_valider.py <tranche> <zones, ex. 2,5,6> [taille_des_lots=90]
+Écrit travail/tranche_NN/valides_zN.json, rejets_zN.txt, arediger_zN_NN.md, puis valides.json (toutes zones) ;
+cache commun travail/cache_wiki.json et travail/cache_wikidata.json
 """
 import glob, json, re, sys, time, unicodedata, urllib.parse, urllib.request
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parents[2]
 tranche = int(sys.argv[1])
-TAILLE = int(sys.argv[2]) if len(sys.argv) > 2 else 175
+ZONES = [int(z) for z in sys.argv[2].split(",")]
+TAILLE = int(sys.argv[3]) if len(sys.argv) > 3 else 90
 DOSSIER = RACINE / "travail" / ("tranche_%02d" % tranche)
 CACHE = RACINE / "travail" / "cache_wiki.json"
 SOURCE = json.loads((RACINE / "outils" / "curiosites.json").read_text(encoding="utf-8"))
@@ -54,9 +59,20 @@ existants_nom = {simple(i["nom"]) for i in SOURCE["items"]}
 existants_qid = set()
 if DONNEES.exists():
     existants_qid = {i.get("wikidata") for i in json.loads(DONNEES.read_text(encoding="utf-8"))["items"] if i.get("wikidata")}
+# Propositions déjà validées dans les autres zones de la tranche.
+for chemin in glob.glob(str(DOSSIER / "valides_z*.json")):
+    if int(re.search(r"valides_z(\d+)", chemin).group(1)) in ZONES:
+        continue
+    autre = json.loads(Path(chemin).read_text(encoding="utf-8"))
+    pays.update(autre["pays"])
+    for i in autre["items"]:
+        existants_id.add(i["id"]); existants_wiki.add(simple(i["wiki"])); existants_nom.add(simple(i["nom"]))
+        existants_qid.add(i.get("_qid"))
 
 candidats, rejets, nouveaux_pays = [], [], {}
 for chemin in sorted(glob.glob(str(DOSSIER / "propositions_z*.json"))):
+    if int(re.search(r"propositions_z(\d+)", chemin).group(1)) not in ZONES:
+        continue
     try:
         d = json.loads(Path(chemin).read_text(encoding="utf-8"))
     except Exception as erreur:
@@ -174,6 +190,7 @@ for i in retenus:
     if abs(auto - i["niv"]) > 1:
         i["niv"] = auto
     i["_notoriete"] = wd[c["qid"]]["sl"]
+    i["_qid"] = c["qid"]
     vus_qid.add(c["qid"])
     i["wiki"] = c["titre"]
     i["_intro"] = c["intro"].replace("\n", " ")
@@ -187,16 +204,30 @@ valides = [i for i in valides if i["pays"] not in faibles]
 for c in faibles:
     rejets.append((c, "nouveau pays avec moins de 4 propositions valides"))
 gardes_pays = {c: p for c, p in nouveaux_pays.items() if c not in faibles}
-(DOSSIER / "valides.json").write_text(json.dumps({"pays": gardes_pays, "items": valides}, ensure_ascii=False, indent=0), encoding="utf-8")
-(DOSSIER / "rejets.txt").write_text("\n".join("%s | %s" % r for r in rejets) + "\n", encoding="utf-8")
-for ancien in DOSSIER.glob("arediger_*.md"):
-    ancien.unlink()
-for n in range((len(valides) + TAILLE - 1) // TAILLE):
-    lot = valides[n * TAILLE:(n + 1) * TAILLE]
-    (DOSSIER / ("arediger_%02d.md" % (n + 1))).write_text("\n".join(
-        "### %s — %s — pays attendu : %s — catégorie : %s — niveau : %d\nArticle : %s\nINTRODUCTION WIKIPÉDIA : %s\n" % (
-            i["id"], i["nom"], tous_pays[i["pays"]]["nom"], i["cat"], i["niv"], i["wiki"], i["_intro"]) for i in lot), encoding="utf-8")
+lots = 0
+for zone in ZONES:
+    source = "propositions_z%d.json" % zone
+    de_la_zone = [i for i in valides if i["_source"] == source]
+    pays_zone = {c: p for c, p in gardes_pays.items() if any(i["pays"] == c for i in de_la_zone)}
+    (DOSSIER / ("valides_z%d.json" % zone)).write_text(json.dumps({"pays": pays_zone, "items": de_la_zone}, ensure_ascii=False, indent=0), encoding="utf-8")
+    for ancien in DOSSIER.glob("arediger_z%d_*.md" % zone):
+        ancien.unlink()
+    for n in range((len(de_la_zone) + TAILLE - 1) // TAILLE):
+        lot = de_la_zone[n * TAILLE:(n + 1) * TAILLE]
+        (DOSSIER / ("arediger_z%d_%02d.md" % (zone, n + 1))).write_text("\n".join(
+            "### %s — %s — pays attendu : %s — catégorie : %s — niveau : %d\nArticle : %s\nINTRODUCTION WIKIPÉDIA : %s\n" % (
+                i["id"], i["nom"], tous_pays[i["pays"]]["nom"], i["cat"], i["niv"], i["wiki"], i["_intro"]) for i in lot), encoding="utf-8")
+        lots += 1
+(DOSSIER / ("rejets_z%s.txt" % "-".join(map(str, ZONES)))).write_text("\n".join("%s | %s" % r for r in rejets) + "\n", encoding="utf-8")
+# Toutes les zones validées jusqu'ici, pour les étapes suivantes.
+tout = {"pays": {}, "items": []}
+for chemin in sorted(glob.glob(str(DOSSIER / "valides_z*.json"))):
+    d = json.loads(Path(chemin).read_text(encoding="utf-8"))
+    tout["pays"].update(d["pays"])
+    tout["items"] += d["items"]
+(DOSSIER / "valides.json").write_text(json.dumps(tout, ensure_ascii=False, indent=0), encoding="utf-8")
 from collections import Counter
-print("valides :", len(valides), "; rejets :", len(rejets), "; nouveaux pays gardés :", sorted(gardes_pays))
-print("lots à rédiger :", (len(valides) + TAILLE - 1) // TAILLE)
-print("rejets par motif :", Counter(r[1].split(" :")[0] for r in rejets).most_common())
+print("zones", ZONES, ": valides", len(valides), "; rejets", len(rejets), "; nouveaux pays gardés", sorted(gardes_pays), "; lots à rédiger", lots)
+print("niveaux :", sorted(Counter(i["niv"] for i in valides).items()))
+print("rejets par motif :", Counter(re.sub(r"\(\d+ Wikipédias\)", "", r[1].split(" :")[0]).strip() for r in rejets).most_common())
+print("total validé dans la tranche :", len(tout["items"]))

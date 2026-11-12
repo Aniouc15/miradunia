@@ -235,7 +235,11 @@ def main():
         element = wikidata.get(qid) or {"articles": {}, "noms": {}}
         liens = {langue: lien_wikipedia(langue, titre_langue) for langue, titre_langue in element["articles"].items()}
         liens["fr"] = lien_wikipedia("fr", titre)
+        if item.get("aussi"):
+            # Autres pays acceptés comme réponse (curiosité partagée), retenus seulement s'ils sont dans le jeu.
+            problemes += [f"{item['id']} : pays accepté inconnu {c}" for c in item["aussi"] if c not in source["pays"]]
         sortie_items.append({
+            **({"aussi": [c for c in item["aussi"] if c in source["pays"]]} if item.get("aussi") else {}),
             "id": item["id"], "nom": item["nom"], "pays": item["pays"], "cat": item["cat"], "niv": item["niv"],
             "fait": item["fait"], "img": chemin, "wikidata": qid, "liens": liens, "noms": element["noms"],
             "credit": {"auteur": fiche["auteur"], "depot": fiche["depot"], "licence": licence, "page": fiche["page"]},

@@ -42,6 +42,9 @@ ajouts = [i for i in ajouts if i["pays"] in source["pays"] or i["pays"] in nouve
 source["pays"].update(nouveaux_pays)
 source["items"] += ajouts
 ecrire_source(source)
-ecrire_json(D / "nouveaux.json", [i["id"] for i in ajouts])
-(D / "rejets_redaction.txt").write_text("\n".join("%s | %s" % r for r in rejets) + "\n", encoding="utf-8")
+# On peut relancer l'étape à mesure que les lots arrivent : la liste des nouvelles curiosités s'allonge.
+precedents = [i for i in (lire(D / "nouveaux.json", []) or []) if i in {x["id"] for x in source["items"]}]
+ecrire_json(D / "nouveaux.json", precedents + [i["id"] for i in ajouts if i["id"] not in precedents])
+with open(D / "rejets_redaction.txt", "a", encoding="utf-8") as f:
+    f.write("".join("%s | %s\n" % r for r in rejets if r[1] != "inconnu ou déjà présent"))
 print("ajoutées :", len(ajouts), "; écartées :", len(rejets), "; nouveaux pays :", sorted(nouveaux_pays), "; total :", len(source["items"]))

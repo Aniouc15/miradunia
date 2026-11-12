@@ -20,25 +20,42 @@ Double-cliquer sur `Ouvrir Miradunia.bat`, ou ouvrir `site\index.html` dans un n
 | `site/<langue>/index.html` | Page du jeu dans une langue (`fr/`, `en/`…), avec son `manifest.webmanifest` |
 | `site/js/core.js` | Règles : défi du jour, points, série, joker, atlas, album, révision, statistiques, sauvegarde. Aucun texte |
 | `site/js/app.js` | Affichage, dans la langue de la page |
-| `site/data/data.js` | Données communes : pays, curiosités, photos, crédits. **Produit par les scripts** |
-| `site/lang/<langue>.js` | Textes d'une langue : interface, noms des pays, nom, phrase et lien Wikipédia de chaque curiosité. **Produit par les scripts** |
-| `site/img/` | Une photo libre (Wikimedia Commons) par curiosité |
+| `site/data/data.js` | Données communes : pays, et pour chaque curiosité son pays, sa catégorie, son niveau et sa vague (`v`). **Produit par les scripts** |
+| `site/lang/<langue>.js` | Textes d'une langue : interface et noms des pays. **Produit par les scripts** |
+| `site/textes/<langue>/<n>.js` | Nom, phrase, lien Wikipédia et crédit photo des curiosités, en 256 paquets par langue : le jeu ne charge que ceux qu'il affiche. **Produit par les scripts** |
+| `site/img/` | Une photo libre (Wikimedia Commons) par curiosité, au nom neutre (`nomPhoto()` dans core.js) pour ne pas trahir la réponse |
 | `outils/curiosites.json` | La source en français : pays, curiosités, une phrase et un niveau (1 à 3) par curiosité |
+| `outils/publication.json` | Vague de chaque curiosité publiée et date d'entrée de chaque vague dans les défis. **Ne pas effacer** : c'est lui qui garde les défis passés et le défi du jour identiques quand on ajoute des curiosités |
 | `outils/langues/ui.fr.json` | Textes de l'interface en français (la référence) |
 | `outils/langues/<langue>.json` | Traduction d'une langue : `ui`, `pays`, `items` (nom et phrase de chaque curiosité) |
 | `outils/langues/langues.json` | Langues prévues |
 | `outils/site.json` | Nom du jeu, adresse publique, adresse de contact (vide : pas de lien « Signaler une erreur »), langue par défaut |
 | `outils/construire_donnees.py` | Va chercher photos, auteurs, licences et liens dans les autres langues (Wikipédia, Wikidata, Commons), puis lance `construire_site.py` |
-| `outils/construire_site.py` | Écrit `data.js`, les fichiers de langue et les pages, sans réseau. Une langue n'est publiée que si sa traduction est complète et passe les contrôles |
+| `outils/construire_site.py` | Écrit `data.js`, les fichiers de langue et de textes, les pages, `sitemap.xml` et `robots.txt`, sans réseau. Une curiosité n'est publiée que si elle est prête dans toutes les langues publiées ; sinon elle attend (détail dans `outils/rapport_site.txt`) |
 | `outils/cache/donnees.json` | Résultat de `construire_donnees.py`, utilisé par `construire_site.py` |
-| `tests/core.test.js` | Tests des règles, des données et de chaque langue publiée |
+| `outils/ajout/` | Chaîne d'ajout par tranches d'environ 1 000 curiosités (consignes des agents et étapes 1 à 7, voir plus bas) |
+| `tests/core.test.js` | Tests des règles, des données, des vagues et de chaque langue publiée |
+
+## Vagues : ajouter sans changer les défis
+
+Un défi est calculé à partir de toutes les curiosités en jeu. Pour qu'un ajout ne change ni le défi du jour ni les anciens défis, chaque curiosité appartient à une vague, et une vague n'entre dans les défis qu'au début d'un bloc de 14 jours qui commence au plus tôt après-demain (`versions_et_vagues()` dans `construire_site.py`, `donneesDuJour()` dans `core.js`). Les nouvelles curiosités s'affichent dans l'album tout de suite, mais ne sortent dans les défis qu'à cette date.
 
 ## Ajouter ou corriger une curiosité
 
 1. Modifier `outils/curiosites.json` (`wiki` = titre exact de l'article Wikipédia en français ; `niv` = 1 facile, 2 moyen, 3 difficile).
 2. `python outils/construire_donnees.py` puis lire le rapport affiché.
-3. Ajouter son nom et sa phrase dans chaque `outils/langues/<langue>.json` (sinon la langue n'est plus publiée), puis `python outils/construire_site.py`.
+3. Ajouter son nom et sa phrase dans chaque `outils/langues/<langue>.json` (sinon elle attend), puis `python outils/construire_site.py`.
 4. `node tests/core.test.js`.
+
+## Ajouter une tranche d'environ 1 000 curiosités (`outils/ajout/`)
+
+1. `etape1_zones.py <n>` : liste de l'existant par zone ; puis un agent par zone suit `consigne_propositions.md`.
+2. `etape2_valider.py <n> <zones>` : contrôle sur Wikipédia et Wikidata (article, image, introduction, au moins 10 Wikipédias, un seul pays d'origine) ; puis un agent par lot suit `consigne_redaction.md`.
+3. `etape3_ajouter.py <n>` : ajoute les phrases gardées à `curiosites.json`.
+4. `etape4_relecture.py <n>` puis un agent par lot suit `consigne_relecture.md` (faits et équité du jeu) ; `etape5_appliquer_relecture.py <n>` applique les décisions et signale les nombres absents de l'introduction.
+5. `construire_donnees.py` (photos), puis relecture des photos.
+6. `etape6_traduction.py <n>` puis un agent par langue et par lot suit `consigne_traduction.md`, et un agent par langue relit les noms (`consigne_noms.md`) ; `etape7_assembler.py <n> --ecrire`.
+7. `construire_site.py`, `node tests/core.test.js`, essai dans le navigateur, mise en ligne.
 
 Règles de contenu : au moins 4 curiosités par pays (sinon le pays est écarté) ; le nom affiché ne doit pas contenir le nom du pays, dans aucune langue ; pas de curiosité revendiquée par plusieurs pays du jeu ; pas de photo montrant le nom ou le drapeau du pays, ni de carte, de logo, de dessin ou d'œuvre récente protégée.
 

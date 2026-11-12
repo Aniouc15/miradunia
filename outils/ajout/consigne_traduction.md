@@ -1,6 +1,6 @@
-# Traduction des curiosités de GlobeCurios
+# Traduction des curiosités de Miradunia
 
-GlobeCurios est un jeu web gratuit et public : le joueur voit la photo d'une curiosité du monde (plat, monument, lieu, fête, tradition, instrument, objet, boisson) et doit retrouver le PAYS auquel elle est rattachée. Le NOM de la curiosité est affiché au 3e indice (et dans les autres épreuves) ; après la réponse, une PHRASE apprend quelque chose. Le jeu existe en français ; tu le traduis dans une autre langue (indiquée dans ton message).
+Miradunia est un jeu web gratuit et public : le joueur voit la photo d'une curiosité du monde (plat, monument, lieu, fête, tradition, instrument, objet, boisson) et doit retrouver le PAYS auquel elle est rattachée. Le NOM de la curiosité est affiché au 3e indice (et dans les autres épreuves) ; après la réponse, une PHRASE apprend quelque chose. Le jeu existe en français ; tu le traduis dans une autre langue (indiquée dans ton message).
 
 ## Entrée
 

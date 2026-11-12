@@ -207,6 +207,8 @@ def probleme_item(item, texte, pays):
     """Raison pour laquelle une curiosité ne peut pas être publiée dans une langue, ou None."""
     if not texte or not str(texte.get("nom", "")).strip() or not str(texte.get("fait", "")).strip():
         return "texte manquant"
+    if not str(pays.get(item["pays"], "")).strip():
+        return "nom du pays manquant"
     nom_pays = pays.get(item["pays"], "")
     if nom_pays and simple(nom_pays) in simple(texte["nom"]):
         return "le nom contient le pays (%s)" % texte["nom"]
@@ -274,6 +276,7 @@ def main():
     #    au moins 90 % des curiosités. Une curiosité n'est publiée que si elle est prête dans toutes ces langues :
     #    les autres attendent leur traduction (le défi du jour doit être le même pour tous).
     candidates, rapport = [], []
+    deja_publiees = set(lire(PUBLICATION)["items"]) if PUBLICATION.exists() else set()
     for langue in prevues:
         code = langue["code"]
         if code == "fr":
@@ -289,18 +292,25 @@ def main():
             traduction = lire(chemin)
             ui, pays, items = traduction.get("ui", {}), traduction.get("pays", {}), traduction.get("items", {})
             erreurs = controler_ui(ui, reference)
-        erreurs += controler_pays(pays, donnees)
+        # Seuls les pays déjà en jeu doivent être nommés ; un nouveau pays attend sa traduction avec ses curiosités.
+        pays_en_jeu = {i["pays"] for i in donnees["items"] if i["id"] in deja_publiees}
+        erreurs += controler_pays(pays, {"pays": {c: p for c, p in donnees["pays"].items() if c in pays_en_jeu or not deja_publiees}})
         problemes = {}
         for item in donnees["items"]:
             raison = probleme_item(item, items.get(item["id"]), pays)
             if raison:
                 problemes[item["id"]] = raison
-        if len(problemes) > 0.1 * len(donnees["items"]):
-            erreurs.append("%d curiosités sans traduction utilisable" % len(problemes))
+        # Une langue ne doit pas faire disparaître des curiosités déjà en ligne ; les nouvelles, elles, peuvent attendre.
+        perdues = [i for i in problemes if i in deja_publiees]
+        if len(perdues) > 0.02 * max(1, len(deja_publiees)):
+            erreurs.append("%d curiosités déjà publiées sans traduction utilisable" % len(perdues))
         if erreurs:
             rapport.append("%s : non publiée, %d problème(s) : %s" % (code, len(erreurs), " ; ".join(erreurs[:8])))
             continue
         candidates.append(dict(langue, ui=ui, pays=pays, items=items, problemes=problemes))
+    # Une langue traduite qui échoue arrête tout : on ne publie pas un site amputé d'une langue.
+    if len(candidates) < len([l for l in prevues if l["code"] == "fr" or (OUTILS / "langues" / (l["code"] + ".json")).exists()]):
+        raise SystemExit("Langue en échec, rien n'est écrit :\n" + "\n".join(rapport))
     if not any(langue["code"] == "fr" for langue in candidates):
         raise SystemExit("Le français ne passe pas les contrôles :\n" + "\n".join(rapport))
     publiees = candidates
@@ -336,6 +346,9 @@ def main():
         fiche = {"id": i["id"], "pays": i["pays"], "cat": i["cat"], "niv": i["niv"]}
         if vagues[i["id"]]:
             fiche["v"] = vagues[i["id"]]
+        aussi = [c for c in i.get("aussi", []) if c in pays_publies]
+        if aussi:
+            fiche["aussi"] = aussi  # autres pays acceptés comme réponse
         return fiche
     ecrire(SITE / "data" / "data.js", js("GC_DATA", {
         "marque": config["marque"], "adresse": config["adresse"], "contact": config.get("contact", ""),

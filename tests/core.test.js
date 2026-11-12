@@ -53,6 +53,7 @@ test('données : au moins 100 pays et 1 000 curiosités, 4 curiosités ou plus p
     assert.ok(['monument', 'lieu', 'plat', 'boisson', 'fête', 'tradition', 'instrument', 'objet'].includes(i.cat), i.id);
     assert.ok(!('nom' in i) && !('fait' in i) && !('credit' in i), 'texte dans les données communes : ' + i.id);
     assert.ok(fs.existsSync(path.join(SITE, 'img', C.nomPhoto(i.id) + '.jpg')), 'photo absente : ' + i.id);
+    assert.ok(i.aussi === undefined || (i.aussi.length > 0 && i.aussi.every((c) => D.pays[c] && c !== i.pays)), 'pays acceptés : ' + i.id);
     assert.ok(i.v === undefined || (Number.isInteger(i.v) && i.v > 0 && D.versions.some((p) => p[1] === i.v)), 'vague inconnue : ' + i.id);
   }
   for (const code of Object.keys(D.pays)) assert.ok(compte[code] >= 4, code);
@@ -60,7 +61,9 @@ test('données : au moins 100 pays et 1 000 curiosités, 4 curiosités ou plus p
 });
 
 test('les photos portent un nom neutre, et aucune n\'est orpheline dans site/img', () => {
-  const attendues = new Set(D.items.map((i) => C.nomPhoto(i.id) + '.jpg'));
+  // Photos des curiosités en jeu, et de celles qui attendent leur traduction (outils/cache/donnees.json).
+  const connues = JSON.parse(fs.readFileSync(path.join(__dirname, '../outils/cache/donnees.json'), 'utf8')).items.map((i) => i.id);
+  const attendues = new Set(D.items.map((i) => i.id).concat(connues).map((id) => C.nomPhoto(id) + '.jpg'));
   for (const f of fs.readdirSync(path.join(SITE, 'img'))) assert.ok(attendues.has(f), f);
   assert.ok(/^[0-9a-f]{12}$/.test(C.nomPhoto('sushi')));
 });

@@ -60,6 +60,13 @@
   var CLE = 'globecurios_etat_v1';
   var CLE_COPIE = 'globecurios_code_copie';
   var CLE_LANGUE = 'globecurios_langue';
+  var CLE_INSTALL = 'miradunia_installation_refusee';
+  // Installation sur l'écran d'accueil : proposée seulement à partir du 3e jour joué, sur l'écran de résultat.
+  var invitationInstall = null;
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); invitationInstall = e; });
+  function dejaInstalle() {
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  }
   var CATEGORIES = ['monument', 'lieu', 'plat', 'boisson', 'fête', 'tradition', 'instrument', 'objet'];
 
   // ---------- Textes ----------
@@ -96,6 +103,8 @@
     return noeuds;
   }
   function pays(code) { return L.pays[code] || code; }
+  // Bonne réponse : le pays de la curiosité, ou un autre pays qui la partage (item.aussi).
+  function accepte(item, code) { return code === item.pays || (item.aussi || []).indexOf(code) >= 0; }
   function continent(code) { return D.pays[code].continent; }
   function nomContinent(cle) { return t('continent.' + cle); }
   function categorie(item) { return t('categorie.' + item.cat); }
@@ -349,7 +358,25 @@
       h('p', { class: 'carres', role: 'img', 'aria-label': t('resultat.aria', { detail: resultatEnMots(fait.scores) }) }, C.carres(fait.scores)),
       messageJoker ? h('p', { class: 'petit' }, t('resultat.joker')) : null,
       decouverte, bPartage, bCopie,
-      avecCompte ? h('p', { class: 'doux', style: 'margin:14px 0 0' }, riche('resultat.prochain', { duree: compte })) : null);
+      avecCompte ? h('p', { class: 'doux', style: 'margin:14px 0 0' }, riche('resultat.prochain', { duree: compte })) : null,
+      avecCompte ? h('p', { class: 'petit doux', style: 'margin:4px 0 0' }, t('resultat.demain', { niveau: t('niveau.' + C.niveauDuJour(JOUR + 1)) })) : null);
+  }
+  function proposerInstallation() {
+    if (ESSAI !== null || dejaInstalle() || lire(CLE_INSTALL) === '1' || C.statistiques(etat).parties < 3) return null;
+    var iPhone = /iphone|ipad|ipod/i.test(navigator.userAgent) && !invitationInstall;
+    if (!invitationInstall && !iPhone) return null;
+    var carte = h('section', { class: 'carte centre' });
+    var refuser = bouton(t('installer.plus_tard'), function () { ecrire(CLE_INSTALL, '1'); carte.remove(); }, 'secondaire');
+    if (iPhone) remplacer(carte, h('p', {}, t('installer.ios')), refuser);
+    else {
+      remplacer(carte, bouton(t('installer.bouton'), function () {
+        var e = invitationInstall;
+        invitationInstall = null;
+        e.prompt();
+        (e.userChoice || Promise.resolve()).then(function () { carte.remove(); });
+      }), refuser);
+    }
+    return carte;
   }
   function vueAccueil() {
     var fait = etat.jours[JOUR];
@@ -362,6 +389,8 @@
     }
     if (fait) {
       blocs.push(carteResultat(JOUR, ESSAI === null));
+      var install = proposerInstallation();
+      if (install) blocs.push(install);
       var nb = C.toutesARevoir(etat, JOUR).length;
       if (nb > 0) {
         blocs.push(h('section', { class: 'carte' }, h('h2', {}, t('nav.a_revoir', { n: nb })),
@@ -490,7 +519,7 @@
       return h('ul', { class: 'essais' }, lignes);
     }
     function proposer(code) {
-      if (code === item.pays) { finir(true); return; }
+      if (code !== null && accepte(item, code)) { finir(true, code); return; }
       tentatives.push(code);
       if (tentatives.length >= 4) { finir(false); return; }
       memoriser({ t: tentatives });
@@ -499,12 +528,14 @@
       if (code !== null) { animer(cadre, 'secoue'); vibrer(40); }
       cadre.focus({ preventScroll: true });
     }
-    function finir(reussi) {
+    function finir(reussi, choisi) {
       var numero = tentatives.length + (reussi ? 1 : 0);
       var score = C.pointsOrigine(numero, reussi);
       // L'atlas ne retient que les curiosités reconnues à la photo, avant que le nom soit donné.
       C.noterReponse(etat, item.id, item.pays, reussi && numero <= 2, JOUR);
-      var texte = t(reussi ? 'origine.trouve.' + numero : 'origine.rate', { pays: pays(item.pays) });
+      var texte = reussi && choisi !== item.pays
+        ? t('origine.trouve.' + numero, { pays: pays(choisi) }) + ' ' + t('origine.aussi', { pays: pays(choisi), principal: pays(item.pays) })
+        : t(reussi ? 'origine.trouve.' + numero : 'origine.rate', { pays: pays(item.pays) });
       var verdict = h('p', { class: 'verdict ' + (reussi ? (numero === 1 ? 'bon' : 'moyen') : 'mauvais') }, texte + ' ' + points(score));
       var cliche = photo(item);
       if (tentatives.length === 0) cliche.classList.add('dezoom'); // trouvé sur le détail : on recule pour voir la photo
@@ -582,10 +613,10 @@
       var b = h('button', { type: 'button', onclick: function () {
         if (fini) return;
         fini = true;
-        var juste = code === item.pays;
+        var juste = accepte(item, code);
         boutons.forEach(function (autre, n) {
           autre.disabled = true;
-          if (question.options[n] === item.pays) autre.classList.add('juste');
+          if (accepte(item, question.options[n])) autre.classList.add('juste');
         });
         if (!juste) b.classList.add('fausse');
         noter(juste);
@@ -697,7 +728,7 @@
       var justes = 0;
       epreuve.items.forEach(function (id) {
         var item = ITEMS[id];
-        var juste = choix[id] === item.pays;
+        var juste = accepte(item, choix[id]);
         if (juste) justes += 1;
         C.noterReponse(etat, id, item.pays, juste, JOUR);
         var ligne = lignes[id];

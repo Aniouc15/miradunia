@@ -389,7 +389,26 @@
   "VE": "Venezuela",
   "UY": "Uruguay",
   "PY": "Paraguay",
-  "SR": "Suriname"
+  "SR": "Suriname",
+  "UG": "Uganda",
+  "ZM": "Sambia",
+  "ZW": "Simbabwe",
+  "MZ": "Mosambik",
+  "AO": "Angola",
+  "MV": "Malediven",
+  "SB": "Salomonen",
+  "KI": "Kiribati",
+  "AE": "Vereinigte Arabische Emirate",
+  "KG": "Kirgisistan",
+  "TJ": "Tadschikistan",
+  "TM": "Turkmenistan",
+  "SD": "Sudan",
+  "ST": "São Tomé und Príncipe",
+  "GQ": "Äquatorialguinea",
+  "KM": "Komoren",
+  "DJ": "Dschibuti",
+  "ER": "Eritrea",
+  "GW": "Guinea-Bissau"
  },
  "items": {
   "sushi": {
@@ -6047,6 +6066,3042 @@
   "caacupe": {
    "nom": "Basilika von Caacupé",
    "fait": "Diese Kirche in Caacupé in Paraguay ist für die katholische Kirche zugleich Kathedrale, Basilica minor und nationales Heiligtum."
+  },
+  "port-envalira": {
+   "nom": "Port d’Envalira",
+   "fait": "Dieser Pass, die einzige Straßenverbindung zwischen Frankreich und Andorra, trennt die Gewässer, die zum Atlantik fließen, von denen, die ins Mittelmeer gelangen."
+  },
+  "statue-liberte-palais-public": {
+   "nom": "Freiheitsstatue am Palazzo Pubblico",
+   "fait": "Diese Kriegerin aus Marmor trägt eine Krone mit drei Türmen, die die befestigte Stadt darstellt; eine aus Berlin stammende Gräfin schenkte sie der Republik."
+  },
+  "chambres-raphael": {
+   "nom": "Stanzen des Raffael",
+   "fait": "Diese vier Empfangsräume der päpstlichen Gemächer sind berühmt für ihre Fresken, die Raffael und seine Schüler malten."
+  },
+  "obelisque-saint-pierre": {
+   "nom": "Obelisk auf dem Petersplatz",
+   "fait": "Dieser ägyptische Obelisk aus Assuan-Granit wurde von Caligula nach Rom gebracht, um seinen Circus zu schmücken, bevor er auf dem Petersplatz aufgestellt wurde."
+  },
+  "cour-belvedere": {
+   "nom": "Cortile del Belvedere",
+   "fait": "Von Bramante für Papst Julius II. entworfen, wurde dieser Terrassenhof durch ein Gebäude dreigeteilt; ein Teil dient heute als Parkplatz."
+  },
+  "notre-dame-immaculee": {
+   "nom": "Kathedrale Notre-Dame-Immaculée",
+   "fait": "In dieser romanisch-byzantinischen Kathedrale finden die Pontifikalämter der hohen kirchlichen Feste, des Festes der heiligen Devota und des Nationalfeiertags von Monaco statt."
+  },
+  "jardin-exotique-mc": {
+   "nom": "Exotischer Garten",
+   "fait": "Dieser von der Stadtverwaltung Monacos betriebene botanische Garten liegt am Fuß einer Felswand, in einem Stadtviertel, das seinen Namen trägt."
+  },
+  "salle-garnier": {
+   "nom": "Salle Garnier",
+   "fait": "Dieses an das Casino von Monte-Carlo angebaute Opernhaus wurde von Charles Garnier entworfen und mit einer Vorstellung von Sarah Bernhardt eröffnet."
+  },
+  "port-hercule": {
+   "nom": "Port Hercule",
+   "fait": "Dieser historische Jachthafen im Viertel La Condamine bietet an der Riviera fast 700 Liegeplätze."
+  },
+  "hotel-de-paris": {
+   "nom": "Hôtel de Paris",
+   "fait": "Dieses Luxushotel der Belle Époque in Monte-Carlo wurde 1864 von der Société des bains de mer des Fürsten Charles III. gegründet."
+  },
+  "ggantija": {
+   "nom": "Ġgantija",
+   "fait": "Der Name bedeutet „Turm der Riesen“: Diese beiden prähistorischen Tempel auf der Insel Gozo gaben einer ganzen Phase der Megalithtempel ihren Namen."
+  },
+  "rotonde-mosta": {
+   "nom": "Rotunde von Mosta",
+   "fait": "Nach dem Vorbild des Pantheons in Rom trägt diese Kirche eine der größten Kuppeln der Welt, gestützt von mehr als 9 Meter dicken Mauern."
+  },
+  "fort-saint-ange": {
+   "nom": "Fort St. Angelo",
+   "fait": "Einst Castrum Maris genannt, liegt dieses Fort in Birgu so, dass es die Einfahrt in den Grand Harbour und den Zugang zu den benachbarten Buchten überwacht."
+  },
+  "gozo": {
+   "nom": "Gozo",
+   "fait": "In der Antike Gaulos genannt, hat diese Nebeninsel des maltesischen Archipels einen eigenen Minister, der in ihrem Hauptort Rabat seinen Sitz hat."
+  },
+  "comino": {
+   "nom": "Comino",
+   "fait": "Diese Insel verdankt ihren Namen dem Kreuzkümmel, einer der wenigen Pflanzen, die auf ihrem kargen Boden wachsen; sie zählt nur eine Handvoll ständiger Einwohner."
+  },
+  "gbejna": {
+   "nom": "Ġbejna",
+   "fait": "Dieser kleine Käse wird auf Gozo aus Schafsmilch, im übrigen Archipel aus Ziegenmilch und in der Industrie zunehmend aus Kuhmilch hergestellt."
+  },
+  "kusksu": {
+   "nom": "Kusksu",
+   "fait": "Diese Saubohnensuppe verdankt ihren Namen ihren kleinen Nudelperlen, die an Couscous erinnern, aber dicker sind und ihr die cremige Konsistenz verleihen."
+  },
+  "hala-sultan-tekke": {
+   "nom": "Hala Sultan Tekke",
+   "fait": "Dieses muslimische Heiligtum am Salzsee bei Larnaka wird auch Moschee der Umm Haram genannt, der Amme des Propheten Mohammed."
+  },
+  "cap-greco": {
+   "nom": "Kap Greco",
+   "fait": "An der Südostspitze der Insel beherbergt dieses Kap mit seinen von Meereshöhlen durchzogenen Klippen seit 1972 die Sendeanlagen des Radiosenders Monte Carlo Doualiya."
+  },
+  "eglises-troodos": {
+   "nom": "Bemalte Kirchen im Gebiet von Troodos",
+   "fait": "Diese zehn bemalten byzantinischen Kirchen in der Region Troodos bilden ein Ensemble, das die UNESCO zum Welterbe erklärt hat."
+  },
+  "afelia": {
+   "nom": "Afelia",
+   "fait": "Dieser zyprische Schmortopf wird mit Schweinefleisch zubereitet, das zunächst in Rotwein mariniert und dann mit Koriandersamen gewürzt wird."
+  },
+  "palais-grand-ducal": {
+   "nom": "Großherzoglicher Palast",
+   "fait": "Dieser Renaissancepalast ist die Stadtresidenz des Großherzogs, des Staatsoberhaupts; einmal im Monat findet hier eine feierliche Wachablösung statt."
+  },
+  "abbaye-echternach": {
+   "nom": "Abtei Echternach",
+   "fait": "Das Grab des heiligen Willibrord, ihres Gründers, liegt in der Krypta dieser Abtei, die zu einem Wallfahrtszentrum wurde, auf das eine Springprozession zurückgeht."
+  },
+  "beaufort-lu": {
+   "nom": "Burg Beaufort",
+   "fait": "Diese Anlage in Beaufort vereint die Ruinen einer mittelalterlichen Festung und gleich daneben einen Wohnsitz aus dem 17. Jahrhundert."
+  },
+  "couteau-suisse": {
+   "nom": "Multifunktionsmesser",
+   "fait": "Klinge und Werkzeuge lassen sich alle in den Griff einklappen, sodass dieses Messer trotz seiner vielen Funktionen Taschenformat behält."
+  },
+  "glacier-express": {
+   "nom": "Glacier Express",
+   "fait": "Man nennt ihn den langsamsten Schnellzug der Welt: Er ist nicht schnell, aber man fährt die ganze Strecke, ohne den Platz zu wechseln, und er lässt die Regionalhalte aus."
+  },
+  "eiger": {
+   "nom": "Eiger",
+   "fait": "Der Name dieses Gipfels bedeutet nicht „Oger“, sondern wohl „großer Spieß“; die Verwechslung rührt von den Bergsteigern her, die in seiner Nordwand ums Leben kamen."
+  },
+  "viaduc-landwasser": {
+   "nom": "Landwasserviadukt",
+   "fait": "Kaum aus einem Tunnel heraus, fahren die Züge direkt auf diesen Viadukt, der die Schlucht überspannt; etwa 60 überqueren ihn täglich."
+  },
+  "abbaye-saint-gall": {
+   "nom": "Abtei St. Gallen",
+   "fait": "Im 8. Jahrhundert gegründet, war diese Abtei mit ihrer Bibliothek mehrere Jahrhunderte lang eines der bedeutendsten Benediktinerklöster Europas."
+  },
+  "chateau-gruyeres": {
+   "nom": "Schloss Greyerz",
+   "fait": "Dieses Schloss im Kanton Freiburg ist nach Schloss Chillon das zweitmeistbesuchte der Schweiz und zeigt auch Wechselausstellungen."
+  },
+  "lackerli": {
+   "nom": "Läckerli",
+   "fait": "Der Name bedeutet „Leckerei“: Diese kleinen glasierten Quadrate aus Basel, dem Lebkuchen verwandt, vereinen Honig, kandierte Früchte und Mandeln."
+  },
+  "schnitzel": {
+   "nom": "Wiener Schnitzel",
+   "fait": "Diese dünne, panierte und frittierte Fleischscheibe ist ein traditionelles Gericht aus Wien, auf Französisch „escalope viennoise“ genannt."
+  },
+  "opera-etat": {
+   "nom": "Wiener Staatsoper",
+   "fait": "Dieser Name bezeichnet sowohl eine öffentliche Opern- und Ballettkompanie in Wien als auch das 1869 eröffnete Gebäude, in dem sie untergebracht ist."
+  },
+  "stephansdom": {
+   "nom": "Stephansdom",
+   "fait": "Die größte Glocke dieser gotischen Kathedrale, „Die Pummerin“ genannt, wiegt 20 Tonnen; das Dach aus glasierten Ziegeln zeigt diagonale Muster."
+  },
+  "grossglockner": {
+   "nom": "Großglockner",
+   "fait": "Als höchster Berg Österreichs zählt dieser Gipfel jährlich etwa 5.000 Besteigungen und spielte eine wichtige Rolle für den Aufschwung des Alpinismus."
+  },
+  "eisriesenwelt": {
+   "nom": "Eisriesenwelt",
+   "fait": "Der Name bedeutet „Welt der Eisriesen“: Diese Höhle bei Werfen ist die größte natürliche Eishöhle der Welt."
+  },
+  "abbaye-admont": {
+   "nom": "Stift Admont",
+   "fait": "Dieses Benediktinerkloster beherbergt die größte Klosterbibliothek der Welt, 1776 vollendet, sowie ein modernes Museum."
+  },
+  "hochosterwitz": {
+   "nom": "Burg Hochosterwitz",
+   "fait": "Auf einem Dolomitfelsen thronend, zählt diese mittelalterliche Burg zu den Wahrzeichen Kärntens und zu seinen meistbesuchten Sehenswürdigkeiten."
+  },
+  "linzer-torte": {
+   "nom": "Linzer Torte",
+   "fait": "Diese Torte mit Gitterdecke wird in Österreich und der Schweiz meist mit Johannisbeeren, in Deutschland und im Elsass mit Himbeeren gefüllt."
+  },
+  "chateau-mirabell": {
+   "nom": "Schloss Mirabell",
+   "fait": "Dieses Barockschloss steht in der Altstadt von Salzburg; das Gebäude gehört zum UNESCO-Welterbe."
+  },
+  "couque-dinant": {
+   "nom": "Couque de Dinant",
+   "fait": "Dieses Honiggebäck ist so hart, dass viele Menschen es nicht mit den Zähnen anbeißen können; dafür ist es unbegrenzt haltbar."
+  },
+  "kattenstoet": {
+   "nom": "Kattenstoet",
+   "fait": "Bis 1817 warf man echte Katzen vom Turm der Tuchhalle in Ypern; heute ersetzt dieser Umzug sie durch Plüschtiere."
+  },
+  "grottes-han": {
+   "nom": "Höhlen von Han",
+   "fait": "Diese Höhlen von Han-sur-Lesse in der Gemeinde Rochefort in Wallonien bilden ein mit dem Fluss Lesse verbundenes System in der geologischen Region der Calestienne."
+  },
+  "beguinages-flamands": {
+   "nom": "Flämische Beginenhöfe",
+   "fait": "Diese von Beginengemeinschaften errichteten Siedlungen haben ihre Bewohnerinnen überlebt: In Belgien gibt es heute keine Beginengemeinschaften mehr."
+  },
+  "tram-cote": {
+   "nom": "Kusttram",
+   "fait": "Diese Straßenbahn bedient die belgische Küste von De Panne nahe der französischen Grenze bis Knokke nahe der niederländischen Grenze."
+  },
+  "edam": {
+   "nom": "Edamer",
+   "fait": "Dieser Käse wird traditionell als blassgelbe Kugel verkauft, umhüllt von einer dicken gelben oder roten Paraffinschicht."
+  },
+  "hareng-nouveau": {
+   "nom": "Neuer Hering",
+   "fait": "In den Niederlanden bezeichnet dieser Name den ersten verzehrfertigen Hering der Saison, den man auch Maatje nennt."
+  },
+  "kibbeling": {
+   "nom": "Kibbeling",
+   "fait": "Diese frittierten Kabeljaustücke tragen einen Namen, der im 19. Jahrhundert die gesalzenen Bäckchen des Kabeljaus bezeichnete, ein beliebtes Nahrungsmittel."
+  },
+  "jeune-fille-perle": {
+   "nom": "Das Mädchen mit dem Perlenohrring",
+   "fait": "Als „Mona Lisa des Nordens“ bezeichnet, geriet dieses Gemälde von Vermeer mehr als zweihundert Jahre in Vergessenheit, bevor es von einem Sammler wiederentdeckt wurde."
+  },
+  "afsluitdijk": {
+   "nom": "Afsluitdijk",
+   "fait": "Trotz seines Namens „Abschlussdeich“ ist dieses Bauwerk streng genommen ein Damm, da der Wasserstand auf beiden Seiten unterschiedlich ist."
+  },
+  "chateau-haar": {
+   "nom": "Kasteel de Haar",
+   "fait": "Dieses Schloss wurde von Pierre Cuypers wiederaufgebaut, dem Architekten, dem man auch das Rijksmuseum und den Hauptbahnhof von Amsterdam verdankt."
+  },
+  "magere-brug": {
+   "nom": "Magere Brug",
+   "fait": "Der Name bedeutet „magere Brücke“: Die erste, 1670 gebaute Brücke war so schmal, dass zwei Personen kaum aneinander vorbeikamen."
+  },
+  "bourtange": {
+   "nom": "Bourtange",
+   "fait": "Dieses Festungsdorf in der Provinz Groningen, ganz nahe der deutschen Grenze, wurde während des Achtzigjährigen Krieges erbaut."
+  },
+  "barmbrack": {
+   "nom": "Barmbrack",
+   "fait": "Dieses Rosinenbrot zu Halloween verbirgt einen Gegenstand, oft einen Ring: Wer ihn in seinem Stück findet, gilt als Glückspilz."
+  },
+  "anneau-kerry": {
+   "nom": "Ring of Kerry",
+   "fait": "Diese touristische Rundstrecke im County Kerry im Südwesten Irlands führt um die Iveragh-Halbinsel herum."
+  },
+  "iles-aran": {
+   "nom": "Aran-Inseln",
+   "fait": "Geologisch setzt dieser Archipel am Ausgang der Galway-Bucht das Karstgebiet des Burren im County Clare fort."
+  },
+  "pierre-blarney": {
+   "nom": "Blarney Stone",
+   "fait": "Der Legende nach verleiht es die Gabe der Beredsamkeit, diesen Stein in den Zinnen von Blarney Castle kopfüber zu küssen."
+  },
+  "chateau-kilkenny": {
+   "nom": "Kilkenny Castle",
+   "fait": "Lange im Besitz der Familie Butler, wurde diese Burg der Bevölkerung von Kilkenny für nur 50 irische Pfund überlassen."
+  },
+  "poulnabrone": {
+   "nom": "Poulnabrone-Dolmen",
+   "fait": "Von diesem Dolmen ist nur noch ein „Steinskelett“ übrig: Einst war er mit Erde bedeckt, und darunter wurden begrabene menschliche Überreste gefunden."
+  },
+  "hapenny-bridge": {
+   "nom": "Ha’penny Bridge",
+   "fait": "Diese gusseiserne Fußgängerbrücke in Dublin heißt offiziell Liffey Bridge, ein Name, den kaum noch jemand wirklich benutzt."
+  },
+  "croix-brigitte": {
+   "nom": "Kreuz der heiligen Brigida",
+   "fait": "Meist aus Binsen gefertigt, schützt dieses Kreuz der Überlieferung nach das Haus vor Feuer; am Tag der heiligen Brigida verbrannte man das alte."
+  },
+  "guitarra": {
+   "nom": "Guitarra",
+   "fait": "Als wichtigstes Instrument der Fado-Solisten gibt es diese Gitarre in zwei Hauptmodellen: Die Lissabonner hat einen Schneckenkopf, die aus Coimbra einen „Träne“ genannten Wappenschild."
+  },
+  "rabelo": {
+   "nom": "Rabelo",
+   "fait": "Dieses flache, kiellose Boot mit Rahsegel diente schon im 13. Jahrhundert dazu, Wein auf dem Douro zu transportieren."
+  },
+  "batalha": {
+   "nom": "Kloster Batalha",
+   "fait": "Dieses Kloster wurde zum Gedenken an den Sieg der Portugiesen über die Kastilier in der Schlacht von Aljubarrota im Jahr 1385 errichtet."
+  },
+  "bibliotheque-joanina": {
+   "nom": "Biblioteca Joanina",
+   "fait": "Diese barocke Bibliothek der Universität Coimbra verdankt ihren Schmuck den Reichtümern, die die Portugiesen aus Brasilien mitbrachten."
+  },
+  "chateau-maures": {
+   "nom": "Castelo dos Mouros",
+   "fait": "Auf einem Gipfel des Sintra-Gebirges gelegen, bietet diese Burg von ihren Mauern aus einen Blick, der bis zum Atlantischen Ozean reicht."
+  },
+  "salade-horiatiki": {
+   "nom": "Choriatiki-Salat",
+   "fait": "Der Name bedeutet „Bauernsalat“: Er vereint Tomate, Gurke, Feta, Oliven, Zwiebel, grüne Paprika, Kapern, Oregano und Olivenöl."
+  },
+  "mykonos": {
+   "nom": "Mykonos",
+   "fait": "Diese Insel im Norden der Kykladen hat als wichtigste Orte Chóra und Áno Merá; ihre Bewohner heißen Mykonioten oder Mykonier."
+  },
+  "erechtheion": {
+   "nom": "Erechtheion",
+   "fait": "Dieser Tempel barg einen Salzwasserbrunnen, mythisches Geschenk Poseidons, und den heiligen Ölbaum, mythisches Geschenk Athenes bei ihrem Streit mit Poseidon."
+  },
+  "porte-lionnes": {
+   "nom": "Löwentor",
+   "fait": "Dieses Tor von Mykene, gekrönt von zwei gemeißelten Löwinnen, ist das einzige bekannte Beispiel monumentaler Bildhauerei der mykenischen Kultur."
+  },
+  "cap-sounion": {
+   "nom": "Kap Sounion",
+   "fait": "Dieses Kap verdankt seinen Ruhm vor allem den Ruinen eines Poseidontempels; schon die Odyssee nannte es „das heilige Kap Athens“."
+  },
+  "spanakopita": {
+   "nom": "Spanakopita",
+   "fait": "Der Name verbindet die griechischen Wörter für „Spinat“ und „Teig“: Diese Pastete ist wörtlich ein Spinatkuchen."
+  },
+  "tsipouro": {
+   "nom": "Tsipouro",
+   "fait": "Dieser Tresterbrand heißt auf Kreta Tsikoudiá oder Rakí; dort wird er, anders als andere Sorten, nie mit Anis versetzt."
+  },
+  "frappe": {
+   "nom": "Frappé",
+   "fait": "Dieser 1957 entstandene Kaffee wird im Shaker zubereitet: Instantkaffee, kaltes Wasser, Zucker und Eiswürfel werden geschüttelt, bis ein Schaum entsteht."
+  },
+  "avgolemono": {
+   "nom": "Avgolemono",
+   "fait": "Diese griechische Suppe jüdischen Ursprungs wird mit einer Mischung aus Ei und Zitrone gebunden, die in der Brühe erhitzt wird."
+  },
+  "tortilla-patatas": {
+   "nom": "Tortilla de patatas",
+   "fait": "Dieses dicke Kartoffelomelett wird von beiden Seiten gebraten; in manchen Bars serviert man es auch in Stücken auf Brot oder als Sandwich."
+  },
+  "patatas-bravas": {
+   "nom": "Patatas bravas",
+   "fait": "Diese in Olivenöl frittierten Kartoffelwürfel stammen aus der Madrider Küche und werden mit einer scharfen Paprikasauce überzogen."
+  },
+  "casa-batllo": {
+   "nom": "Casa Batlló",
+   "fait": "Für die Fassade dieses Gebäudes in Barcelona kombinierte Gaudí Stein, Schmiedeeisen, Glasscherben und Keramik in allen Farben."
+  },
+  "giralda": {
+   "nom": "Giralda",
+   "fait": "Dieses einstige Minarett einer Moschee wurde zum Glockenturm der Kathedrale von Sevilla; eine ungeschriebene Regel verbietet den Gebäuden im Zentrum, seine Höhe zu erreichen."
+  },
+  "xeres": {
+   "nom": "Jerez",
+   "fait": "Diese Weißweine aus Jerez de la Frontera werden mit Branntwein aufgespritet; in Großbritannien kennt man sie unter dem Namen Sherry."
+  },
+  "manchego": {
+   "nom": "Manchego",
+   "fait": "Dieser Käse aus Kastilien-La Mancha wird aus der Milch von Manchega-Schafen hergestellt; am besten genießt man ihn von September bis Januar."
+  },
+  "porron": {
+   "nom": "Porrón",
+   "fait": "Dieser traditionelle gläserne Weinkrug stammt aus Aragonien und Katalonien, ist aber auch in ganz Spanien bekannt."
+  },
+  "botafumeiro": {
+   "nom": "Botafumeiro",
+   "fait": "Dieses Weihrauchfass der Kathedrale von Santiago de Compostela wird mit Menschenkraft geschwungen, dank eines Phänomens, das parametrische Erregung heißt."
+  },
+  "calcotada": {
+   "nom": "Calçotada",
+   "fait": "Bei diesem Fest unter Familie und Freunden isst man Calçots, lauchähnliche Zwiebeln, die aus Valls stammen und nur im Süden Kataloniens angebaut werden."
+  },
+  "casas-colgadas": {
+   "nom": "Hängende Häuser",
+   "fait": "Diese zwei- oder dreistöckigen Häuser kleben an einem Steilhang über dem Abgrund; die bekanntesten stehen in Cuenca."
+  },
+  "lasagnes": {
+   "nom": "Lasagne",
+   "fait": "Dieses Wort bezeichnet sowohl Nudelplatten als auch das überbackene Gericht, in dem sie mit Parmesan, Bolognese-Sauce und Béchamel geschichtet werden."
+  },
+  "risotto": {
+   "nom": "Risotto",
+   "fait": "In Italien wird dieser in Brühe gegarte Reis normalerweise vor dem Hauptgang serviert, doch die Mailänder Variante begleitet oft Ossobuco."
+  },
+  "mozzarella": {
+   "nom": "Mozzarella",
+   "fait": "Dieser Filata-Käse wird aus Kuh- oder Büffelmilch hergestellt; der aus Kampanien, aus Büffelmilch, trägt eine geschützte Ursprungsbezeichnung."
+  },
+  "ponte-vecchio": {
+   "nom": "Ponte Vecchio",
+   "fait": "Diese Brücke in Florenz ist zugleich Fußgängerstraße und Ladengalerie, eine Hochburg der Juweliere und Luxusgoldschmiede."
+  },
+  "palais-doges": {
+   "nom": "Dogenpalast",
+   "fait": "Dieser gotische und Renaissance-Palast am Markusplatz beherbergte die Dogen und die großen Institutionen der Republik Venedig."
+  },
+  "cannoli": {
+   "nom": "Cannoli",
+   "fait": "In der Einzahl sagt man Cannolo, auf Sizilianisch Cannolu: Dieses Gebäck stammt aus Sizilien und wird auch in Neapel viel zubereitet."
+  },
+  "dolomites": {
+   "nom": "Dolomiten",
+   "fait": "Dieses Gebirge, früher „bleiche Berge“ genannt, verdankt seinen heutigen Namen dem Dolomit, einem Sedimentgestein, das dort reichlich vorkommt."
+  },
+  "bocca-verita": {
+   "nom": "Bocca della Verità",
+   "fait": "Diese Marmorscheibe diente wahrscheinlich als Kanaldeckel; der Legende nach biss sie denen, die nicht die Wahrheit sagten, die Hand ab."
+  },
+  "launeddas": {
+   "nom": "Launeddas",
+   "fait": "Diese sardische Klarinette mit drei Rohren funktioniert ein wenig wie ein Dudelsack, dessen Luftsack die Lunge des Musikers wäre."
+  },
+  "notre-dame-paris": {
+   "nom": "Kathedrale Notre-Dame",
+   "fait": "Diese Kathedrale erlebte die Krönung Napoleons I. und inspirierte Victor Hugo zu einem Roman, der umgekehrt ihre Geschichte teilweise beeinflusst hat."
+  },
+  "sacre-coeur": {
+   "nom": "Basilika Sacré-Cœur",
+   "fait": "Diese nach dem Krieg von 1870 erbaute Basilika gehört der Stadt Paris; auf dem Montmartre-Hügel gelegen, ist sie von weitem zu sehen."
+  },
+  "ratatouille": {
+   "nom": "Ratatouille",
+   "fait": "Dieses in Olivenöl geschmorte Gemüsegericht hat seinen Namen vom okzitanischen ratatolha; es ist eine Spezialität der Küche von Nizza und der Provence."
+  },
+  "boeuf-bourguignon": {
+   "nom": "Bœuf bourguignon",
+   "fait": "Dieses geschmorte Rindfleisch gart in Rotwein mit Perlzwiebeln, Karotten, Pilzen und Speckwürfeln; es ist eines der beliebtesten Gerichte des Landes."
+  },
+  "beaujolais-nouveau": {
+   "nom": "Beaujolais nouveau",
+   "fait": "Dieser Wein, vor allem aus Gamay, darf gleich nach Abschluss der Weinbereitung verkauft werden; er kommt weltweit am dritten Donnerstag im November auf den Markt."
+  },
+  "bouillabaisse": {
+   "nom": "Bouillabaisse",
+   "fait": "Diese Fischsuppe aus Marseille wird mit knoblauchgeriebenen, mit Rouille bestrichenen Croûtons, Fischstücken und Kartoffeln serviert."
+  },
+  "bouquinistes": {
+   "nom": "Bouquinisten an den Quais",
+   "fait": "Diese Buchhändler verkaufen antiquarische und gebrauchte Bücher in fast 900 Kästen entlang der Seine-Quais in Paris."
+  },
+  "chenonceau": {
+   "nom": "Schloss Chenonceau",
+   "fait": "Dieses Schloss, dessen zweistöckige Galerie über dem Cher thront, trägt den Beinamen „Schloss der Damen“: Frauen haben es erbaut und umgestaltet."
+  },
+  "gorges-verdon": {
+   "nom": "Verdonschlucht",
+   "fait": "Diese auch Grand Canyon genannte Schlucht wurde vom Verdon gegraben und trennt zwei Massive der Voralpen; man fährt auf Höhenstraßen an ihr entlang."
+  },
+  "fest-noz": {
+   "nom": "Fest-noz",
+   "fait": "Dieser bretonische Tanzabend lässt die bäuerlichen Feste wieder aufleben, die auf gemeinsame Arbeiten folgten; noz bedeutet „Nacht“, tagsüber spricht man von Fest-deiz."
+  },
+  "lebkuchen": {
+   "nom": "Lebkuchen",
+   "fait": "Dieses Nürnberger Gewürzgebäck sollen fränkische Mönche erfunden haben; man findet es auf den Märkten der Festtagszeit und in Nürnberg das ganze Jahr über."
+  },
+  "speicherstadt": {
+   "nom": "Speicherstadt",
+   "fait": "Wörtlich „Stadt der Speicher“: Der Name sagt genau, was dieses Hamburger Viertel ist, nämlich ein ganzes Gebiet, das den Lagerhäusern vorbehalten ist."
+  },
+  "schweinshaxe": {
+   "nom": "Schweinshaxe",
+   "fait": "Diese gebratene Haxe vom Schwein ist ein „Arme-Leute-Essen“: Das preiswerte Stück wird meist tagelang mariniert und dann lange bei niedriger Temperatur gebraten."
+  },
+  "maultaschen": {
+   "nom": "Maultaschen",
+   "fait": "Diese rechteckigen Teigtaschen aus Schwaben in Baden-Württemberg werden mit sehr unterschiedlichen Füllungen zubereitet, hausgemacht oder industriell."
+  },
+  "kolsch": {
+   "nom": "Kölsch",
+   "fait": "Dieses Bier aus Köln unterliegt einer Vereinbarung zwischen den Brauereien; täglich wird davon eine Million Liter gebraut."
+  },
+  "casse-noisette-bois": {
+   "nom": "Holz-Nussknacker",
+   "fait": "Diese Figur aus dem Erzgebirge ist nicht nur Weihnachtsschmuck: Ein Hebel öffnet und schließt ihren Kiefer, um Nüsse zu knacken."
+  },
+  "pyramide-noel": {
+   "nom": "Weihnachtspyramide",
+   "fait": "Dieses meist hölzerne Karussell dreht sich dank seiner Kerzen: Die warme Luft, die sie abgeben, treibt ein Flügelrad an, das die Figuren mitnimmt."
+  },
+  "sanssouci": {
+   "nom": "Schloss Sanssouci",
+   "fait": "Dieses Schloss in Potsdam war die Sommerresidenz Friedrichs des Großen, des Königs von Preußen, erbaut in einem Stil, der friderizianisches Rokoko heißt."
+  },
+  "holstentor": {
+   "nom": "Holstentor",
+   "fait": "Dieses gotische Tor ist eines der beiden einzigen erhaltenen Tore der mittelalterlichen Befestigung Lübecks und das Wahrzeichen der Stadt."
+  },
+  "porta-nigra": {
+   "nom": "Porta Nigra",
+   "fait": "Dieses römische Tor in Trier aus trocken gefügten Sandsteinblöcken verdankt seinen Namen „Schwarzes Tor“ der Patina der Jahrhunderte."
+  },
+  "cathedrale-aix": {
+   "nom": "Aachener Dom",
+   "fait": "Unter der Herrschaft Karls des Großen erbaut, der hier begraben liegt, erlebte dieser Dom die Krönung von einunddreißig deutschen Königen."
+  },
+  "konigssee": {
+   "nom": "Königssee",
+   "fait": "Dieser Alpensee in Bayern, von hohen Bergen umgeben, ähnelt einem Fjord: Er wurde von den Gletschern der letzten Eiszeit geformt."
+  },
+  "tour-de-londres": {
+   "nom": "Tower of London",
+   "fait": "Diese Festung war Gefängnis, Königspalast, Waffenkammer, Schatzkammer und sogar Menagerie; sie beherbergt die Kronjuwelen."
+  },
+  "christmas-pudding": {
+   "nom": "Christmas Pudding",
+   "fait": "Man nannte ihn „das englischste aller Gerichte“ aus „den am wenigsten englischen Zutaten“: Gewürze, Rosinen und Zucker werden eingeführt."
+  },
+  "yorkshire-pudding": {
+   "nom": "Yorkshire Pudding",
+   "fait": "Anders als die meisten britischen Puddings ist dieser kein Dessert: Er wird zum Hauptgericht gereicht, etwa zu Roastbeef."
+  },
+  "shortbread": {
+   "nom": "Shortbread",
+   "fait": "Dieses schottische Buttergebäck enthält gewöhnlich doppelt so viel Butter wie Zucker; manchmal fügt man Reismehl hinzu, um seine Konsistenz zu verändern."
+  },
+  "viaduc-glenfinnan": {
+   "nom": "Glenfinnan-Viadukt",
+   "fait": "Dieser 1901 fertiggestellte schottische Eisenbahnviadukt trägt die West Highland Line am Nordende von Loch Shiel."
+  },
+  "falaises-douvres": {
+   "nom": "Kreidefelsen von Dover",
+   "fait": "Diese dem Kontinent zugewandten Kreidefelsen waren vor dem Flugzeug für Reisende der erste oder letzte Anblick des Landes."
+  },
+  "morris-dance": {
+   "nom": "Morris Dance",
+   "fait": "Bei diesem englischen Volkstanz schwenkt man große Taschentücher; sein Name soll eine Verballhornung von moorish, „maurisch“, sein."
+  },
+  "eisteddfod": {
+   "nom": "Eisteddfod",
+   "fait": "Dieses walisische Festival veranstaltet Wettbewerbe in Dichtung, Musik und Theater in walisischer Sprache; seine Tradition reicht mindestens bis ins 12. Jahrhundert zurück."
+  },
+  "eilean-donan": {
+   "nom": "Eilean Donan Castle",
+   "fait": "Nach einer Schlacht als Ruine zurückgelassen, wurde diese schottische Burg, die über eine Steinbrücke mit dem Festland verbunden ist, vom Clan MacRae wieder aufgebaut."
+  },
+  "ballokume": {
+   "nom": "Ballokume",
+   "fait": "Dieses Gebäck aus Elbasan gilt als Symbol des Sommerfestes, eines heidnischen Festes am 14. März: Man nennt es auch „Sommerkuchen“."
+  },
+  "apollonia-illyrie": {
+   "nom": "Apollonia in Illyrien",
+   "fait": "Diese antike griechische Stadt liegt nicht in Griechenland: Sie stand in Illyrien, am Ufer der Vjosa, nahe dem albanischen Dorf Pojani."
+  },
+  "chateau-rozafa": {
+   "nom": "Burg Rozafa",
+   "fait": "Auf dem Tepe-Hügel bei Shkodra gelegen, ist diese Burg von zwei Flüssen umgeben, der Buna und dem Drin."
+  },
+  "mosquee-ethem-bey": {
+   "nom": "Et’hem-Bey-Moschee",
+   "fait": "Nahe dem Skanderbeg-Platz im Herzen von Tirana kann diese Moschee im osmanischen Stil außerhalb der Gebetszeiten besichtigt werden."
+  },
+  "palais-roujany": {
+   "nom": "Schloss Ruschany",
+   "fait": "Diese Ruinen sind die Überreste der Residenz der Adelsfamilie Sapieha, die hier mehr als zwei Jahrhunderte lang lebte, im Dorf Ruschany."
+  },
+  "vieux-chateau-hrodna": {
+   "nom": "Altes Schloss Grodno",
+   "fait": "Nachdem die alte Holzburg 1398 abgebrannt war, ließ Großfürst Vytautas sie im gotischen Stil aus Ziegeln neu errichten, um einen weiteren Brand zu verhindern."
+  },
+  "chateau-navahroudak": {
+   "nom": "Burg Nawahrudak",
+   "fait": "Diese Burgruine wurde 1314 vom Deutschen Orden eingenommen, bevor Vytautas der Große sie mit Steintürmen verstärkte."
+  },
+  "mosquee-gazi-husrev-bey": {
+   "nom": "Gazi-Husrev-Beg-Moschee",
+   "fait": "1531 in Sarajevo erbaut, steht diese Moschee heute auf der Liste der Nationaldenkmäler von Bosnien und Herzegowina."
+  },
+  "pont-des-chevres": {
+   "nom": "Ziegenbrücke (Kozija ćuprija)",
+   "fait": "Im 16. Jahrhundert bei Sarajevo erbaut, trägt diese Brücke einen merkwürdigen Namen: Kozija ćuprija, die „Ziegenbrücke“."
+  },
+  "mosquee-karadjoz-bey": {
+   "nom": "Karađozbeg-Moschee",
+   "fait": "1557 und 1558 in Mostar erbaut, steht diese Moschee ebenso wie das umliegende Viertel als Nationaldenkmal unter Schutz."
+  },
+  "parc-national-una": {
+   "nom": "Nationalpark Una",
+   "fait": "Dieser Park verdankt seinen Namen dem Fluss Una, der ihn durchfließt: Er wurde geschaffen, um ihn samt seinen Nebenflüssen Krka und Unac unberührt zu erhalten."
+  },
+  "bosanski-lonac": {
+   "nom": "Schmortopf (Lonac)",
+   "fait": "Dieser Eintopf aus Fleisch- und Gemüsestücken variiert von Familie zu Familie und von Region zu Region; er wurde als Nationalgericht von Bosnien und Herzegowina bezeichnet."
+  },
+  "gadoulka": {
+   "nom": "Gadulka",
+   "fait": "Dieses bulgarische Streichinstrument ist eine Variante aus der Familie der Fideln, die in der byzantinischen und osmanischen Welt verbreitet waren."
+  },
+  "perperikon": {
+   "nom": "Perperikon",
+   "fait": "Diese antike Stadt Thrakiens, in den Fels der Rhodopen gebaut, wurde bereits von Herodot erwähnt."
+  },
+  "paski-sir": {
+   "nom": "Paški sir",
+   "fait": "Dieser Hartkäse aus Schafsmilch stammt von der Insel Pag; seit 2019 ist er durch eine europäische Ursprungsbezeichnung geschützt."
+  },
+  "soparnik": {
+   "nom": "Soparnik",
+   "fait": "Dieser Mangoldkuchen wird auf dem Stein einer offenen Feuerstelle unter Glut und Asche gebacken und dann mit Knoblauch und Olivenöl bedeckt."
+  },
+  "alka-sinj": {
+   "nom": "Alka von Sinj",
+   "fait": "Dieses Reiterturnier wird jeden ersten Sonntag im August in Sinj ausgetragen und erinnert an einen Sieg gegen das Osmanische Reich im Jahr 1715."
+  },
+  "cathedrale-sibenik": {
+   "nom": "Kathedrale des heiligen Jakob in Šibenik",
+   "fait": "Von drei verschiedenen Architekten erbaut, zeugt diese Kathedrale vom Übergang der Gotik zur Renaissance und vom Austausch zwischen Dalmatien und der Toskana."
+  },
+  "zlatni-rat": {
+   "nom": "Zlatni Rat",
+   "fait": "Diese Landzunge aus weißen Kieseln ragt in einen Kanal mit starken Strömungen; ihre so besondere Form ziert zahlreiche Reiseprospekte."
+  },
+  "parc-national-krka": {
+   "nom": "Nationalpark Krka",
+   "fait": "Auf zwei Dritteln ihres Laufs bahnt sich die Krka ihren Weg durch tiefe Schluchten, bevor sie in die Adria mündet; ihre Wasserfälle sind die Attraktion des Parks."
+  },
+  "mons-klint": {
+   "nom": "Møns Klint",
+   "fait": "Diese Kreidefelsen erheben sich am Ostende der Insel Møn; ihr dänischer Name bedeutet einfach „die Klippen von Møn“."
+  },
+  "pierres-jelling": {
+   "nom": "Runensteine von Jelling",
+   "fait": "Der große Runenstein, von Harald Blauzahn errichtet, erzählt von seiner Eroberung Dänemarks und Norwegens und von der Bekehrung der Dänen zum Christentum."
+  },
+  "flaeskesteg": {
+   "nom": "Flæskesteg",
+   "fait": "Dieser Schweinebraten wird stets mit seiner Schwarte zubereitet; die Dänen servieren ihn gern zum Weihnachtsessen am Abend des 24. Dezember."
+  },
+  "sepik": {
+   "nom": "Sepik",
+   "fait": "Dieses Vollkornbrot wird traditionell an Neujahr, am Vastlapäev oder am Martinstag gereicht; sein Vorläufer ist ein Gerstenbrot, der Karask."
+  },
+  "cratere-kaali": {
+   "nom": "Kaali-Krater",
+   "fait": "Man suchte seinen Ursprung zunächst im Vulkanismus, bevor nachgewiesen wurde, dass dieser Krater auf Saaremaa vor mehr als 4.000 Jahren durch einen Meteoriteneinschlag entstand."
+  },
+  "leipajuusto": {
+   "nom": "Leipäjuusto",
+   "fait": "Dieser finnische Käse wird nicht aus gewöhnlicher Milch hergestellt: Man gewinnt ihn aus Kolostrum von Kühen."
+  },
+  "jouhikko": {
+   "nom": "Jouhikko",
+   "fait": "Diese Streichleier gelangte über Norwegen nach Finnland; sie ist mit der Crwth verwandt, einem walisischen Instrument."
+  },
+  "olavinlinna": {
+   "nom": "Olavinlinna",
+   "fait": "Von den Schweden zwischen zwei Seen erbaut, ist diese Burg die nördlichste noch stehende mittelalterliche Burg der Welt."
+  },
+  "gare-centrale-helsinki": {
+   "nom": "Hauptbahnhof Helsinki",
+   "fait": "Dieser Bahnhof am Rautatientori im Zentrum von Helsinki ist der meistfrequentierte in ganz Finnland."
+  },
+  "bains-gellert": {
+   "nom": "Gellértbad",
+   "fait": "Diese Thermalbäder am Fuß des Gellértbergs in Budapest grenzen an ein Hotel, das für seine Ausstattung im Sezessionsstil berühmt ist."
+  },
+  "basilique-esztergom": {
+   "nom": "Basilika von Esztergom",
+   "fait": "Zur Weihe dieser Basilika im Jahr 1856 komponierte Franz Liszt eine Messe und führte sie auf, die sogenannte „Graner Messe“."
+  },
+  "arany-galuska": {
+   "nom": "Arany galuska",
+   "fait": "Der Name erinnert an goldene Kugeln: Dieses Dessert besteht aus Hefeteigkugeln, die in Butter, Zucker und Nüssen gewälzt und dann im Ofen goldbraun gebacken werden."
+  },
+  "teliszalami": {
+   "nom": "Téliszalámi",
+   "fait": "Diese „Wintersalami“ wird aus Fleisch des Wollschweins Mangalitza hergestellt und sehr langsam bei sehr niedriger Temperatur geräuchert; dabei bildet sich ein Belag um sie herum."
+  },
+  "lecso": {
+   "nom": "Lecsó",
+   "fait": "Dieser Schmortopf aus Paprikaschoten, Tomaten und Zwiebeln mit Paprikapulver wird nach den meisten Rezepten mit der mildesten ungarischen Paprikasorte zubereitet, die von August bis Oktober Saison hat."
+  },
+  "tarhonya": {
+   "nom": "Tarhonya",
+   "fait": "Diese getrockneten Teigwaren, die man formt, indem man den Teig mit den Fingerspitzen zupft oder durch eine Reibe drückt, kamen über die Türken aus Persien."
+  },
+  "szaloncukor": {
+   "nom": "Szaloncukor",
+   "fait": "Dieses mit Schokolade überzogene Fondant ist eine Weihnachtssüßigkeit in Ungarn; sein ungarischer Name ist dem deutschen Salonzuckerl entlehnt."
+  },
+  "gullfoss": {
+   "nom": "Gullfoss",
+   "fait": "Der Name bedeutet „die goldenen Fälle“: Der Fluss Hvítá stürzt hier in zwei Stufen in eine enge Schlucht, ganz in der Nähe von Geysir."
+  },
+  "skogafoss": {
+   "nom": "Skógafoss",
+   "fait": "Man erzählt, ein Wikinger habe hinter diesem Wasserfall eine Truhe versteckt; ein Kind soll nur einen Griff davon erwischt haben, der im Museum von Skógar aufbewahrt wird."
+  },
+  "hangikjot": {
+   "nom": "Hangikjöt",
+   "fait": "Dieses Lamm- oder Hammelfleisch, dessen Name „gehängtes Fleisch“ bedeutet, wird über Birkenholz oder getrocknetem Schafsmist geräuchert."
+  },
+  "vinarterta": {
+   "nom": "Vínarterta",
+   "fait": "Diese mit Pflaumenmus gefüllte Schichttorte entstand in Island, doch ihr Name, „Wiener Torte“, deutet auf österreichische Wurzeln hin."
+  },
+  "palais-rundale": {
+   "nom": "Schloss Rundāle",
+   "fait": "Dieses Barockschloss wurde nicht in einem Zug erbaut: Die Bauarbeiten erfolgten in zwei Abschnitten, die mehr als zwanzig Jahre auseinanderlagen."
+  },
+  "rupjmaize": {
+   "nom": "Rupjmaize",
+   "fait": "Dieses Brot aus grobem Roggenmehl mit Malz und Kümmel wird im Holzofen gebacken; 2014 erkannte die Europäische Kommission es als garantiert traditionelle Spezialität an."
+  },
+  "kugelis": {
+   "nom": "Kugelis",
+   "fait": "Dieser Kartoffelauflauf, ein litauisches Nationalgericht, wird mit Apfelmus, Preiselbeerkonfitüre oder Sauerrahm gegessen."
+  },
+  "cathedrale-vilnius": {
+   "nom": "Kathedrale von Vilnius",
+   "fait": "Dem heiligen Stanislaus und dem heiligen Ladislaus geweiht, ist diese Kathedrale die wichtigste katholische Kirche ganz Litauens."
+  },
+  "kernave": {
+   "nom": "Kernavė",
+   "fait": "Dieses touristische Dorf war die erste bekannte Hauptstadt des Großfürstentums Litauen; König Mindaugas wurde hier 1253 gekrönt."
+  },
+  "vieux-bazar-skopje": {
+   "nom": "Alter Basar von Skopje",
+   "fait": "Als größter Basar des Balkans außerhalb Istanbuls ist er das einzige alte Viertel Skopjes, das das Erdbeben von 1963 weitgehend überstanden hat."
+  },
+  "forteresse-kale-skopje": {
+   "nom": "Festung Kale von Skopje",
+   "fait": "Ihr Name Kale stammt aus dem Türkischen und bedeutet „Festung“; sie überragt die Altstadt und erscheint im Wappen von Skopje."
+  },
+  "bryggen": {
+   "nom": "Bryggen",
+   "fait": "Dieses Viertel in Bergen trägt seinen Namen zu Recht: Es ist auf einem Kai erbaut, und „brygge“ bedeutet auf Norwegisch eben Kai oder Anlegestelle."
+  },
+  "cap-nord": {
+   "nom": "Nordkap",
+   "fait": "Man bezeichnet seine Klippe oft als nördlichsten Punkt Europas, doch Knivskjellodden liegt in Wirklichkeit 1.611 Meter weiter nördlich."
+  },
+  "kjeragbolten": {
+   "nom": "Kjeragbolten",
+   "fait": "Dieser Felsblock steckt in einer Bergspalte fest und hängt über dem Lysefjord; er zieht viele Wanderer an."
+  },
+  "lefse": {
+   "nom": "Lefse",
+   "fait": "Dieses traditionelle norwegische Brot wird aus Kartoffeln, Milch oder Crème fraîche und Mehl hergestellt und auf einer heißen Platte gebacken."
+  },
+  "rosemaling": {
+   "nom": "Rosemaling",
+   "fait": "Diese Kunst der Blumenmalerei, entstanden auf dem norwegischen Land, lebt jenseits des Atlantiks bei Amerikanern norwegischer Herkunft fort."
+  },
+  "palais-royal-varsovie": {
+   "nom": "Königsschloss Warschau",
+   "fait": "Einst offizielle Residenz der Könige von Polen, wurde dieses Schloss in der Altstadt 1944 zerstört und anschließend wiederaufgebaut."
+  },
+  "desert-bledow": {
+   "nom": "Błędów-Wüste",
+   "fait": "Diese „Wüste“ ist ein Sandgebiet in Polen zwischen Błędów, einem Teil der Stadt Dąbrowa Górnicza in Oberschlesien, und dem Dorf Klucze."
+  },
+  "morskie-oko": {
+   "nom": "Morskie Oko",
+   "fait": "Dieser See, der größte glazialen Ursprungs in der Hohen Tatra, wurde vom Wall Street Journal zu den fünf schönsten Seen der Welt gezählt."
+  },
+  "kabanos": {
+   "nom": "Kabanos",
+   "fait": "Diese lange, sehr dünne Trockenwurst dient oft als Wanderproviant, da sie sich hält, ohne viel zu verderben."
+  },
+  "nalewka": {
+   "nom": "Nalewka",
+   "fait": "Diese traditionelle polnische Spirituose kann bis zu 75 % Alkohol enthalten, auch wenn die meisten Varianten deutlich schwächer sind."
+  },
+  "oplatek": {
+   "nom": "Opłatek",
+   "fait": "Am Heiligabend bricht jeder ein Stück von dieser Oblate aus ungesäuertem Brot und tauscht es mit seinen Angehörigen aus, wobei man ihnen gute Wünsche ausspricht."
+  },
+  "obwarzanek": {
+   "nom": "Obwarzanek",
+   "fait": "Dieser geflochtene Brotring wird vor dem Backen gekocht; in Krakau kauft man ihn traditionell auf der Straße an Ständen."
+  },
+  "bar-mleczny": {
+   "nom": "Bar mleczny",
+   "fait": "Diese „Milchbar“ bot in der kommunistischen Zeit preiswerte Mahlzeiten an, meist auf der Basis von Milchprodukten."
+  },
+  "mine-sel-turda": {
+   "nom": "Salzbergwerk Turda",
+   "fait": "Dieses ehemalige Salzbergwerk in Siebenbürgen wurde in ein unterirdisches Freizeit- und Gesundheitszentrum umgewandelt."
+  },
+  "sighisoara": {
+   "nom": "Sighișoara",
+   "fait": "Diese Stadt in Siebenbürgen hat mehrere Namen: Schäßburg auf Deutsch, Segesvár auf Ungarisch und sogar Castrum Saxorum auf Latein."
+  },
+  "chateau-corvin": {
+   "nom": "Burg der Corvinen",
+   "fait": "Auch Burg Hunedoara genannt, ist diese Burg in Siebenbürgen die größte in ganz Rumänien."
+  },
+  "eglise-fortifiee-biertan": {
+   "nom": "Kirchenburg Birthälm",
+   "fait": "Diese Kirchenburg wurde von den Sachsen erbaut, einer deutschen Gemeinschaft in Siebenbürgen; zunächst katholisch, wurde sie mit der Reformation lutherisch."
+  },
+  "kremlin-kazan": {
+   "nom": "Kasaner Kreml",
+   "fait": "Dieser Kreml wurde auf Befehl Iwans IV. an der Stelle der Ruinen der alten Burg der Khane von Kasan errichtet."
+  },
+  "cathedrale-saint-isaac": {
+   "nom": "Isaakskathedrale",
+   "fait": "Nach dem Vorbild der St Paul’s Cathedral in London wurde diese orthodoxe Kathedrale für 14.000 Gläubige ausgelegt."
+  },
+  "pogost-kiji": {
+   "nom": "Pogost von Kischi",
+   "fait": "Einer Legende nach wurde seine ohne Nägel errichtete Verklärungskirche mit einer einzigen Axt erbaut, die der Handwerker danach in den See warf."
+  },
+  "troika": {
+   "nom": "Troika",
+   "fait": "Bei diesem Dreiergespann trabt das mittlere Pferd, während die seitlichen galoppieren: Es ist das einzige bekannte Gespann mit unterschiedlichen Gangarten."
+  },
+  "koulibiak": {
+   "nom": "Kulebjak",
+   "fait": "Diese Pastete verbirgt unter ihrem Blätterteig Schichten aus Fisch oder Fleisch, Reis und Eiern, die im eigenen Dampf garen, und wird dann in Scheiben serviert."
+  },
+  "bayan": {
+   "nom": "Bajan",
+   "fait": "Dieses chromatische Akkordeon verdankt seinen Namen Bajan, einem legendären alten Sänger und Erzähler, der vor mehreren Fürsten aufgetreten sein soll."
+  },
+  "stroganina": {
+   "nom": "Stroganina",
+   "fait": "Dieses Gericht der Völker des arktischen Sibiriens besteht aus langen, dünnen Scheiben rohen Fischs; sein Name bedeutet „Hobelspäne“."
+  },
+  "forteresse-golubac": {
+   "nom": "Festung Golubac",
+   "fait": "Ihre Fundamente liegen heute unter Wasser: Der Pegel der Donau stieg nach dem Bau des Staudamms am Eisernen Tor deutlich an."
+  },
+  "lepenski-vir": {
+   "nom": "Lepenski Vir",
+   "fait": "Diese Fundstätte an der Donau, deren Name „Lindenstrudel“ bedeutet, scheint mit der Ansiedlung der ersten europäischen Bauern verbunden zu sein."
+  },
+  "monastere-sopocani": {
+   "nom": "Kloster Sopoćani",
+   "fait": "Dieses orthodoxe Kloster steht nahe den Quellen der Raška, unweit von Stari Ras, dem Zentrum des mittelalterlichen serbischen Staates Raszien."
+  },
+  "forteresse-petrovaradin": {
+   "nom": "Festung Petrovaradin",
+   "fait": "Diese Festung bei Novi Sad birgt 16 km unterirdische Gänge; der Grundstein ihres südlichen Teils wurde 1692 vom Fürsten von Croÿ gelegt."
+  },
+  "monastere-zica": {
+   "nom": "Kloster Žiča",
+   "fait": "Dieses orthodoxe Kloster am Eingang der Ibar-Schlucht bei Kraljevo ist auch Sitz der gleichnamigen Eparchie."
+  },
+  "banska-stiavnica": {
+   "nom": "Banská Štiavnica",
+   "fait": "Einst für den Abbau von Metallen, vor allem Silber, bekannt, besitzt diese Bergbaustadt eine vollständig erhaltene mittelalterliche Altstadt, die 1993 in die UNESCO-Liste aufgenommen wurde."
+  },
+  "cicmany": {
+   "nom": "Čičmany",
+   "fait": "Diese Gemeinde in der Region Žilina in der Slowakei ist berühmt für ihre typische Volksarchitektur."
+  },
+  "chateau-bratislava": {
+   "nom": "Bratislavaer Burg",
+   "fait": "Ihre vier Ecktürme gelten als Wahrzeichen der Stadt; die Burg ist auf den slowakischen 10-, 20- und 50-Euro-Cent-Münzen abgebildet."
+  },
+  "parenica": {
+   "nom": "Parenica",
+   "fait": "Dieser slowakische Filata-Käse aus Schafsmilch ist durch eine geografische Angabe der Europäischen Union geschützt."
+  },
+  "grottes-skocjan": {
+   "nom": "Höhlen von Škocjan",
+   "fait": "Diese Kalksteinhöhlen im Karst, die zur Erforschung karstischer Phänomene intensiv untersucht werden, bilden das größte unterirdische Feuchtgebiet der Welt."
+  },
+  "lac-bohinj": {
+   "nom": "Wocheiner See",
+   "fait": "Es ist der größte ständige See Sloweniens; er liegt im Nordwesten des Landes, im Triglav-Nationalpark."
+  },
+  "prinsesstarta": {
+   "nom": "Prinsesstårta",
+   "fait": "Diese „Prinzessinnentorte“ verbirgt Biskuit, Himbeerkonfitüre und Creme unter einer dünnen Schicht Marzipan, meist grün."
+  },
+  "lussekatt": {
+   "nom": "Lussekatt",
+   "fait": "Diese kleinen Hefebrötchen verdanken ihre sehr gelbe Farbe dem Safran; man verbindet sie mit den Feiern zum Luciafest."
+  },
+  "kroppkaka": {
+   "nom": "Kroppkaka",
+   "fait": "Dieser Kloß aus gekochten Kartoffeln birgt in seinem Inneren eine Füllung aus Zwiebeln und Schweinefleisch oder Speck."
+  },
+  "spettekaka": {
+   "nom": "Spettekaka",
+   "fait": "Dieser auf einem über dem Feuer drehenden Spieß gebackene Kuchen ist sehr trocken: Große Exemplare schneidet man mit der Metallsäge, sonst zerbröseln sie."
+  },
+  "smorgastarta": {
+   "nom": "Smörgåstårta",
+   "fait": "Diese „Torte“ ist eigentlich ein Sandwich: belegte Weißbrotschichten, mit Mayonnaise und Crème fraîche überzogen und dann verziert."
+  },
+  "kraftskiva": {
+   "nom": "Krebsfest (Kräftskiva)",
+   "fait": "Jedes Jahr am Ende des Sommers treffen sich die Schweden zu diesem Volksfest, bei dem Flusskrebse verspeist werden."
+  },
+  "janssons-frestelse": {
+   "nom": "Janssons Versuchung",
+   "fait": "Dieses Gericht aus Kartoffeln, Zwiebeln und Sprotten gehört normalerweise zum schwedischen Weihnachtsbuffet, wird aber auch zu anderen Anlässen serviert."
+  },
+  "hasselbackspotatis": {
+   "nom": "Hasselback-Kartoffeln",
+   "fait": "Diese Kartoffeln werden nur bis zur halben Höhe in dünne Scheiben geschnitten und dann mit Butter, Paniermehl und Mandeln gebacken."
+  },
+  "ostkaka": {
+   "nom": "Ostkaka",
+   "fait": "Dieser „Käsekuchen“ darf nicht mit Cheesecake verwechselt werden: Man isst ihn lauwarm, typischerweise mit Moltebeer-, Kirsch- oder Erdbeerkonfitüre."
+  },
+  "ales-stenar": {
+   "nom": "Ales stenar",
+   "fait": "Nach der Volksüberlieferung Schonens sollen diese Megalithen im Süden Schwedens das Grab von König Ale sein, der ihnen seinen Namen gab."
+  },
+  "hotel-ville-stockholm": {
+   "nom": "Stockholmer Stadthaus",
+   "fait": "Dieses Gebäude, Sitz des Stockholmer Stadtrats, steht an der Ostspitze der Insel Kungsholmen am Ufer des Mälaren."
+  },
+  "chateau-prague": {
+   "nom": "Prager Burg",
+   "fait": "Das Guinness-Buch der Rekorde führt sie als größte alte Burg der Welt; hier werden die Kronjuwelen Böhmens aufbewahrt."
+  },
+  "chateau-karlstejn": {
+   "nom": "Burg Karlštejn",
+   "fait": "Von Kaiser Karl IV. gegründet, diente diese Burg als Schatzkammer für die Reichskleinodien und für verschiedene Reliquien."
+  },
+  "pravcicka-brana": {
+   "nom": "Prebischtor",
+   "fait": "Es ist der größte natürliche Sandsteinbogen Europas; er liegt in der „Böhmischen Schweiz“ und ist nur zu Fuß erreichbar."
+  },
+  "olomoucke-syrecky": {
+   "nom": "Olmützer Quargel",
+   "fait": "Dieser Käse aus Mähren ist an seinem starken Geruch und seinem scharfen Geschmack zu erkennen; dabei enthält er nur 0,6 % Fett."
+  },
+  "pampushka": {
+   "nom": "Pampuschky",
+   "fait": "Diese kleinen Hefebrötchen oder Krapfen der ukrainischen Küche werden sowohl herzhaft als auch süß zubereitet."
+  },
+  "sainte-sophie-kiev": {
+   "nom": "Sophienkathedrale in Kiew",
+   "fait": "Nach der Hagia Sophia in Konstantinopel benannt, birgt sie das Grab ihres Gründers Jaroslaw des Weisen, das einzige, das erhalten geblieben ist."
+  },
+  "chateau-olesko": {
+   "nom": "Burg Olesko",
+   "fait": "Diese Burg gilt als älteste Festung der Westukraine, in der historischen Region Galizien."
+  },
+  "soupe-miso": {
+   "nom": "Misosuppe",
+   "fait": "Diese Brühe aus fermentierter Sojapaste und Dashi bildet zusammen mit Reis eines der Grundgerichte traditioneller japanischer Mahlzeiten."
+  },
+  "wasabi": {
+   "nom": "Wasabi",
+   "fait": "Dieses Würzmittel ist der zu Paste geriebene Stängel einer halb im Wasser wachsenden Pflanze aus derselben Familie wie Senf und Meerrettich."
+  },
+  "teriyaki": {
+   "nom": "Teriyaki",
+   "fait": "Dieses glasierte Fleisch oder dieser glasierte Fisch wird in einer Mischung aus Sake, Mirin und Sojasauce gegrillt, den drei Säulen der japanischen Küche."
+  },
+  "sukiyaki": {
+   "nom": "Sukiyaki",
+   "fait": "Der Name kommt von suki, „Spaten“, und yaki, „grillen“: Bei diesem süß-salzigen Fondue werden Rindfleisch und Gemüse in einer Brühe gegart."
+  },
+  "shabu-shabu": {
+   "nom": "Shabu-Shabu",
+   "fait": "Der Name dieses japanischen Fondues, salziger als Sukiyaki, ahmt das Geräusch des Fleisches nach, das in die heiße Brühe getaucht wird."
+  },
+  "tonkatsu": {
+   "nom": "Tonkatsu",
+   "fait": "Japanische Schüler und Studenten essen dieses panierte Schweinefleisch gern vor einer Prüfung: Katsu erinnert auch an das Verb „gewinnen“ oder „bestehen“."
+  },
+  "onigiri": {
+   "nom": "Onigiri",
+   "fait": "Diese Reisbällchen, oft mit einer sehr salzigen getrockneten Pflaume gefüllt, gelten in Japan nicht als Mahlzeit, sondern als Snack."
+  },
+  "soba": {
+   "nom": "Soba",
+   "fait": "Diese japanischen Nudeln werden aus Buchweizenmehl hergestellt, und Soba ist auch der Name, den die Japaner dieser Pflanze geben."
+  },
+  "natto": {
+   "nom": "Nattō",
+   "fait": "Diese fermentierten Sojabohnen, klebrig und mit Ammoniakgeruch, isst man auf einfachem Reis, oft zum Frühstück."
+  },
+  "dorayaki": {
+   "nom": "Dorayaki",
+   "fait": "Dieses Gebäck aus zwei mit roter Bohnenpaste gefüllten Biskuitfladen soll seinen Namen von dora haben, japanisch für „Gong“."
+  },
+  "taiyaki": {
+   "nom": "Taiyaki",
+   "fait": "Dieser fischförmige Kuchen, dessen Name „gebackene Meerbrasse“ bedeutet, ist meist mit süßer roter Bohnenpaste gefüllt."
+  },
+  "umeshu": {
+   "nom": "Umeshu",
+   "fait": "Dieser Likör wird aromatisiert, indem man darin Früchte der Japanischen Aprikose ziehen lässt; nicht zu verwechseln mit Umezu, einem Pflaumenessig."
+  },
+  "karate": {
+   "nom": "Karate",
+   "fait": "Diese als japanisch geltende Kampfkunst entstand auf Okinawa, im einstigen unabhängigen Königreich Ryūkyū, und ging aus einem chinesischen Faustkampf hervor."
+  },
+  "judo": {
+   "nom": "Judo",
+   "fait": "Der Name bedeutet „sanfter Weg“: Sein Begründer verbannte die gefährlichen Techniken der alten Schulen, um daraus eine Erziehung für die Jugend zu machen."
+  },
+  "aikido": {
+   "nom": "Aikidō",
+   "fait": "Diese Kampfkunst will den Gegner nicht besiegen, sondern seinen Angriff zunichtemachen; Wettkämpfe kennt sie fast nirgends."
+  },
+  "shuriken": {
+   "nom": "Shuriken",
+   "fait": "Diese Wurfwaffe der Ninjas ist im direkten Kampf wenig wirksam: Sie dient eher dazu, den Gegner abzulenken, oder bei Hinterhalten."
+  },
+  "shinkansen": {
+   "nom": "Shinkansen",
+   "fait": "Seit seiner Inbetriebnahme 1964 hat dieser Zug Japan zum Pionier des Hochgeschwindigkeitsverkehrs auf der Schiene gemacht; sein Name bezeichnet auch seine Strecken."
+  },
+  "grande-vague": {
+   "nom": "Die große Welle vor Kanagawa",
+   "fait": "Dieser Farbholzschnitt von Hokusai verbindet japanische Tradition mit westlicher Perspektive; in Europa inspirierte er die Impressionisten."
+  },
+  "ukiyo-e": {
+   "nom": "Ukiyo-e",
+   "fait": "Der Name bedeutet „Bild der fließenden Welt“: Diese preiswerten Holzschnitte, in Japan als vulgär angesehen, begeisterten den Westen."
+  },
+  "yukata": {
+   "nom": "Yukata",
+   "fait": "Dieser leichte Sommerkimono, von Männern wie Frauen getragen, war traditionell indigoblau und weiß; moderne Modelle sind maschinenwaschbar."
+  },
+  "koinobori": {
+   "nom": "Koinobori",
+   "fait": "Diese Windsäcke in Form von Koi-Karpfen werden zum Kindertag gehisst, der in Japan jedes Jahr am 5. Mai gefeiert wird."
+  },
+  "hina-matsuri": {
+   "nom": "Hina-Matsuri",
+   "fait": "Zu diesem Fest der Mädchen stellt man auf Stufengestellen Puppen aus, die den Kaiserhof darstellen; den Rest des Jahres schlafen sie in einem Karton."
+  },
+  "kendama": {
+   "nom": "Kendama",
+   "fait": "Dieses Geschicklichkeitsspiel aus Holz ähnelt einem Kugelfangspiel, doch sein Griff trägt zusätzlich zwei Schälchen, auf denen man die Kugel bewegt."
+  },
+  "koto": {
+   "nom": "Koto",
+   "fait": "Um das 8. Jahrhundert aus China gekommen, wurde dieses Zupfinstrument zunächst am Kaiserhof gespielt, bevor es sich in breiteren Kreisen verbreitete."
+  },
+  "furoshiki": {
+   "nom": "Furoshiki",
+   "fait": "Diese Technik des Faltens und Knotens eines Tuchs dient zum Verpacken von Geschenken, aber auch zum Tragen eines Bentō oder sogar einer Wassermelone."
+  },
+  "ginkaku-ji": {
+   "nom": "Silberner Pavillon",
+   "fait": "Dieser buddhistische Tempel in Kyōto, auf Japanisch Ginkaku-ji, „Tempel des Silbernen Pavillons“, stammt aus dem späten 15. Jahrhundert."
+  },
+  "byodo-in": {
+   "nom": "Byōdō-in",
+   "fait": "Bevor es zum buddhistischen Tempel wurde, diente dieses Anwesen in Uji als Landsitz; sein berühmtestes Gebäude ist die Phönixhalle."
+  },
+  "horyu-ji": {
+   "nom": "Hōryū-ji",
+   "fait": "Die ältesten Gebäude dieses Tempels in der Präfektur Nara, darunter die fünfstöckige Pagode, gelten als die ältesten Holzbauten der Welt."
+  },
+  "meiji-jingu": {
+   "nom": "Meiji-Schrein",
+   "fait": "Dieser Shintō-Schrein liegt mitten in Tokio, im Bezirk Shibuya, am Rand des Viertels Harajuku."
+  },
+  "sanctuaire-ise": {
+   "nom": "Ise-Schrein",
+   "fait": "Dieser Schrein ist der wichtigste des Shintō in Japan: Er gilt als heiligster Ort dieser Religion."
+  },
+  "chateau-kumamoto": {
+   "nom": "Burg Kumamoto",
+   "fait": "Diese stark befestigte Burg gilt neben denen von Himeji und Matsumoto als eine der drei schönsten Japans."
+  },
+  "shirakawa-go": {
+   "nom": "Shirakawa-gō",
+   "fait": "Die sehr steilen Strohdächer dieser Häuser, „zum Gebet gefaltete Hände“ genannt, ermöglichen es ihnen, starken Schneefällen standzuhalten."
+  },
+  "sakurajima": {
+   "nom": "Sakurajima",
+   "fait": "Dieser Vulkan war bis zum Ausbruch von 1914 eine Insel, als die Lava die Meerenge füllte, die ihn von Kyūshū trennte."
+  },
+  "mapo-doufu": {
+   "nom": "Mapo Tofu",
+   "fait": "Sein Name bedeutet „scharfer Tofu der Großmutter“: Dieses Gericht aus Sichuan besteht aus frischem Tofu, gegart in einer Soße mit Chili und Sichuanpfeffer."
+  },
+  "poulet-kung-pao": {
+   "nom": "Kung-Pao-Huhn",
+   "fait": "Sein chinesischer Name bedeutet „Hühnerwürfel nach Art des Palastwächters“: Dieses Pfannengericht aus Sichuan vereint Huhn, Erdnüsse und Chilis."
+  },
+  "xiaolongbao": {
+   "nom": "Xiaolongbao",
+   "fait": "Die Brühe dieser Teigtaschen aus Shanghai stammt von einem Fleischgelee, das der Füllung beigegeben wird und beim Dämpfen schmilzt."
+  },
+  "chow-mein": {
+   "nom": "Chow Mein",
+   "fait": "Sein Name bedeutet „gebratene Nudeln“: Dieses kantonesische Gericht verbindet meist Weizennudeln, Gemüse, Fleisch oder Meeresfrüchte mit Sojasoße."
+  },
+  "roujiamo": {
+   "nom": "Roujiamo",
+   "fait": "Sein Name bedeutet „in Brot gestecktes Fleisch“: In China nennt man den Döner Kebab manchmal „Rou Jia Mo aus der Türkei“."
+  },
+  "tangyuan": {
+   "nom": "Tangyuan",
+   "fait": "Diese Klebreisbällchen, in süßer Suppe oder in Brühe serviert, werden traditionell zum Laternenfest gegessen."
+  },
+  "wonton": {
+   "nom": "Wan Tan",
+   "fait": "Der kantonesische Name dieser Teigtaschen, „verschluckte Wolke“, ist ein Homophon des ursprünglichen chinesischen Begriffs Hundun, der das Urchaos des Kosmos bezeichnet."
+  },
+  "lapsang-souchong": {
+   "nom": "Lapsang Souchong",
+   "fait": "Dieser geräucherte Schwarztee aus der Provinz Fujian gilt als einer der Tees mit dem kräftigsten Geschmack."
+  },
+  "long-jing": {
+   "nom": "Long-Jing-Tee",
+   "fait": "Sein Name bedeutet „Tee vom Drachenbrunnen“: Es ist ein grüner Tee aus Hangzhou in der Provinz Zhejiang."
+  },
+  "fete-printemps": {
+   "nom": "Frühlingsfest",
+   "fait": "Es eröffnet fünfzehn Tage Festlichkeiten, und sein Datum ändert sich jedes Jahr, da es dem chinesischen Lunisolarkalender folgt."
+  },
+  "fete-lanternes": {
+   "nom": "Laternenfest",
+   "fait": "Bei diesem Fest, das das Neujahr abschließt, versucht man, auf die Laternen geschriebene Rätsel zu lösen, um ein Geschenk zu gewinnen."
+  },
+  "festival-glace-neige": {
+   "nom": "Eis- und Schneefestival Harbin",
+   "fait": "In Harbin, wo der Januar im Mittel −16,8 °C erreicht, haben die Einwohner eine Kultur des Eises und des Schnees entwickelt, die dieses Festival feiert."
+  },
+  "kung-fu": {
+   "nom": "Kung-Fu",
+   "fait": "Hinter diesem populären Namen verbergen sich Hunderte chinesischer Kampfstile, waffenlos oder mit Waffen, die im Lauf der Jahrhunderte entwickelt wurden."
+  },
+  "acupuncture": {
+   "nom": "Akupunktur",
+   "fait": "Diese an bestimmten Punkten der Haut gesetzten Nadeln stammen aus der chinesischen Medizintradition, doch ihre Wirkung geht nicht über die eines Placebos hinaus."
+  },
+  "wok": {
+   "nom": "Wok",
+   "fait": "Seine Utensilien mit langem Stiel schützen den Koch vor der Hitze, und die Kunst des Wok-Kochens hat einen kantonesischen Namen: Wok Hei, „Atem des Woks“."
+  },
+  "hanfu": {
+   "nom": "Hanfu",
+   "fait": "Diese Kleidung der Han ist älter als die Qing-Dynastie; das Qipao-Kleid, oft als typisch chinesisch angesehen, ist dagegen mandschurischen Ursprungs."
+  },
+  "xiangqi": {
+   "nom": "Xiangqi",
+   "fait": "Bei diesem chinesischen Schach teilt ein Fluss das Brett in zwei Hälften und schränkt die Züge mancher Figuren ein, die auf die Schnittpunkte gesetzt werden."
+  },
+  "suanpan": {
+   "nom": "Suanpan",
+   "fait": "Der Name dieses chinesischen Abakus bedeutet „Rechenbrett“; die traditionelle Rechenmethode, die ihn verwendet, heißt Zhusuan."
+  },
+  "bianzhong": {
+   "nom": "Bianzhong",
+   "fait": "Diese an einem Holzgestell aufgehängten Bronzeglocken spielen Melodien; Korea, das sie übernommen hat, verwendet sie noch heute für seine Hofmusik."
+  },
+  "enveloppe-rouge": {
+   "nom": "Roter Umschlag",
+   "fait": "Der Betrag in diesem Umschlag ist oft eine Glückszahl, zum Beispiel eine mit vielen Achten, einer Ziffer, deren Name auf Chinesisch fast wie „Wohlstand“ klingt."
+  },
+  "papier-decoupe": {
+   "nom": "Jianzhi (Scherenschnitt)",
+   "fait": "Diese Papiersilhouetten schmücken vor allem Türen und Fenster, daher ihr anderer Name „Fensterblumen“."
+  },
+  "jardin-yuyuan": {
+   "nom": "Yuyuan-Garten",
+   "fait": "Dieser Garten aus dem 16. Jahrhundert im Herzen der Altstadt von Shanghai trägt einen Namen, der „Garten des Zögerns“ bedeutet."
+  },
+  "jardin-modeste-administrateur": {
+   "nom": "Garten des bescheidenen Beamten",
+   "fait": "Er ist der größte der klassischen Gärten von Suzhou; man nennt ihn auch „Garten der Politik der Einfältigen“."
+  },
+  "lac-ouest-hangzhou": {
+   "nom": "Westsee von Hangzhou",
+   "fait": "Dieser See im historischen Zentrum von Hangzhou ist derjenige, der auf der Rückseite des chinesischen Ein-Yuan-Scheins abgebildet ist."
+  },
+  "riviere-li": {
+   "nom": "Li-Fluss",
+   "fait": "Entlang dieses Flusses, zwischen Guilin und Yangshuo, ist die Landschaft von Kalksteinspitzen vom Karsttyp übersät."
+  },
+  "wulingyuan": {
+   "nom": "Wulingyuan",
+   "fait": "Dieses Gebiet in Hunan mit rund 3.100 Sandsteinsäulen hat die Kulissen des Films Avatar von James Cameron inspiriert."
+  },
+  "mont-emei": {
+   "nom": "Emei Shan",
+   "fait": "Dieser Berg in der Provinz Sichuan zählt zu den vier heiligen Bergen des Buddhismus in China."
+  },
+  "mont-hua": {
+   "nom": "Hua Shan",
+   "fait": "Er wird auch „Berg des Westens“ genannt und ist einer der fünf heiligen Berge Chinas, in der Provinz Shaanxi."
+  },
+  "pont-zhaozhou": {
+   "nom": "Anji-Brücke",
+   "fait": "Um das Jahr 605 vollendet, ist diese gemauerte Segmentbogenbrücke die älteste noch stehende Brücke Chinas."
+  },
+  "tulou": {
+   "nom": "Tulou",
+   "fait": "Diese großen Gemeinschaftsbauten in Fujian, von den Hakka bewohnt, dienen zugleich als Sammelunterkunft und als Festung."
+  },
+  "dazu": {
+   "nom": "Felsskulpturen von Dazu",
+   "fait": "Nahe Chongqing bilden diese in den Fels gehauenen religiösen Skulpturen eine außergewöhnliche Reihe, die über mehrere Jahrhunderte entstand."
+  },
+  "temple-lamas": {
+   "nom": "Lamatempel",
+   "fait": "Sein erstes Gebäude wurde errichtet, um Eunuchen zu beherbergen; dieser Pekinger Tempel ist heute dem tibetischen Buddhismus geweiht."
+  },
+  "yangtse": {
+   "nom": "Jangtse",
+   "fait": "Er wird auch Blauer Fluss genannt und ist der bedeutendste Fluss der Welt, der vollständig durch ein einziges Land fließt."
+  },
+  "fleuve-jaune": {
+   "nom": "Gelber Fluss",
+   "fait": "Die chinesische Zivilisation entstand am Ufer dieses Flusses, dessen heftige Hochwasser die große Ebene des Nordens geformt und fruchtbar gemacht haben."
+  },
+  "foret-pierres-shilin": {
+   "nom": "Steinwald",
+   "fait": "Seine großen senkrechten Kalksteinklingen ragen wie Bäume aus Stein aus dem Boden, daher sein Name „Steinwald“."
+  },
+  "rizieres-hani": {
+   "nom": "Reisterrassen der Hani",
+   "fait": "Diese Reisterrassen in der Provinz Yunnan, die mit dem Volk der Hani verbunden sind, haben eine Geschichte, die fast 1.200 Jahre umfasst."
+  },
+  "diaolou": {
+   "nom": "Diaolou",
+   "fait": "Diese befestigten Türme von Kaiping schützten vor Plünderern; Auswanderer der Diaspora fügten ihnen Details ausländischer Architektur hinzu."
+  },
+  "bulgogi": {
+   "nom": "Bulgogi",
+   "fait": "Sein Name bedeutet „Feuerfleisch“: Dieses marinierte und dann gegrillte Fleisch wird auch „koreanisches Barbecue“ genannt."
+  },
+  "galbi": {
+   "nom": "Galbi",
+   "fait": "Dieses Grillfleisch vom Rind oder Schwein, in koreanischer Sojasoße mariniert, ist eine kulinarische Spezialität der Stadt Suwon."
+  },
+  "samgyeopsal": {
+   "nom": "Samgyeopsal",
+   "fait": "Sein Name bedeutet „dreischichtiges Fleisch“: Diese Scheiben Schweinebauch werden von den Gästen selbst am Tisch gegrillt."
+  },
+  "japchae": {
+   "nom": "Japchae",
+   "fait": "Dieses Gericht aus Süßkartoffelnudeln und Gemüse war einst dem König vorbehalten; heute wird es zu Festen serviert."
+  },
+  "samgyetang": {
+   "nom": "Samgyetang",
+   "fait": "Für diese Ginsengsuppe füllt man ein junges Huhn mit Klebreis, bevor man es mit Jujuben, Knoblauch und Ingwer gart."
+  },
+  "hotteok": {
+   "nom": "Hotteok",
+   "fait": "Dieser gefüllte Pfannkuchen, den man als Snack isst, ist eine beliebte Spezialität der Straßenküche in Südkorea."
+  },
+  "gochujang": {
+   "nom": "Gochujang",
+   "fait": "Diese scharfe Würzpaste gärt traditionell in großen Tonkrügen; sie ist eine der drei Grundwürzen der koreanischen Küche."
+  },
+  "doenjang": {
+   "nom": "Doenjang",
+   "fait": "Diese fermentierte Sojapaste, traditionell in der koreanischen Küche, trägt einen Namen, der einfach „dicke Paste“ bedeutet."
+  },
+  "banchan": {
+   "nom": "Banchan",
+   "fait": "Diese Beilagen, in kleinen Schälchen serviert, werden in die Mitte des Tisches gestellt, meist mindestens vier oder fünf verschiedene zugleich."
+  },
+  "tteok": {
+   "nom": "Tteok",
+   "fait": "In Korea isst man traditionell zu Neujahr eine Suppe aus diesen Klebreiskuchen und süße Varianten bei Hochzeiten."
+  },
+  "songpyeon": {
+   "nom": "Songpyeon",
+   "fait": "Diese Klebreistaschen zum Mittherbstfest werden auf Kiefernnadeln gedämpft, daher ihr Name: Song bedeutet „Kiefer“."
+  },
+  "pajeon": {
+   "nom": "Pajeon",
+   "fait": "Dieser Pfannkuchen mit Frühlingszwiebeln, oft mit Tintenfisch oder Meeresfrüchten belegt, gehört zu den kleinen koreanischen Beilagen."
+  },
+  "the-yuja": {
+   "nom": "Yuja-Tee",
+   "fait": "Dieser Tee wird aus einer Zitrusmarmelade samt Schale zubereitet, von der man einen Löffel in heißem Wasser auflöst, vor allem gegen Erkältungen."
+  },
+  "daegeum": {
+   "nom": "Daegeum",
+   "fait": "Diese große Bambusflöte hat ein mit einer feinen Pflanzenmembran bedecktes Loch, deren Klang man durch Verschieben eines Metallstücks beibehalten oder abschalten kann."
+  },
+  "geomungo": {
+   "nom": "Geomungo",
+   "fait": "Laut dem Samguk Sagi verdankt dieses Zupfinstrument, das in der Koguryo-Zeit aufkam, seine Entstehung Wang San-ak."
+  },
+  "jjimjilbang": {
+   "nom": "Jjimjilbang",
+   "fait": "Diese öffentlichen Badehäuser haben Tag und Nacht geöffnet: Mit ihren fußbodenbeheizten Räumen, in denen man schlafen kann, dienen sie auch als günstige Unterkunft."
+  },
+  "seollal": {
+   "nom": "Seollal",
+   "fait": "Zu diesem Neujahrsfest verneigen sich die Kinder im Hanbok vor ihren Älteren, die ihnen als Belohnung für diesen Gruß Geld geben."
+  },
+  "chuseok": {
+   "nom": "Chuseok",
+   "fait": "Zu diesem Erntefest kehrt jede Familie in ihre Heimat zurück, um ihre Ahnen zu ehren, was in Südkorea gewaltige Staus verursacht."
+  },
+  "hanji": {
+   "nom": "Hanji",
+   "fait": "Dieses aus Papiermaulbeerbaum handgefertigte Papier dient auch als Stoff für Taschen oder Kleidung sowie zur Restaurierung von Kunstwerken."
+  },
+  "jangseung": {
+   "nom": "Jangseung",
+   "fait": "Diese zu groben Menschengestalten geschnitzten Holzpfähle, am Eingang der Dörfer aufgestellt, sollen vor bösen Geistern schützen."
+  },
+  "onggi": {
+   "nom": "Onggi",
+   "fait": "Diese Tongefäße dienen zugleich als Geschirr und als Behälter zur Aufbewahrung von Lebensmitteln; ihre heutige Form stammt aus der Joseon-Zeit."
+  },
+  "gat-chapeau": {
+   "nom": "Gat",
+   "fait": "Dieser teilweise durchsichtige Hut aus Rosshaar und Bambus war bis Ende des 19. Jahrhunderts den Adligen vorbehalten und zeigte ihren gesellschaftlichen Rang."
+  },
+  "bojagi": {
+   "nom": "Bojagi",
+   "fait": "Dieses oft quadratische Stofftuch, manchmal bestickt oder aus zusammengenähten Stücken gefertigt, dient zum Einpacken von Geschenken, vor allem bei Hochzeiten."
+  },
+  "yunnori": {
+   "nom": "Yunnori",
+   "fait": "Dieses Brettspiel chinesischen Ursprungs wird in Korea vor allem an Seollal, dem Neujahrsfest, gespielt."
+  },
+  "jultagi": {
+   "nom": "Jultagi",
+   "fait": "Diese Seiltanzvorführung wird in Korea seit der Goryeo-Zeit gezeigt, und die UNESCO hat sie in das immaterielle Kulturerbe aufgenommen."
+  },
+  "hallasan": {
+   "nom": "Hallasan",
+   "fait": "Dieser Vulkan, der höchste Punkt Südkoreas, überragt die Insel Jeju; er hat zahlreiche, sehr lange Lavatunnel hervorgebracht."
+  },
+  "seongsan-ilchulbong": {
+   "nom": "Seongsan Ilchulbong",
+   "fait": "Dieser „Gipfel der aufgehenden Sonne“ ist ein Vulkankegel, der vor etwa 5.000 Jahren durch Ausbrüche unter einem flachen Meer entstand, auf der Insel Jeju."
+  },
+  "deoksugung": {
+   "nom": "Deoksugung",
+   "fait": "Vor dem Haupttor dieses Palastes in Seoul wird täglich die Wachablösung der königlichen Garde wie zur Zeit der Joseon-Dynastie nachgestellt."
+  },
+  "haeinsa": {
+   "nom": "Haeinsa",
+   "fait": "An den Hängen des Gayasan beaufsichtigt dieser buddhistische Tempel rund 150 angeschlossene Tempel; eines seiner Gebäude gehört zum Welterbe."
+  },
+  "bongeunsa": {
+   "nom": "Bongeunsa",
+   "fait": "Dieser 794 von einem Mönch gegründete buddhistische Tempel liegt heute in Seoul, direkt gegenüber dem Einkaufszentrum COEX."
+  },
+  "seoraksan": {
+   "nom": "Seoraksan",
+   "fait": "Dieser Berg, der höchste des Taebaek-Gebirges, überragt den Hafen von Sokcho; die Koreaner bewundern seine wilde Erscheinung."
+  },
+  "cheomseongdae": {
+   "nom": "Cheomseongdae",
+   "fait": "Dieser Turm, dessen Name „von wo man die Sterne beobachtet“ bedeutet, ist die älteste Sternwarte Ostasiens."
+  },
+  "namhansanseong": {
+   "nom": "Festung Namhansanseong",
+   "fait": "Diese von buddhistischen Mönchskriegern errichtete Bergfestung diente in der Joseon-Zeit als „Zufluchtshauptstadt“."
+  },
+  "ulleungdo": {
+   "nom": "Ulleungdo",
+   "fait": "Diese Vulkaninsel lebt vom Tourismus und vom Fischfang; sie ist berühmt für ihre Sepien, die man in der Sonne trocknen sieht."
+  },
+  "hanok": {
+   "nom": "Hanok",
+   "fait": "Dieses traditionelle Haus folgt einem Baustil, der von der Zeit der Drei Reiche bis zur Joseon-Dynastie überliefert wurde."
+  },
+  "jogyesa": {
+   "nom": "Jogyesa",
+   "fait": "Dieser Tempel im Zentrum von Seoul, Sitz des Jogye-Ordens des koreanischen Buddhismus, beherbergt auf seinem Gelände eine 500 Jahre alte Kiefer."
+  },
+  "hahoe": {
+   "nom": "Dorf Hahoe",
+   "fait": "Dieses traditionelle Dorf ist nach den Prinzipien der Geomantie angelegt, daher sein Grundriss in Form einer Lotusblüte."
+  },
+  "lac-khovsgol": {
+   "nom": "Chöwsgöl Nuur",
+   "fait": "Zahlreiche Wasserläufe münden in diesen als heilig geltenden See, doch nur ein einziger Fluss fließt aus ihm ab, der Egiin Gol."
+  },
+  "gandan": {
+   "nom": "Gandan-Kloster",
+   "fait": "Dieses buddhistische Kloster in Ulaanbaatar entging den Zerstörungen der 1930er-Jahre; es beherbergt eine riesige Statue des Bodhisattva Avalokiteshvara."
+  },
+  "amarbayasgalant": {
+   "nom": "Kloster Amarbayasgalant",
+   "fait": "Dieses Kloster wurde im 18. Jahrhundert errichtet, um die sterblichen Überreste von Zanabazar aufzunehmen, dem ersten Bogdo Gegen."
+  },
+  "palais-bogd-khan": {
+   "nom": "Winterpalast des Bogd Khan",
+   "fait": "Als einziger der vier Paläste des Khans, der nicht zerstört wurde, zeigt dieses Museum sogar den juwelenbesetzten Schmuck seines Elefanten, den er als Haustier hielt."
+  },
+  "temple-choijin-lama": {
+   "nom": "Tschoidschin-Lama-Tempel",
+   "fait": "Dieses buddhistische Kloster in Ulaanbaatar verdankt seinen offiziellen Namen, „Tempel der Mitgefühl-Vollkommenheit“, dem Kaiser Guangxu."
+  },
+  "vallee-orkhon": {
+   "nom": "Orchon-Tal",
+   "fait": "Dieses Tal, durch das der Fluss Orchon fließt, bewahrt archäologische Überreste der turko-mongolischen und mongolischen Völker."
+  },
+  "gorkhi-terelj": {
+   "nom": "Gorchi-Tereldsch-Nationalpark",
+   "fait": "Der Name dieses Nationalparks nahe der Hauptstadt Ulaanbaatar bedeutet auf Mongolisch „Bach – Rhododendron“."
+  },
+  "gobi-gurvansaikhan": {
+   "nom": "Nationalpark Gobi Gurwan Saichan",
+   "fait": "Dieser Park am Rand der Wüste Gobi beherbergt „singende Sande“ und ein Tal, in dem sich fast das ganze Jahr über ein Eisband hält."
+  },
+  "monts-khangai": {
+   "nom": "Changai-Gebirge",
+   "fait": "In diesem Gebirge entspringen zahlreiche Flüsse, darunter der Orchon und einer der Quellflüsse der Selenga; im Osten grenzt es an die Wüste Gobi."
+  },
+  "burkhan-khaldun": {
+   "nom": "Burchan Chaldun",
+   "fait": "Dschingis Khan erklärte diesen Berg für heilig; nach der wahrscheinlichsten Hypothese ist er auch der Ort seiner Grabstätte."
+  },
+  "khuushuur": {
+   "nom": "Chuuschuur",
+   "fait": "Diese frittierte Teigtasche ist mit Fleisch und Fett gefüllt, meist vom Hammel; jede Familie hat ihr eigenes Rezept für die Füllung."
+  },
+  "khorkhog": {
+   "nom": "Khorkhog",
+   "fait": "Für dieses Gericht gart man Fleischstücke in einem Gefäß, das Wasser und sehr heiße Steine enthält."
+  },
+  "suutei-tsai": {
+   "nom": "Süütei Tsai",
+   "fait": "Dieser Milchtee wird salzig getrunken; die Milch kann von Stute, Yak, Kamelstute, Schaf oder Kuh stammen."
+  },
+  "fuvahmulah": {
+   "nom": "Fuvahmulah",
+   "fait": "Fast die Hälfte dieser Insel der Malediven wird von ihrer Lagune eingenommen; sie beherbergt zudem ein von der UNESCO anerkanntes Biosphärenreservat."
+  },
+  "atoll-ari": {
+   "nom": "Ari-Atoll",
+   "fait": "Neben seinen bewohnten Inseln zählt dieses Atoll 26 Hotelinseln; seine Landfläche umfasst nur 8,3 km² von über 2.270 km² einschließlich Lagune."
+  },
+  "atoll-addu": {
+   "nom": "Addu-Atoll",
+   "fait": "Es ist das südlichste Atoll der Malediven: Zusammen mit der Insel Fuvammulah ist es der einzige Ort des Landes auf der Südhalbkugel."
+  },
+  "sling-raffles": {
+   "nom": "Raffles Sling",
+   "fait": "Dieser Cocktail entstand 1915 an der Bar des Raffles Hotel: Er erlaubte es Frauen, denen Alkohol in der Öffentlichkeit untersagt war, den Schein zu wahren."
+  },
+  "sungei-buloh": {
+   "nom": "Sungei Buloh Wetland Reserve",
+   "fait": "Dieser Mangrovenwald im Nordwesten Singapurs hat weltweite Bedeutung: Er ist ein Rastplatz für Zugvögel."
+  },
+  "thian-hock-keng": {
+   "nom": "Thian-Hock-Keng-Tempel",
+   "fait": "Dieser Tempel in Singapur ist Mazu geweiht, der chinesischen Meeresgöttin, birgt aber im hinteren Teil ein buddhistisches Heiligtum für Guanyin."
+  },
+  "lau-pa-sat": {
+   "nom": "Lau Pa Sat",
+   "fait": "Dieser ehemalige Fischmarkt in Singapur, eines der ersten Gebäude Asiens aus vorgefertigtem Gusseisen, beherbergt heute Essensstände."
+  },
+  "hotel-fullerton": {
+   "nom": "Fullerton Hotel",
+   "fait": "Dieses Gebäude in Singapur, ursprünglich als „General Post Office Building“ bekannt, wurde als Bürogebäude entworfen, bevor es ein Luxushotel wurde."
+  },
+  "nasi-lemak": {
+   "nom": "Nasi Lemak",
+   "fait": "Sein Name bedeutet „Reis in Sahne“: Der Reis wird in Kokosmilch gekocht, und man nimmt ihn zu einer Pyramide gefaltet in einem Bananenblatt mit."
+  },
+  "teh-tarik": {
+   "nom": "Teh Tarik",
+   "fait": "Dieser Milchtee heißt „gezogener Tee“, weil man ihn bei der Zubereitung umgießt oder eben „zieht“; Malaysia hat ihn zu seinem Nationalgetränk gemacht."
+  },
+  "nasi-kandar": {
+   "nom": "Nasi Kandar",
+   "fait": "Dieses Reisgericht mit mehreren Currys stammt aus dem Bundesstaat Penang, wo muslimische indische Händler es einführten."
+  },
+  "tengkolok": {
+   "nom": "Tengkolok",
+   "fait": "Diese Kopfbedeckung für Männer besteht aus einem langen Songket-Tuch, das auf besondere Weise gefaltet und geknotet wird; man trägt sie vor allem bei Zeremonien."
+  },
+  "langkawi": {
+   "nom": "Langkawi",
+   "fait": "Dieser Archipel zählt 99 Inseln und dazu einige weitere, die nur bei Ebbe auftauchen; die UNESCO hat ihn zum globalen Geopark erklärt."
+  },
+  "gunung-mulu": {
+   "nom": "Nationalpark Gunung Mulu",
+   "fait": "Dieser Park in Sarawak auf der Insel Borneo ist wegen seiner Höhlen, seiner zu Kegeln erodierten Karstlandschaften und seiner tropischen Tierwelt geschützt."
+  },
+  "grottes-niah": {
+   "nom": "Niah-Höhlen",
+   "fait": "In diesen Höhlen in Sarawak auf der Insel Borneo wurde ein etwa 38.000 Jahre alter Schädel eines Homo sapiens gefunden."
+  },
+  "sultan-abdul-samad": {
+   "nom": "Sultan-Abdul-Samad-Gebäude",
+   "fait": "Sein Architekt, der in Afrika gelebt hatte, ließ sich für dieses Gebäude in Kuala Lumpur mit seiner Kupferkuppel vom maurischen Stil inspirieren."
+  },
+  "gare-neo-mauresque": {
+   "nom": "Bahnhof Kuala Lumpur",
+   "fait": "Dieser Bahnhof von Kuala Lumpur, der Hauptstadt, zeichnet sich durch eine Architektur aus, die östliche und westliche Stile verbindet."
+  },
+  "ile-tioman": {
+   "nom": "Pulau Tioman",
+   "fait": "Diese Insel im Südchinesischen Meer, die zum Bundesstaat Pahang gehört, soll vulkanischen Ursprungs sein."
+  },
+  "lac-kaptai": {
+   "nom": "Kaptai-See",
+   "fait": "Dieser See ist keineswegs natürlich: Er entstand durch einen Wasserkraft-Staudamm am Fluss Karnaphuli und ist der größte künstliche See des Landes."
+  },
+  "eglise-sainte-resurrection": {
+   "nom": "Kirche der Heiligen Auferstehung in Dhaka",
+   "fait": "Diese armenische Kirche in der Altstadt von Dhaka erinnert an eine Gemeinde, die heute fortgezogen ist: Gottesdienste finden dort nur noch selten statt."
+  },
+  "drametse-ngacham": {
+   "nom": "Trommeltanz von Drametse",
+   "fait": "Dieser rituelle Tanz wird in einem Kloster aufgeführt: Die Tänzer tragen Masken und werden von einem Orchester mit Trommeln begleitet."
+  },
+  "dzong-simtokha": {
+   "nom": "Simtokha-Dzong",
+   "fait": "Als erster in Bhutan errichteter Dzong beherbergt diese Klosterburg heute eines der wichtigsten Institute für das Erlernen des Dzongkha."
+  },
+  "mohinga": {
+   "nom": "Mohinga",
+   "fait": "Diese Fischsuppe mit Fadennudeln, oft als Nationalgericht angesehen, wird traditionell zum Frühstück gegessen."
+  },
+  "cloche-mingun": {
+   "nom": "Mingun-Glocke",
+   "fait": "Mehrmals in der Geschichte war diese Glocke am Ufer des Irrawaddy die schwerste funktionsfähige Glocke der Welt."
+  },
+  "chinthe": {
+   "nom": "Chinthe",
+   "fait": "Dieses löwenähnliche Wesen bewacht die Pagoden, fast immer paarweise; vor den Münzen hatten manche Bronzegewichte seine Gestalt."
+  },
+  "saung": {
+   "nom": "Saung (Bogenharfe)",
+   "fait": "Tempelskulpturen zufolge reicht diese Harfe bis ins 8. Jahrhundert zurück; später komponierte man für sie Musik zur Begleitung des Ramayana."
+  },
+  "chinlone": {
+   "nom": "Chinlone",
+   "fait": "Dieser Sport wird mit dem Fuß und einem geflochtenen Rattanball gespielt; sein Name bedeutet auf Birmanisch „runder Korb“."
+  },
+  "rocher-dor": {
+   "nom": "Goldener Felsen von Kyaiktiyo",
+   "fait": "Dieser riesige Felsen von etwa 6 Metern Durchmesser, auch Kyaiktiyo-Pagode genannt, balanciert im Mon-Staat."
+  },
+  "mrauk-u": {
+   "nom": "Mrauk U",
+   "fait": "Diese Stadt in Arakan war die Hauptstadt eines gleichnamigen Königreichs, bis die Birmanen sie 1785 einnahmen."
+  },
+  "mont-popa": {
+   "nom": "Mount Popa",
+   "fait": "Auf diesem Vulkan, Zuflucht der Nat-Geister, vermeidet man es, Schwarz oder Rot zu tragen und Fleisch mitzubringen, um sie nicht zu kränken."
+  },
+  "temple-ananda": {
+   "nom": "Ananda-Tempel",
+   "fait": "Sein Name beruht auf einer Verwechslung: Der „unendlichen Weisheit“ Buddhas geweiht, erhielt dieser Tempel in Bagan den Namen Anandas, eines Cousins Buddhas."
+  },
+  "pagode-shwezigon": {
+   "nom": "Shwezigon-Pagode",
+   "fait": "Dieser Stupa soll errichtet worden sein, um einen Kieferknochen und einen Zahn Buddhas zu beherbergen; er diente vielen anderen birmanischen Stupas als Vorbild."
+  },
+  "ava-inwa": {
+   "nom": "Ava (Inwa)",
+   "fait": "Diese ehemalige Königshauptstadt Birmas hieß auch Ratanapura, was „Stadt der Edelsteine“ bedeutet."
+  },
+  "vat-xieng-thong": {
+   "nom": "Wat Xieng Thong",
+   "fait": "1887 verschonten Plünderer diesen Tempel in Luang Prabang, weil ihr Anführer dort in seiner Jugend Mönch gewesen war."
+  },
+  "chutes-kuang-si": {
+   "nom": "Kuang-Si-Wasserfälle",
+   "fait": "Nahe Luang Prabang stürzen diese Wasserfälle über drei Stufen hinab, bevor sie in einen letzten Fall münden."
+  },
+  "grottes-pak-ou": {
+   "nom": "Pak-Ou-Höhlen",
+   "fait": "Diese Höhlen über dem Mekong beherbergen Hunderte kleiner Buddhastatuen aus Holz, aufgereiht auf Regalen entlang der Wände."
+  },
+  "vat-si-saket": {
+   "nom": "Wat Si Saket",
+   "fait": "Als ältester Tempel Vientianes war er das einzige Gebäude, das die Siamesen bei der Plünderung der Stadt verschonten, wohl dank seines thailändischen Stils."
+  },
+  "ho-phra-keo": {
+   "nom": "Ho Phra Keo",
+   "fait": "Dieser königliche Tempel in Vientiane beherbergte den Smaragd-Buddha, den die Siamesen nach Bangkok brachten; wiederaufgebaut, wurde er zu einem Museum."
+  },
+  "plateau-bolovens": {
+   "nom": "Bolaven-Plateau",
+   "fait": "Dieses Plateau im Süden von Laos, das sich über die Provinzen Champassak und Saravane erstreckt, verdankt seinen Namen der Mehrheitsethnie: den Laven."
+  },
+  "haw-kham": {
+   "nom": "Haw Kham, ehemaliger Königspalast",
+   "fait": "Dieser Palast in Luang Prabang wurde am Ufer des Mekong errichtet, damit offizielle Besucher, die über den Fluss kamen, direkt zu seinen Füßen an Land gingen."
+  },
+  "adobo": {
+   "nom": "Adobo",
+   "fait": "Man lässt Fleisch, Meeresfrüchte oder Gemüse in ihrer eigenen Marinade aus Essig, Sojasoße und Knoblauch schmoren."
+  },
+  "sinigang": {
+   "nom": "Sinigang",
+   "fait": "In dieser sauren Brühe, oft mit Tamarinde, garen Fleisch oder Fisch und Gemüse; man genießt sie mit Reis in fast dem ganzen Archipel."
+  },
+  "pancit": {
+   "nom": "Pancit",
+   "fait": "Diese mit chinesischen Einwanderern gekommenen Nudeln werden oft mit Calamansi serviert; manche Varianten ersetzen die Nudeln sogar durch Kokosnuss."
+  },
+  "bibingka": {
+   "nom": "Bibingka",
+   "fait": "Dieser Reiskuchen wird meist zum Frühstück gegessen, vor allem zu Weihnachten; traditionell bäckt man ihn in mit Blättern ausgelegten Tontöpfen."
+  },
+  "sinulog": {
+   "nom": "Sinulog",
+   "fait": "Dieses Fest in Cebu ehrt das Jesuskind; sein ritueller Tanz macht zwei Schritte vor und dann einen zurück, zum Klang der Schlaginstrumente."
+  },
+  "rizieres-banaue": {
+   "nom": "Reisterrassen von Banaue",
+   "fait": "Man nimmt an, dass diese Terrassen fast von Hand, mit wenigen Werkzeugen, von den Vorfahren des Volkes der Batad angelegt wurden; man baut dort noch immer Reis an."
+  },
+  "chocolate-hills": {
+   "nom": "Chocolate Hills",
+   "fait": "Diese kegelförmigen Hügel auf der Insel Bohol verdanken ihren Namen ihrer Form und ihrem Gras, das am Ende der Trockenzeit braun wird."
+  },
+  "riviere-souterraine": {
+   "nom": "Unterirdischer Fluss von Puerto Princesa",
+   "fait": "Dieser Park auf der Insel Palawan, in den Saint-Paul-Bergen, gehört zum UNESCO-Welterbe und ist zugleich als Ramsar-Gebiet ausgewiesen."
+  },
+  "recif-tubbataha": {
+   "nom": "Tubbataha-Riff",
+   "fait": "Sein Name bedeutet in der Sprache der Sama „ein langes, bei Ebbe freiliegendes Riff“; Küstenwächter sind dort ständig stationiert, um es vor Wilderern zu schützen."
+  },
+  "eglise-paoay": {
+   "nom": "Kirche von Paoay",
+   "fait": "Diese 1710 vollendete Barockkirche ist für ihre gewaltigen Strebepfeiler an den Seiten und an der Rückseite des Gebäudes bekannt."
+  },
+  "basilique-santo-nino": {
+   "nom": "Basilika des Santo Niño von Cebu",
+   "fait": "Diese Basilika in Cebu wurde dort errichtet, wo Spanier eine Statue des Jesuskindes wiederfanden, die Magellan einst der Königin von Cebu geschenkt hatte."
+  },
+  "mosquee-wazir-khan": {
+   "nom": "Wazir-Khan-Moschee",
+   "fait": "Diese Moschee in Lahore, von einem Gouverneur des Punjab erbaut, ist berühmt für ihre Mosaiken, die florale Muster und Kalligrafie verbinden."
+  },
+  "mausolee-jahangir": {
+   "nom": "Jahangir-Mausoleum",
+   "fait": "Dieses Mogulgrab in Lahore im Punjab wurde 1637 für Kaiser Jahangir errichtet."
+  },
+  "fort-derawar": {
+   "nom": "Derawar-Fort",
+   "fait": "Die vierzig Bastionen dieses Forts sind in der Cholistan-Wüste kilometerweit zu sehen; es gehört noch immer der Familie Abbasi."
+  },
+  "fort-ranikot": {
+   "nom": "Ranikot-Fort",
+   "fait": "Dieses Fort, „Große Mauer von Sindh“ genannt, soll laut Hanif Raza das ausgedehnteste der Welt sein."
+  },
+  "takht-i-bahi": {
+   "nom": "Takht-i-Bahi",
+   "fait": "Sein Name bedeutet „Thron der Quelle“: Dieses buddhistische Kloster, zunächst zoroastrisch, erhebt sich auf einem Hügel nahe einem Bach."
+  },
+  "lac-saiful-muluk": {
+   "nom": "Saiful-Muluk-See",
+   "fait": "Dieser Bergsee am Ende des Kaghan-Tals verdankt seinen Namen einem Gedicht von Mian Muhammad Bakhsh."
+  },
+  "ruwanwelisaya": {
+   "nom": "Ruwanwelisaya",
+   "fait": "Dieser halbkugelförmige Stupa in Anuradhapura, vielen Buddhisten heilig, soll Reliquien Buddhas enthalten."
+  },
+  "horton-plains": {
+   "nom": "Horton-Plains-Nationalpark",
+   "fait": "Drei große Flüsse Sri Lankas entspringen auf diesem Plateau, wo ein Abgrund den Namen World's End trägt, „das Ende der Welt“."
+  },
+  "uda-walawe": {
+   "nom": "Udawalawe-Nationalpark",
+   "fait": "Die Elefanten dieses Parks kommen zum Trinken an den großen Stausee, der ihm seinen Namen gab und am Fluss Walawe angelegt wurde."
+  },
+  "jardin-peradeniya": {
+   "nom": "Botanischer Garten Peradeniya",
+   "fait": "Dieser botanische Garten bei Kandy, eingebettet in eine Schleife des Flusses Mahaweli, ist für seine Orchideensammlung berühmt."
+  },
+  "gai-jatra": {
+   "nom": "Gai Jatra",
+   "fait": "Dieses „Kuhfest“ ist in Wirklichkeit ein Totenfest, zum Gedenken an die im vergangenen Jahr Verstorbenen."
+  },
+  "changu-narayan": {
+   "nom": "Changu Narayan",
+   "fait": "Dieser Vishnu geweihte Hindutempel steht auf einem Berg namens Changu oder Dolagiri im Distrikt Bhaktapur."
+  },
+  "temple-muktinath": {
+   "nom": "Muktinath-Tempel",
+   "fait": "Dieser Tempel ist sowohl den Hindus heilig, die dort Vishnu verehren, als auch den tibetischen Buddhisten, die ihn Chumig Gyatsa nennen, „Hundert Wasser“."
+  },
+  "lac-phewa": {
+   "nom": "Phewa-See",
+   "fait": "Dieser See am Rand von Pokhara ist der zweitgrößte Nepals, doch seine mittlere Tiefe erreicht keine zehn Meter."
+  },
+  "lo-manthang": {
+   "nom": "Lo Manthang",
+   "fait": "Diese befestigte Stadt im Distrikt Mustang auf 3.840 Metern Höhe ist die ehemalige Hauptstadt des Königreichs Mustang, auch Königreich Lo genannt."
+  },
+  "machapuchare": {
+   "nom": "Machapuchare",
+   "fait": "Sein Name bedeutet „Fischschwanz“, wegen seines Doppelgipfels; als sehr heilig angesehen, ist dieser Berg für Bergsteiger gesperrt."
+  },
+  "curry-vert": {
+   "nom": "Grünes Curry",
+   "fait": "Sein thailändischer Name bedeutet „süßes grünes Curry“: Diese Currysorte stammt aus Zentralthailand."
+  },
+  "curry-panang": {
+   "nom": "Panang-Curry",
+   "fait": "Dieses dicke rote Curry, zugleich salzig und süß, schmeckt nach Erdnuss; seine älteste bekannte Erwähnung findet sich in einem Buch von 1890."
+  },
+  "phat-kaphrao": {
+   "nom": "Phat Kaphrao",
+   "fait": "Dieses Gericht mit thailändischem Heiligem Basilikum, mit Fleisch oder Meeresfrüchten, wird mit gedämpftem Reis und einem daraufgelegten Spiegelei serviert."
+  },
+  "krabi-krabong": {
+   "nom": "Krabi Krabong",
+   "fait": "Diese Kampfkunst wurde von untätigen Kriegern erfunden, die sich im Kampf üben und für den Krieg bereit bleiben wollten."
+  },
+  "grand-palais-royal": {
+   "nom": "Großer Palast",
+   "fait": "Der König wohnt nicht mehr dort, doch dieser von Rama I. erbaute Palast beherbergt den Tempel des Smaragd-Buddha und dient noch immer offiziellen Zeremonien."
+  },
+  "ko-samui": {
+   "nom": "Ko Samui",
+   "fait": "2005 lebten die meisten Bewohner dieser Insel noch vom Anbau von Kokospalmen; 2018 war der Tourismus ihre Haupttätigkeit geworden."
+  },
+  "beng-mealea": {
+   "nom": "Beng Mealea",
+   "fait": "Dieser Hindutempel, der dennoch einige buddhistische Motive trägt, soll als Vorbild für den Bau von Angkor Wat gedient haben."
+  },
+  "phnom-kulen": {
+   "nom": "Phnom Kulen",
+   "fait": "Der Khmer-Name dieses Nationalparks in der Provinz Siem Reap bedeutet schlicht „Berg der Litschis“."
+  },
+  "phsar-thmei": {
+   "nom": "Zentralmarkt (Phsar Thmei)",
+   "fait": "Die Kambodschaner nennen diesen gelben Art-déco-Markt Phsar Thmey, „neuer Markt“, obwohl er in den 1930er-Jahren erbaut wurde."
+  },
+  "nems": {
+   "nom": "Chả giò (Nem)",
+   "fait": "Im Süden Vietnams nennt man ihn chả giò, im Norden nem: Dieses herzhafte, gefüllte und frittierte Röllchen ist in Reispapier gewickelt."
+  },
+  "ca-phe-sua-da": {
+   "nom": "Cà phê sữa đá",
+   "fait": "Dieser Kaffee tropft langsam aus einem Metallfilter, der auf einer Tasse mit gezuckerter Kondensmilch sitzt, bevor er über Eiswürfel gegossen wird."
+  },
+  "ca-phe-trung": {
+   "nom": "Eierkaffee",
+   "fait": "Laut der Familie seines Erfinders entstand dieser mit geschlagenem Eigelb bedeckte Kaffee, als Milch knapp war: Das Ei ersetzte das Milchprodukt."
+  },
+  "banh-xeo": {
+   "nom": "Bánh xèo",
+   "fait": "Dieser in der Mitte gefaltete Pfannkuchen aus Reismehl und Kurkuma wird mit Senf- oder Salatblättern und nước mắm gegessen."
+  },
+  "bun-cha": {
+   "nom": "Bún chả",
+   "fait": "Ein Restaurant in Hanoi, das dieses Gericht aus gegrilltem Schweinefleisch und Nudeln serviert, wurde berühmt, nachdem Barack Obama dort mit dem Koch Anthony Bourdain gegessen hatte."
+  },
+  "banh-chung": {
+   "nom": "Bánh chưng",
+   "fait": "Sein Name bedeutet „gedämpfter Kuchen“, doch dieses in Blätter gewickelte Klebreisquadrat wird nicht so gegart; man isst es zu Tết."
+  },
+  "banh-cuon": {
+   "nom": "Bánh cuốn",
+   "fait": "Sein vietnamesischer Name bedeutet „gerollter gedämpfter Fladen“; man nennt ihn auch „nasser gedämpfter Fladen“."
+  },
+  "dan-bau": {
+   "nom": "Đàn bầu",
+   "fait": "Dieses Instrument hat nur eine einzige Saite, halb gezupft, halb gestrichen; ein biegsamer Hals, den die linke Hand hält, verändert die Tonhöhe."
+  },
+  "dan-tranh": {
+   "nom": "Đàn tranh",
+   "fait": "Diese Tischzither mit gezupften Saiten ist eng verwandt mit der chinesischen Guzheng, dem japanischen Koto, der koreanischen Gayageum und der mongolischen Yatga."
+  },
+  "ca-tru": {
+   "nom": "Ca trù",
+   "fait": "Diese gesungene Dichtung aus dem Norden des Landes, seit dem 11. Jahrhundert gepflegt, ist bedroht: Die meisten ihrer Musiker sind alt."
+  },
+  "quan-ho": {
+   "nom": "Quan họ",
+   "fait": "Diese Gesänge aus der Provinz Bắc Ninh gehen auf alte Liebeslieder zwischen jungen Männern und jungen Frauen zurück."
+  },
+  "rendang": {
+   "nom": "Rendang",
+   "fait": "Dieses Fleisch schmort stundenlang in gewürzter Kokosmilch, bis die Flüssigkeit verdampft ist; getrocknet hält es sich drei bis vier Monate."
+  },
+  "soto": {
+   "nom": "Soto",
+   "fait": "In Indonesien heißen die traditionellen Suppen Soto, während jene mit ausländischem Einfluss Sop genannt werden."
+  },
+  "kecak": {
+   "nom": "Kecak",
+   "fait": "Diese Aufführung kommt ohne Instrumente aus: Rund hundert im Kreis sitzende Männer singen unablässig „chak-a-chak“, um die Erzählung rhythmisch zu begleiten."
+  },
+  "barong": {
+   "nom": "Barong-Tanz",
+   "fait": "In diesem Tanz kämpft Barong, ein löwenähnliches Wesen und Herr des Waldes, gegen die Dämonenkönigin Rangda: Es ist der Kampf zwischen Gut und Böse."
+  },
+  "danse-saman": {
+   "nom": "Saman-Tanz",
+   "fait": "Er wird „Tanz der tausend Hände“ genannt, in einer Reihe getanzt, oft kniend, und erzeugt seinen Rhythmus durch Schläge auf Hände, Oberschenkel und Boden."
+  },
+  "danse-topeng": {
+   "nom": "Topeng",
+   "fait": "Das Wort Topeng bedeutet „Maske“; dieser Maskentanz soll mit dem Kult der Ahnen verbunden sein, die die Tänzer zu Sprachrohren der Götter machten."
+  },
+  "subak": {
+   "nom": "Subak",
+   "fait": "Auf Bali ist das Bewässern der Reisfelder mehr als bloßes Gießen: Dieses genossenschaftliche System, im 9. Jahrhundert entwickelt, ist um Wassertempel herum organisiert."
+  },
+  "pinisi": {
+   "nom": "Pinisi",
+   "fait": "Dieses traditionelle Segelschiff aus Sulawesi befördert noch immer Waren von Insel zu Insel, doch oft hat ein Motor einen seiner Masten ersetzt."
+  },
+  "prambanan": {
+   "nom": "Prambanan",
+   "fait": "Diese javanische Anlage aus 240 shivaitischen Tempeln, im 9. Jahrhundert nahe Yogyakarta erbaut, gehört zum UNESCO-Welterbe."
+  },
+  "tanah-lot": {
+   "nom": "Tanah Lot",
+   "fait": "Dieser Hindutempel steht auf einer kleinen Felsinsel vor Bali; er ist zugleich Wallfahrtsort und ein bei Fotografen beliebter Ort."
+  },
+  "komodo": {
+   "nom": "Nationalpark Komodo",
+   "fait": "Dieser Park wurde zunächst 1980 zum Schutz des Komodowarans und der Wale gegründet, bevor der Schutz auf die Tier- und Pflanzenwelt der Region ausgeweitet wurde."
+  },
+  "krakatoa": {
+   "nom": "Krakatau",
+   "fait": "Die Explosion dieses Vulkans 1883 war so heftig, dass seine in der Luft schwebende Asche den Himmel bis nach Europa mehrere Jahre lang trübte."
+  },
+  "bromo": {
+   "nom": "Bromo",
+   "fait": "Dieser noch aktive Vulkan im Osten Javas, auch Brama genannt, erhebt sich in der Tengger-Caldera und ist 2.329 Meter hoch."
+  },
+  "bharata-natyam": {
+   "nom": "Bharatanatyam",
+   "fait": "Dieser Tanz wurde unter britischer Herrschaft verboten, blieb aber in den französischen Handelsniederlassungen von Pondicherry erlaubt."
+  },
+  "kuchipudi": {
+   "nom": "Kuchipudi",
+   "fait": "Dieser Tanz trägt den Namen des Dorfes, aus dem er stammt; die Tänzer verkörpern darin Figuren durch Pantomime und Mimik."
+  },
+  "garba": {
+   "nom": "Garba",
+   "fait": "Dieser Tanz wird oft im Kreis um eine Lampe während der neun Nächte des Navarātrī-Festes getanzt; sein Name erinnert an den „Bauch“."
+  },
+  "theyyam": {
+   "nom": "Teyyam",
+   "fait": "Bei diesem Ritual in Kerala verkörpern „besessene“ Personen Geister oder Gottheiten, mit Trance, Schminke und Kostümen."
+  },
+  "kettuvallam": {
+   "nom": "Kettuvallam",
+   "fait": "Sein Name bedeutet „gebundenes Boot“: Sein Holz wird mit Kokosfasern zusammengebunden, und es dient vor allem als schwimmendes Haus für Touristen."
+  },
+  "foire-pushkar": {
+   "nom": "Kamelmarkt von Pushkar",
+   "fait": "Jedes Jahr empfängt die Stadt Pushkar am Rand der Wüste Thar den größten Kamelmarkt Indiens."
+  },
+  "vindaloo": {
+   "nom": "Vindaloo",
+   "fait": "Sein Name stammt vom portugiesischen „Knoblauchwein“: Als Erbe Goas ersetzt dieses Gericht Kokosmilch oder Dickmilch durch Essig oder Wein."
+  },
+  "temple-minakshi": {
+   "nom": "Minakshi-Tempel",
+   "fait": "Dieser Tempel in Madurai ehrt Minakshi, „die mit den Fischaugen“, eine der wenigen Hindugöttinnen mit einem eigenen großen Tempel."
+  },
+  "chiles-en-nogada": {
+   "nom": "Chiles en nogada",
+   "fait": "Diese milden Chilischoten, mit Schweinefleisch gefüllt und mit einer Walnusssoße überzogen, werden Ende Sommer oder Anfang Herbst gegessen, zur Walnusszeit."
+  },
+  "pozole": {
+   "nom": "Pozole",
+   "fait": "Die Maiskörner dieses Eintopfs werden zuerst mit Kalk gekocht, was die faserige Haut entfernt, die sie umhüllt."
+  },
+  "cochinita-pibil": {
+   "nom": "Cochinita pibil",
+   "fait": "Dieses mit Annatto marinierte Schweinefleisch gart, in ein Bananenblatt gewickelt, in einem Erdofen. Die Maya garten darin zuerst Fasan, Pekari oder Hirsch."
+  },
+  "nachos": {
+   "nom": "Nachos",
+   "fait": "Diese mit Käse belegten Maischips wurden von Ignacio Anaya erfunden, genannt El Nacho: Sein Rezept verband geschmolzenen Cheddar und Jalapeño-Chilis."
+  },
+  "carnitas": {
+   "nom": "Carnitas",
+   "fait": "Dieses Schweinefleisch wird lange in Öl oder Schmalz geschmort, um es zart zu machen; sein spanischer Name bedeutet einfach „Fleischchen“."
+  },
+  "michelada": {
+   "nom": "Michelada",
+   "fait": "Dieses Getränk basiert auf Bier, gewürzt mit Limette, Salz und einer Soße; mit Tomatensaft verlängert erinnert es an eine Bloody Mary, bei der Bier den Wodka ersetzt."
+  },
+  "paloma": {
+   "nom": "Paloma",
+   "fait": "Sein Name bedeutet „Taube“: In Mexiko ist diese Mischung aus Tequila und Grapefruitlimonade beliebter als die Margarita."
+  },
+  "cafe-de-olla": {
+   "nom": "Café de olla",
+   "fait": "Dieser Kaffee mit Zimt und Piloncillo verdankt seinen Namen der Olla, dem kleinen Keramiktopf, in dem man ihn zubereitet."
+  },
+  "molcajete": {
+   "nom": "Molcajete",
+   "fait": "In diesem traditionellen Mörser zerstampft man Gewürze und Gemüse für Soßen mit einem Steinzylinder namens Tejolote."
+  },
+  "chac-mool": {
+   "nom": "Chac Mool",
+   "fait": "Dieser Fantasiename, „großer roter Jaguar“ auf Maya, wurde 1875 von einem Forscher erfunden; die Archäologen haben ihn aus reiner Gewohnheit beibehalten."
+  },
+  "jarabe-tapatio": {
+   "nom": "Jarabe Tapatío",
+   "fait": "Diese Volksmusik und ihr Tanz wechseln einen schnellen Zapateado-Rhythmus mit Walzer- und dann Polkapassagen ab."
+  },
+  "palacio-bellas-artes": {
+   "nom": "Palacio de Bellas Artes",
+   "fait": "Dieses Opernhaus ist so schwer, dass es allmählich absinkt; Diego Rivera malte hier ein Wandbild neu, das in New York wegen eines Lenin-Porträts zerstört worden war."
+  },
+  "templo-mayor": {
+   "nom": "Templo Mayor",
+   "fait": "Nach der Eroberung geschleift, geriet dieser Aztekentempel bis zu den Ausgrabungen in Vergessenheit: Man musste Gebäude in Mexiko-Stadt abreißen, um ihn freizulegen."
+  },
+  "pyramide-cholula": {
+   "nom": "Große Pyramide von Cholula",
+   "fait": "Ihr Name auf Nahuatl bedeutet „künstlicher Berg“: Dem Volumen nach ist sie das größte je errichtete Bauwerk, und eine Kirche krönt ihre Spitze."
+  },
+  "el-tajin": {
+   "nom": "El Tajín",
+   "fait": "Nach dem Niedergang der Stadt scheint kein Europäer sie gekannt zu haben, bis ein Inspektor zufällig auf ihre Nischenpyramide stieß."
+  },
+  "arbre-de-tule": {
+   "nom": "Árbol del Tule",
+   "fait": "Diese gewaltige, alte Zypresse, auf Nahuatl ein Ahuehuete, steht vor der Kirche Santa María del Tule bei Oaxaca."
+  },
+  "hierve-el-agua": {
+   "nom": "Hierve el Agua",
+   "fait": "Diese beiden weißen Wasserfälle sind versteinert: Mineralreiche Quellen haben sie wie Stalaktiten geformt, und einer ist zum Baden hergerichtet."
+  },
+  "gumbo": {
+   "nom": "Gumbo",
+   "fait": "Man dickt diesen Eintopf aus Louisiana mit aus Afrika stammender Okra, mit gemahlenen Sassafrasblättern, einem Erbe der Choctaw, oder mit einer Mehlschwitze nach französischer Art an."
+  },
+  "corn-dog": {
+   "nom": "Corn Dog",
+   "fait": "Diese in Backteig gehüllte und auf ein Stäbchen gesteckte Räucherwurst kam in den 1920er-Jahren in den Vereinigten Staaten auf."
+  },
+  "key-lime-pie": {
+   "nom": "Key Lime Pie",
+   "fait": "Diese Limettentorte wird mit Kondensmilch zubereitet, weil es im Süden Floridas vor der Zeit der Kühlschränke an frischer Milch fehlte."
+  },
+  "mint-julep": {
+   "nom": "Mint Julep",
+   "fait": "Dieser Cocktail aus Bourbon und Minze, der mit der Küche des Südens der Vereinigten Staaten verbunden ist, hat den Mojito inspiriert."
+  },
+  "juke-box": {
+   "nom": "Jukebox",
+   "fait": "Dieser Münzautomat spielte Schallplatten in amerikanischen Bars und Diners ab; er ist zum Sammlerobjekt geworden."
+  },
+  "musique-country": {
+   "nom": "Country-Musik",
+   "fait": "Diese Musik verbindet afrikanisches Banjo, italienische Mandoline und hawaiische Lap-Steel; ihr Jodeln stammt aus einer deutschschweizerischen Gemeinschaft in den Appalachen."
+  },
+  "milk-shake": {
+   "nom": "Milchshake",
+   "fait": "In Kanada heißt er lait frappé, in der Westschweiz einfach frappé: Dieses eisgekühlte Getränk verbindet Milch, Speiseeis und Sirup."
+  },
+  "banana-split": {
+   "nom": "Bananensplit",
+   "fait": "Dieses Dessert verdankt seinen Namen der der Länge nach halbierten Banane, bedeckt mit drei Kugeln Eis, heißer Schokolade und Schlagsahne."
+  },
+  "club-sandwich": {
+   "nom": "Club-Sandwich",
+   "fait": "Dieses Sandwich mit zwei Belagschichten wird in Viertel geschnitten, die mit der Spitze nach oben angerichtet und von Zahnstochern gehalten werden."
+  },
+  "cupcake": {
+   "nom": "Cupcake",
+   "fait": "In England nennt man dieses kleine Küchlein fairy cake, „Feenkuchen“; es wird in einer Papierform gebacken und ist meist mit Zuckerguss überzogen."
+  },
+  "deep-dish-pizza": {
+   "nom": "Deep-Dish-Pizza",
+   "fait": "Diese Pizza entstand 1943 in einer Pizzeria in Chicago, der Pizzeria Uno: Man nennt sie deshalb auch Chicago-Pizza."
+  },
+  "poke": {
+   "nom": "Poke",
+   "fait": "Sein hawaiischer Name bedeutet „in Stücke geschnitten“: Dieses Gericht aus mariniertem rohem Fisch in Würfeln, oft Thunfisch oder Oktopus, stammt aus der Küche Hawaiis."
+  },
+  "washington-monument": {
+   "nom": "Obelisk an der National Mall",
+   "fait": "Dieser zu Ehren von George Washington errichtete Obelisk war bis zur Errichtung des Eiffelturms das höchste Bauwerk der Welt."
+  },
+  "flatiron": {
+   "nom": "Flatiron Building",
+   "fait": "Sein Name bedeutet „Bügeleisen“: Dieses Gebäude ist spitz, weil der Broadway, die einzige Avenue New Yorks außerhalb des Straßenrasters, hier die 5th Avenue kreuzt."
+  },
+  "everglades": {
+   "nom": "Everglades",
+   "fait": "Diese Sümpfe bilden ein langsames Flusssystem, das nach Südwesten gleitet; man begegnet dort Florida-Panthern, Spitzkrokodilen und Seekühen."
+  },
+  "parc-arches": {
+   "nom": "Arches-Nationalpark",
+   "fait": "Dieser Park in Utah beherbergt eine große Konzentration natürlicher Felsbögen inmitten von Klippen und Tafelbergen, die durch Erosion geformt wurden."
+  },
+  "caesar-cocktail": {
+   "nom": "Caesar",
+   "fait": "Dieser in Calgary erfundene Cocktail unterscheidet sich von der Bloody Mary durch eine unerwartete Zutat: Muschelbrühe, gemischt mit Tomatensaft."
+  },
+  "ballon-balai": {
+   "nom": "Broomball",
+   "fait": "Dieser Sport wird wie Eishockey gespielt, aber mit einem Besen mit dreieckigem Kopf und schwammartigen Schuhen statt Schlittschuhen."
+  },
+  "canal-rideau": {
+   "nom": "Rideau-Kanal",
+   "fait": "1832 vollendet, ist dieser Kanal zwischen Ottawa und Kingston das älteste Kanalnetz Nordamerikas, das seit seiner Eröffnung durchgehend in Betrieb ist."
+  },
+  "parc-stanley": {
+   "nom": "Stanley Park",
+   "fait": "Dieser Stadtpark von Vancouver trägt den Namen von Frederick Stanley, dem Generalgouverneur Kanadas zur Zeit seiner Eröffnung."
+  },
+  "anse-aux-meadows": {
+   "nom": "L’Anse aux Meadows",
+   "fait": "Man entdeckte hier die Überreste eines Wikingerdorfes, einer der ersten skandinavischen Siedlungen in Amerika, auf der Insel Neufundland."
+  },
+  "parc-jasper": {
+   "nom": "Jasper-Nationalpark",
+   "fait": "Als größter der kanadischen Nationalparks in den Rocky Mountains beherbergt er das Columbia-Eisfeld, Wapitis, Elche, Grizzlybären und Karibus."
+  },
+  "bongo": {
+   "nom": "Bongos",
+   "fait": "Diese zwei miteinander verbundenen Trommeln, eine größer als die andere, stammen aus Kuba; wer sie spielt, heißt Bongocero."
+  },
+  "danzon": {
+   "nom": "Danzón",
+   "fait": "1879 in Matanzas entstanden, steht diese Musikgattung zeitlich zwischen der Contradanza und dem kubanischen Son, aus dem später die Salsa hervorging."
+  },
+  "mambo": {
+   "nom": "Mambo",
+   "fait": "Von dem Kubaner Arsenio Rodríguez erfunden, löste diese Gattung auf den Tanzflächen der ganzen Welt eine „Mambomanie“ aus, bevor sie dem Cha-Cha-Chá Platz machte."
+  },
+  "rumba-cubaine": {
+   "nom": "Rumba",
+   "fait": "Auf Spanisch bedeutet ihr Name „Fest“; dieser Tanz entwickelte sich in den afrokubanischen Milieus von Havanna und Matanzas."
+  },
+  "cayo-coco": {
+   "nom": "Cayo Coco",
+   "fait": "Diese Cay des Archipels Jardines del Rey, auch Sabana-Camagüey-Archipel genannt, im Norden Kubas, ist eines der touristischen Zentren des Landes."
+  },
+  "san-pedro-roca": {
+   "nom": "Castillo de San Pedro de la Roca",
+   "fait": "Man nennt sie umgangssprachlich Castillo del Morro: Diese Festung überragt die Bucht von Santiago de Cuba."
+  },
+  "gran-teatro-havane": {
+   "nom": "Gran Teatro de La Habana",
+   "fait": "Dieses berühmte neobarocke Theater- und Opernhaus, auf Deutsch Großes Theater von Havanna genannt, steht in der Altstadt."
+  },
+  "mento": {
+   "nom": "Mento",
+   "fait": "Als erste populäre Musik Jamaikas, Ende des 19. Jahrhunderts auf dem Land entstanden, zählt sie zu den Vorläufern des Reggae."
+  },
+  "griot": {
+   "nom": "Griot",
+   "fait": "Diese in Zitrusfrüchten marinierte Schweineschulter wird zuerst geschmort, dann frittiert; man serviert sie häufig bei Festen."
+  },
+  "ile-tortue": {
+   "nom": "Île de la Tortue",
+   "fait": "Christoph Kolumbus benannte sie wegen ihrer Form so; im 17. Jahrhundert diente sie Freibeutern und Bukanieren als Bastion."
+  },
+  "pic-duarte": {
+   "nom": "Pico Duarte",
+   "fait": "Dieser Gipfel ist der höchste des Landes, aber auch der gesamten Karibik; er ehrt Juan Pablo Duarte, einen der Väter der Nation."
+  },
+  "ile-saona": {
+   "nom": "Isla Saona",
+   "fait": "Diese tropische Insel, beliebt bei Touristen, die mit dem Katamaran anreisen, hat mit ihren Stränden Filmen und Werbespots als Kulisse einer einsamen Insel gedient."
+  },
+  "los-haitises": {
+   "nom": "Los Haitises",
+   "fait": "In der Sprache der Taíno, der ersten Bewohner der Insel, bedeutet „Haiti“ „bergiges Gebiet“; ihre Höhlen sind dort erhalten."
+  },
+  "san-salvador-bs": {
+   "nom": "Watling Island",
+   "fait": "Christoph Kolumbus ging hier höchstwahrscheinlich 1492 an Land: Es soll seine erste Küste auf dem amerikanischen Kontinent gewesen sein."
+  },
+  "cahal-pech": {
+   "nom": "Cahal Pech",
+   "fait": "Diese Maya-Stätte auf einem Hügel über dem Fluss Macal besitzt zwei Ballspielplätze und vielleicht sogar ein Dampfbad."
+  },
+  "ambergris-caye": {
+   "nom": "Ambergris Caye",
+   "fait": "Es ist die größte Insel von Belize: eine Cay im Karibischen Meer, die auf Englisch Ambergris Caye heißt."
+  },
+  "glovers-reef": {
+   "nom": "Glover’s Reef",
+   "fait": "Dieses teilweise überflutete Atoll ist eines der drei Atolle des Barriereriffs von Belize, dessen südliche Grenze es markiert."
+  },
+  "yaxha": {
+   "nom": "Yaxhá",
+   "fait": "Sein Name bedeutet auf Maya „grünes Wasser“ und hat sich, was selten ist, seit der klassischen Zeit nicht verändert: Seine Glyphe liest sich bereits „Yaxha“."
+  },
+  "takalik-abaj": {
+   "nom": "Takalik Abaj",
+   "fait": "Diese Stätte vereint olmekische und Maya-Merkmale; sie birgt ein Königsgrab und einige der ältesten hieroglyphischen Inschriften der Maya."
+  },
+  "lac-peten-itza": {
+   "nom": "Petén-Itzá-See",
+   "fait": "Die Stadt Flores, Hauptort des Departamentos Petén, ist auf einer Insel nahe dem Südufer dieses Sees im Norden Guatemalas erbaut."
+  },
+  "utila": {
+   "nom": "Utila",
+   "fait": "Diese honduranische Karibikinsel liegt am Südende des Mesoamerikanischen Barriereriffs, des zweitgrößten der Welt."
+  },
+  "ometepe": {
+   "nom": "Ometepe",
+   "fait": "Ihr Name stammt aus dem Nahuatl und bedeutet „zwei Berge“: Die Insel im Nicaraguasee besteht aus zwei Vulkanen, einst zwei getrennte Inseln."
+  },
+  "momotombo": {
+   "nom": "Momotombo",
+   "fait": "Dieser Vulkan mit strombolianischen Ausbrüchen, der sich am Ufer des Managuasees nahe León erhebt, ist relativ jung: Er soll etwa 4.500 Jahre alt sein."
+  },
+  "laguna-apoyo": {
+   "nom": "Apoyo-Lagune",
+   "fait": "Dieser See füllt die Caldera eines Vulkans: Man nennt ihn fälschlich „Lagune“, nach der wörtlichen Übersetzung des spanischen Wortes laguna."
+  },
+  "leon-viejo": {
+   "nom": "Ruinen von León Viejo",
+   "fait": "Vom Vulkan Momotombo beschädigt und 1610 durch ein Erdbeben zerstört, wurde diese Kolonialstadt aufgegeben: Ihre Bewohner gründeten das heutige León."
+  },
+  "poas": {
+   "nom": "Vulkan Poás",
+   "fait": "Der Krater dieses sehr aktiven Vulkans stößt giftige Dämpfe aus und birgt einen sauren See, der je nach Aktivität verschwinden kann."
+  },
+  "irazu": {
+   "nom": "Vulkan Irazú",
+   "fait": "Dieser Vulkan und der Turrialba werden manchmal Zwillinge genannt, weil sie auf demselben Sockel ruhen; der saure See seines Kraters ist im April 2013 verdunstet."
+  },
+  "tortuguero": {
+   "nom": "Nationalpark Tortuguero",
+   "fait": "Dieser Park im Nordosten ist der am dritthäufigsten besuchte Costa Ricas, obwohl man ihn nur mit dem Flugzeug oder dem Boot erreichen kann."
+  },
+  "chirripo": {
+   "nom": "Cerro Chirripó",
+   "fait": "Die Umgebung dieses höchsten Punktes Costa Ricas trägt Spuren alter Gletscher, und seine Fauna und Flora sind teilweise mit denen der Anden verwandt."
+  },
+  "basilique-cartago": {
+   "nom": "Basilika Nuestra Señora de los Ángeles",
+   "fait": "Der Überlieferung nach fand eine Frau hier 1635 eine steinerne Statue der Jungfrau Maria; heute ist dies der wichtigste Wallfahrtsort Costa Ricas."
+  },
+  "volcan-baru": {
+   "nom": "Vulkan Barú",
+   "fait": "Dieser ruhende Vulkan im Westen des Landes ist der höchste Punkt Panamas, und seine üppige Vegetation wird im Norden durch einen Nationalpark geschützt."
+  },
+  "archipel-perles": {
+   "nom": "Perleninseln",
+   "fait": "Dieser Archipel im Golf von Panama zählt mehr als zweihundert Inseln und Inselchen; die größte heißt Königsinsel."
+  },
+  "casco-viejo": {
+   "nom": "Casco Viejo",
+   "fait": "Dieses Viertel entstand, als die zerstörte Stadt Panama verlegt und 1673 auf einer kleinen, von Riffen umgebenen Halbinsel neu errichtet wurde."
+  },
+  "ilopango": {
+   "nom": "Ilopango-See",
+   "fait": "Als größter See El Salvadors ist dieses Gewässer zugleich ein Vulkan, bestehend aus einer Caldera und einigen Lavadomen."
+  },
+  "pigeon-island": {
+   "nom": "Pigeon Island",
+   "fait": "Einst von Wasser umgeben, ist diese Halbinsel heute durch eine Straße angebunden; sie birgt die Ruinen von Fort Rodney, um das Franzosen und Engländer stritten."
+  },
+  "peninsule-valdes": {
+   "nom": "Halbinsel Valdés",
+   "fait": "Diese fast rechteckige Halbinsel hängt nur über eine Landenge mit dem Festland zusammen; alte Karten nannten sie „Halbinsel San José“."
+  },
+  "la-bombonera": {
+   "nom": "La Bombonera",
+   "fait": "Ihr Spitzname „Bonbonschachtel“ kommt von ihrer Form: drei leicht gekrümmte Tribünen und ein gerades Gebäude ohne Verbindung zum Rest."
+  },
+  "el-ateneo": {
+   "nom": "El Ateneo Grand Splendid",
+   "fait": "Hier kauft man seine Bücher in einem ehemaligen neobarocken Theater in Buenos Aires, das 2000 in eine Buchhandlung umgewandelt wurde."
+  },
+  "train-des-nuages": {
+   "nom": "Tren a las Nubes",
+   "fait": "Dieser ehemalige Abschnitt der Belgrano-Bahn, heute eine Touristenstrecke, beginnt in Salta und durchquert die Anden bis zu einem Pass an der chilenischen Grenze."
+  },
+  "train-bout-du-monde": {
+   "nom": "Zug am Ende der Welt",
+   "fait": "Sein offizieller Name bedeutet „Feuerländische Südbahn“: Diese Strecke auf Feuerland verbindet Ushuaia mit dem Nationalpark Tierra del Fuego."
+  },
+  "bombo-leguero": {
+   "nom": "Bombo legüero",
+   "fait": "Der tiefe Klang dieser Trommel trägt in den Bergen mehrere Kilometer weit, daher ihr Name: „Man hört sie meilenweit im Umkreis“."
+  },
+  "maracana": {
+   "nom": "Maracanã",
+   "fait": "Bei seiner Eröffnung bot dieses Stadion in Rio mehr als 200.000 Plätze, damals ein Weltrekord; seine Kapazität wurde seither verringert."
+  },
+  "ipanema": {
+   "nom": "Ipanema",
+   "fait": "Der Name dieses schicken Viertels von Rio am Atlantischen Ozean stammt von einem Guaraní-Wort, das „schlechtes Wasser“ bedeutet."
+  },
+  "pelourinho": {
+   "nom": "Pelourinho",
+   "fait": "Dieses Viertel von Salvador, im Herzen der ersten Hauptstadt des kolonialen Brasilien, wird oft fälschlich mit dem gesamten historischen Zentrum gleichgesetzt."
+  },
+  "lambada": {
+   "nom": "Lambada",
+   "fait": "Dieser brasilianische Tanz wurde weltweit durch einen französischen Sommerhit von 1989 bekannt, der in Wahrheit ein Plagiat war."
+  },
+  "acai-na-tigela": {
+   "nom": "Açaí na tigela",
+   "fait": "Im Norden Brasiliens ist das ursprüngliche Rezept dieser Açaí-Schale meist herzhaft: Es enthält Garnelen oder frittierten Fisch."
+  },
+  "picanha": {
+   "nom": "Picanha",
+   "fait": "Dieses Rindfleischstück, beliebt in der brasilianischen Küche, besteht aus dem zweiköpfigen Oberschenkelmuskel und seiner Fettkappe."
+  },
+  "surdo": {
+   "nom": "Surdo",
+   "fait": "Diese Trommel, die größte der Rhythmusgruppe im Samba, wird heute meist aus Metall gefertigt; manche Kessel sind sogar aus Plexiglas."
+  },
+  "pamonha": {
+   "nom": "Pamonha",
+   "fait": "Diese Delikatesse, verbreitet im Nordosten Brasiliens und in Goiás, stammt wahrscheinlich aus der indigenen Küche."
+  },
+  "tucupi": {
+   "nom": "Tucupi",
+   "fait": "Diese gelbe Soße entsteht aus Maniokssaft, der roh giftig ist: Man muss ihn mehrere Stunden kochen, um das Gift zu beseitigen."
+  },
+  "quindim": {
+   "nom": "Quindim",
+   "fait": "Dieses Dessert aus dem Nordosten Brasiliens braucht nur drei Zutaten: Eigelb, Zucker und geriebene Kokosnuss."
+  },
+  "maculele": {
+   "nom": "Maculelê",
+   "fait": "Dieser mit der Capoeira verbundene Kampftanz wird mit einem Stock in jeder Hand getanzt, der manchmal durch Messer ersetzt wird."
+  },
+  "litterature-cordel": {
+   "nom": "Literatura de Cordel",
+   "fait": "In Brasilien verbreitet diese Form des Selbstverlags volkstümliche Dichtung in Heftchen, die folhetos genannt werden."
+  },
+  "ile-robinson-crusoe": {
+   "nom": "Robinson-Crusoe-Insel",
+   "fait": "Diese chilenische Pazifikinsel ist die größte des Juan-Fernández-Archipels und die einzige bewohnte."
+  },
+  "chuquicamata": {
+   "nom": "Chuquicamata-Mine",
+   "fait": "Als größte Kupfermine im Tagebau der Welt enthält dieser Schlund in der Atacama-Wüste allein 13 % der weltweiten Reserven."
+  },
+  "tangata-manu": {
+   "nom": "Tangata manu",
+   "fait": "Um den „Vogelmann“ der Osterinsel zu bestimmen, schickte jeder Clan einen Schwimmer los, der auf einer kleinen Insel das erste Seeschwalbenei der Saison holen sollte."
+  },
+  "barros-luco": {
+   "nom": "Barros Luco",
+   "fait": "Dieses warme Sandwich mit Rindfleisch und Käse trägt den Namen eines chilenischen Präsidenten, der es im Restaurant des Kongresses bestellte."
+  },
+  "vallee-sacree": {
+   "nom": "Heiliges Tal der Inka",
+   "fait": "Die Inka schätzten dieses Tal wegen seiner Fruchtbarkeit; noch heute gedeihen dort Maisfelder und Gemüsegärten."
+  },
+  "coricancha": {
+   "nom": "Coricancha",
+   "fait": "Sein Quechua-Name bedeutet „Umfriedung des Goldes“: Dieser Tempel in Cuzco war der heiligste Ort des Inkareichs."
+  },
+  "choquequirao": {
+   "nom": "Choquequirao",
+   "fait": "Diese Ruinenstadt der Inka wird „Schwester“ von Machu Picchu genannt, liegt aber abgelegener und wird viel weniger besucht."
+  },
+  "iles-ballestas": {
+   "nom": "Islas Ballestas",
+   "fait": "Der auf diesen Inseln angehäufte Guano machte Peru im 19. Jahrhundert reich: Er wurde als Dünger nach Europa und Nordamerika exportiert."
+  },
+  "papa-huancaina": {
+   "nom": "Papa a la Huancaína",
+   "fait": "Diese Kartoffeln „nach Art von Huancayo“ werden kalt serviert, überzogen mit einer cremigen Soße aus Käse und gelbem Chili."
+  },
+  "carapulcra": {
+   "nom": "Carapulcra",
+   "fait": "Sein Aymara-Name bedeutet „Gericht aus heißen Steinen“; es ist eines der ältesten Gerichte, die seit der Eroberung Perus verzeichnet sind."
+  },
+  "seigneur-miracles": {
+   "nom": "Señor de los Milagros",
+   "fait": "Jeden Oktober zieht dieses Bild des gekreuzigten Christus seit 1687 Millionen Gläubige in einer Prozession durch Lima."
+  },
+  "desert-tatacoa": {
+   "nom": "Tatacoa-Wüste",
+   "fait": "Hinter ihrem Wüstenaussehen verbirgt sich in Wirklichkeit ein tropischer Trockenwald, reich an Millionen Jahre alten Fossilien."
+  },
+  "tierradentro": {
+   "nom": "Tierradentro",
+   "fait": "An dieser Stätte, 1995 in die Liste der UNESCO aufgenommen und Zeugnis der präkolumbischen Kultur, fand man Hypogäen und monumentale Statuen menschlicher Gestalten."
+  },
+  "ile-margarita": {
+   "nom": "Isla Margarita",
+   "fait": "Als „Perle der Karibik“ bezeichnet, bildet diese Insel mit Coche und Cubagua den einzigen Inselstaat Venezuelas."
+  },
+  "pic-bolivar": {
+   "nom": "Pico Bolívar",
+   "fait": "Dieser Gipfel der Sierra Nevada de Mérida, höchster Punkt Venezuelas, wurde zu Ehren von Simón Bolívar benannt."
+  },
+  "colonia-tovar": {
+   "nom": "Colonia Tovar",
+   "fait": "Diese Stadt auf 1.800 Metern Höhe ist eine ehemalige Kolonie, die 1843 von einer Gruppe deutscher Familien gegründet wurde."
+  },
+  "grotte-guacharo": {
+   "nom": "Guácharo-Höhle",
+   "fait": "Dieser Park entstand um eine bemerkenswerte Höhle, benannt nach dem Guácharo, einem dort lebenden Vogel; dieses spanische Wort leitet sich aus dem Quechua ab."
+  },
+  "henri-pittier": {
+   "nom": "Nationalpark Henri Pittier",
+   "fait": "Als erster Nationalpark Venezuelas ehrt er einen Schweizer Biologen, einen Pionier des Naturschutzes im Land."
+  },
+  "cuicocha": {
+   "nom": "Cuicocha-Lagune",
+   "fait": "Dieser See füllt die Caldera eines nur „schlafenden“ Vulkans; seine beiden Inselchen, Gipfel vulkanischer Dome, dürfen nicht betreten werden."
+  },
+  "tungurahua": {
+   "nom": "Tungurahua",
+   "fait": "Dieser 5.023 Meter hohe Schichtvulkan an der Grenze zweier Provinzen ist seit 1999 aktiv und erlebte 2011 eine neue explosive Phase."
+  },
+  "samaipata": {
+   "nom": "Fuerte de Samaipata",
+   "fait": "Trotz ihres Namens „Festung“ war diese Stätte wohl religiös: ein riesiger Felsen mit eingehauenen Becken und Kanälen, geschmückt mit zwei Raubkatzen."
+  },
+  "ile-de-lobos": {
+   "nom": "Isla de Lobos",
+   "fait": "Diese felsige kleine Insel mit ihrem Leuchtturm vor Punta del Este ist der südlichste aus dem Wasser ragende Punkt Uruguays."
+  },
+  "place-independance-uy": {
+   "nom": "Plaza Independencia",
+   "fait": "Auf diesem Platz in Montevideo steht das Reiterstandbild von Artigas, dem Nationalhelden Uruguays, unter dem sich sein Mausoleum befindet."
+  },
+  "trinidad-parana": {
+   "nom": "Mission Santísima Trinidad",
+   "fait": "Diese ehemalige Jesuitenreduktion der Guaraní, 1706 gegründet, ist eine der größten und am besten erhaltenen Paraguays."
+  },
+  "reserve-suriname-central": {
+   "nom": "Zentrales Naturschutzgebiet",
+   "fait": "Dieser riesige tropische Primärwald beherbergt Jaguare, Tapire und Riesengürteltiere sowie mehr als 5.000 Pflanzenarten."
+  },
+  "ile-kangourou": {
+   "nom": "Känguru-Insel",
+   "fait": "Südlich von Südaustralien gelegen, ist sie die drittgrößte Insel des Landes, nach Tasmanien und Melville Island."
+  },
+  "bungle-bungle": {
+   "nom": "Bungle Bungle",
+   "fait": "Die schwarzen und orangefarbenen Streifen dieser Bergmassive entstehen durch den Wechsel von dunklen Flechten und freiliegendem Siliziumdioxid."
+  },
+  "gare-flinders-street": {
+   "nom": "Bahnhof Flinders Street",
+   "fait": "In Melbourne bezeichnet „Treffen unter den Uhren“ die Reihe von Uhren über dem Eingang dieses Bahnhofs, die die Abfahrten anzeigen."
+  },
+  "baie-shark": {
+   "nom": "Shark Bay",
+   "fait": "Ihr englischer Name bedeutet „Haifischbucht“; auf Französisch hieß sie früher „baie des Chiens-Marins“."
+  },
+  "art-aborigene": {
+   "nom": "Kunst der Aborigines",
+   "fait": "Für die Aborigines ist diese Kunst vor allem Spiritualität: Sie ist stets mit einem Gebiet verbunden, etwa einer Wasserstelle, einer Höhle oder einem Weg."
+  },
+  "footy": {
+   "nom": "Footy (Fußball mit achtzehn Spielern)",
+   "fait": "Obwohl dieser Sport dem Rugby nahesteht, wird er vor allem mit dem Fuß gespielt, denn es gilt, ein viel größeres ovales Spielfeld zu durchqueren."
+  },
+  "lac-tekapo": {
+   "nom": "Lake Tekapo",
+   "fait": "Seine türkise Farbe stammt vom Gletscherschlamm, der das aus den Südalpen herabfließende Schmelzwasser färbt."
+  },
+  "mont-taranaki": {
+   "nom": "Mount Taranaki",
+   "fait": "Dieser ruhende Vulkan ist bekannt für seine Kegelform mit gleichmäßigen Hängen, die als eine der symmetrischsten der Welt gilt."
+  },
+  "tane-mahuta": {
+   "nom": "Tāne Mahuta",
+   "fait": "Dies ist kein Denkmal, sondern ein Baum: ein riesiger Kauri im Waipoua-Wald in der Region Northland."
+  },
+  "poi": {
+   "nom": "Poi",
+   "fait": "Diese kleinen Gewichte am Ende einer Schnur, ein Erbe der Māori, dienen heute zum Jonglieren und für Feuerkunst."
+  },
+  "iles-yasawa": {
+   "nom": "Yasawa-Inseln",
+   "fait": "Bis in die 1940er-Jahre vom übrigen Fidschi abgeschieden, sind diese Vulkaninseln zu einem großen Reiseziel geworden."
+  },
+  "beqa": {
+   "nom": "Beqa",
+   "fait": "Diese Insel ist für ihr Feuerlauf-Ritual bekannt, das vilavilairevo, das im ganzen Land zu einer Vorführung für Touristen geworden ist."
+  },
+  "kadavu": {
+   "nom": "Kadavu",
+   "fait": "Die viertgrößte Insel Fidschis ist an einer Landenge fast zweigeteilt; dort befinden sich ein Flughafen, eine weiterführende Schule und ein Krankenhaus."
+  },
+  "eua": {
+   "nom": "ʻEua",
+   "fait": "Im Gegensatz zu vielen Inseln der Region weist diese Insel vulkanischen Ursprungs ein ausgeprägtes Relief auf."
+  },
+  "haapai": {
+   "nom": "Haʻapai-Inseln",
+   "fait": "Die meisten dieser Inseln sind unbewohnte Atolle, doch zwei Vulkaninseln, Tofua und Kao, haben noch aktive Vulkane."
+  },
+  "lac-letas": {
+   "nom": "Lake Letas",
+   "fait": "Als größter See Vanuatus füllt er die Caldera der Insel Gaua, am Fuß des Mount Gharat, der ihm seine Halbmondform gibt."
+  },
+  "tikopia": {
+   "nom": "Tikopia",
+   "fait": "Obwohl diese kleine Insel, ein ehemaliger Vulkan, in Melanesien liegt, wird sie von Polynesiern bewohnt, die Tikopia sprechen."
+  },
+  "rennell-est": {
+   "nom": "East Rennell",
+   "fait": "Diese ehemalige Lagune, die größte des Pazifiks, ist mit Kalksteininseln übersät und beherbergt endemische Tier- und Pflanzenarten."
+  },
+  "ontong-java": {
+   "nom": "Ontong Java",
+   "fait": "Dieses ungefähr stiefelförmige Atoll umfasst 122 Inselchen; die nächstgelegene Insel, geografisch wie kulturell, gehört jedoch zu Papua-Neuguinea."
+  },
+  "iles-santa-cruz": {
+   "nom": "Santa-Cruz-Inseln",
+   "fait": "Diese Inseln gehören zu den Salomonen, bilden geografisch aber einen eigenen kleinen Archipel, weit im Südosten des übrigen Landes."
+  },
+  "tarawa": {
+   "nom": "Tarawa",
+   "fait": "Seine Durchfahrt, durch die selbst die größten Schiffe mühelos in die Lagune gelangen, machte dieses Atoll zur Hauptstadt der britischen Kolonie Gilbert- und Elliceinseln."
+  },
+  "kiritimati": {
+   "nom": "Kiritimati",
+   "fait": "Dieses Atoll im Pazifik trägt zwei Namen: Weihnachtsinsel, auf Englisch Christmas Island, und Kiritimati auf Gilbertesisch."
+  },
+  "abemama": {
+   "nom": "Abemama",
+   "fait": "Gegen Ende des 19. Jahrhunderts war dieses Atoll die Hauptstadt eines Königreichs unter König Tembinok'; Robert Louis Stevenson wohnte dort."
+  },
+  "butaritari": {
+   "nom": "Butaritari",
+   "fait": "Auf Gilbertesisch bedeutet der Name dieses Atolls „Duft des Meeres“, und zwar nicht im angenehmen Sinn: Er bezeichnet einen unangenehmen Geruch."
+  },
+  "fort-al-fahidi": {
+   "nom": "Fort Al Fahidi",
+   "fait": "Dieses Fort, das älteste noch stehende Gebäude Dubais, beherbergt heute das wichtigste Museum der Stadt."
+  },
+  "abra": {
+   "nom": "Abra",
+   "fait": "Diese traditionellen Holzboote überqueren den Meeresarm von Dubai im Abstand weniger Minuten, für einen Dirham, den man dem Fahrer zahlt."
+  },
+  "palm-jumeirah": {
+   "nom": "Palm Jumeirah",
+   "fait": "Diese künstliche Inselgruppe bildet eine Palme: einen Stamm und sechzehn Wedel, umgeben von einem Halbmond, der eine Lagune begrenzt."
+  },
+  "khor-dubai": {
+   "nom": "Khor Dubai",
+   "fait": "Sein arabischer Name bedeutet wörtlich „Fluss von Dubai“, doch es handelt sich nicht um einen Fluss, sondern um einen Meeresarm."
+  },
+  "lac-yssyk-koul": {
+   "nom": "Yssyk-Köl",
+   "fait": "Obwohl dieser See hoch in den Bergen in rauem Klima liegt, friert er dank seines leichten Salzgehalts selten zu, daher sein kirgisischer Name „warmer See“."
+  },
+  "tour-burana": {
+   "nom": "Burana-Turm",
+   "fait": "Dieses Minarett gehört zu den Überresten von Balasagun, einer verschwundenen Stadt, die Ende des 9. Jahrhunderts von den Karachaniden gegründet wurde."
+  },
+  "sulaiman-too": {
+   "nom": "Suleiman-Too",
+   "fait": "Dieser Berg über dem Ferghanatal diente lange als Orientierungspunkt an der Seidenstraße, und zahlreiche alte Kultstätten befinden sich dort."
+  },
+  "tchatyr-koul": {
+   "nom": "Tschatyr-Köl",
+   "fait": "Sein kirgisischer Name bedeutet „Himmelssee“, wörtlich „Dachsee“; er liegt am tiefsten Punkt einer Senke nahe der chinesischen Grenze."
+  },
+  "arslanbob": {
+   "nom": "Arslanbob",
+   "fait": "Dieses Bergdorf ist von einem riesigen Walnussbestand umgeben, der der älteste und größte Walnusswald der Welt sein soll."
+  },
+  "sarazm": {
+   "nom": "Sarasm",
+   "fait": "Diese protourbane Stätte aus dem 4. Jahrtausend v. Chr. trägt einen Namen, der „der Anfang der Erde“ bedeutet."
+  },
+  "pic-ismail-samani": {
+   "nom": "Pik Ismail Samani",
+   "fait": "Dieser Gipfel hieß Pik Stalin, dann Pik Kommunismus; er ist der höchste Punkt Tadschikistans und der ehemaligen Sowjetunion."
+  },
+  "parc-national-du-pamir": {
+   "nom": "Pamir-Nationalpark",
+   "fait": "Zusammen mit seinem Naturreservat ist dieses Schutzgebiet das größte Zentralasiens; es umfasst den Pik Ismail Samani und den Fedtschenko-Gletscher."
+  },
+  "lac-iskanderkoul": {
+   "nom": "Iskanderkul",
+   "fait": "Sein Name bedeutet „See Alexanders“, zur Erinnerung an Alexander den Großen, der auf seinem Feldzug nach Indien hierherkam."
+  },
+  "darvaza": {
+   "nom": "Krater von Darvaza",
+   "fait": "Dieser „Tor zur Hölle“ genannte Krater liegt nahe Darvaza, einem Dorf in der Wüste Karakum, dessen Name „Pforte“ bedeutet."
+  },
+  "merv": {
+   "nom": "Merw",
+   "fait": "Einst eine Station an der Seidenstraße, war diese Stadt die Satrapie Margiana; ihre Überreste liegen nahe der heutigen Stadt Mary."
+  },
+  "kunya-urgench": {
+   "nom": "Köneürgenç",
+   "fait": "Diese ehemalige Hauptstadt der Choresm-Schahs gab wahrscheinlich dem Organdy seinen Namen, einem appretierten Musselingewebe."
+  },
+  "tapis-a-guls": {
+   "nom": "Teppich mit Gül-Muster",
+   "fait": "Diese Teppiche turkmenischer Stämme bedecken nicht nur den Boden: Sie dienen auch als Türbehänge, Zeltteppiche oder Taschen."
+  },
+  "akhal-teke": {
+   "nom": "Achal-Tekkiner",
+   "fait": "Dieses Pferd mit metallisch schimmerndem Fell wäre in der Sowjetzeit beinahe ausgestorben; es wurde zum Wahrzeichen Turkmenistans."
+  },
+  "pyramides-de-meroe": {
+   "nom": "Pyramiden von Meroe",
+   "fait": "Diese steilen Pyramiden bilden die Nekropolen von Meroe, der Hauptstadt des Königreichs Kusch in der letzten Periode seiner Geschichte."
+  },
+  "gebel-barkal": {
+   "nom": "Jebel Barkal",
+   "fait": "Die Ägypter nannten diesen Felsvorsprung den „reinen Berg“ und glaubten, dass der Gott Amun dort wohnte."
+  },
+  "naqa": {
+   "nom": "Naqa",
+   "fait": "Als Station auf dem Weg in den Orient bewahrt diese Stadt des Reiches von Meroe zwei Tempel, der eine Amun, der andere Apedemak geweiht."
+  },
+  "temple-de-soleb": {
+   "nom": "Tempel von Soleb",
+   "fait": "Unter Amenophis III. erbaut und Amun geweiht, wurde dieser Tempel nach Echnatons Machtübernahme Aton neu geweiht."
+  },
+  "suakin": {
+   "nom": "Suakin",
+   "fait": "Diese ehemalige Hafenstadt am Roten Meer war hauptsächlich aus Korallen gebaut, und sogar Rimbaud hat hier gearbeitet."
+  },
+  "kerma": {
+   "nom": "Kerma",
+   "fait": "Bei Grabungen in einer sehr dünnen Schicht fanden Archäologen hier bis zu zehn übereinanderliegende Städte; ihr Haupttempel ist die Deffufa."
+  },
+  "fort-masmak": {
+   "nom": "Fort Masmak",
+   "fait": "Dieses Fort aus Lehm und Lehmziegeln spielte 1902 eine wichtige Rolle, als Abd al-Aziz Al Saud und seine Männer Riad zurückeroberten."
+  },
+  "dumat-al-jandal": {
+   "nom": "Dumat al-Jandal",
+   "fait": "Der Name dieser antiken Stadt bedeutet „Duma des Steins“, nach Duma, einem der zwölf Söhne Ismaels."
+  },
+  "alardah": {
+   "nom": "Ardah des Nadschd",
+   "fait": "Diese Zeremonie verbindet gesungene Dichtung, Tanz und Schlaginstrumente; sie markiert den Beginn oder das Ende wichtiger Anlässe."
+  },
+  "avdat": {
+   "nom": "Avdat",
+   "fait": "Diese nabatäische Karawanenstation verdankt ihren Namen König Obodas, der als göttliche Gestalt verehrt wurde; nach einem Erdbeben wurde sie verlassen."
+  },
+  "megiddo": {
+   "nom": "Tel Megiddo",
+   "fait": "Diese Stätte trägt auch den griechischen Namen Armageddon, verbunden mit dem biblischen Bericht; ihre ältesten Schichten reichen bis 7000 vor unserer Zeitrechnung zurück."
+  },
+  "parc-de-timna": {
+   "nom": "Timna-Park",
+   "fait": "Dieses hufeisenförmige Tal im Negev wird vom Israel National Trail durchquert, der von einem Ende des Landes zum anderen führt."
+  },
+  "sepphoris": {
+   "nom": "Sepphoris",
+   "fait": "Die Ausgrabungen in dieser Stadt in Galiläa beleuchten das Leben zur Zeit Jesu, sodass ein Pilgerweg, der Jesusweg, hier vorbeiführt."
+  },
+  "qasr-kharana": {
+   "nom": "Qasr Kharana",
+   "fait": "Man nennt es Schloss, doch Anlage und Verzierungen deuten auf keinerlei militärische Nutzung hin: Seine Funktion ist noch immer unklar."
+  },
+  "kerak-de-moab": {
+   "nom": "Burg Karak",
+   "fait": "Auch Krak der Moabiter genannt, wurde diese Burg im 12. Jahrhundert, zur Zeit der Kreuzzüge, in der heutigen Stadt Al-Karak erbaut."
+  },
+  "carte-de-madaba": {
+   "nom": "Mosaikkarte von Madaba",
+   "fait": "Dieses Kirchenmosaik ist die älteste erhaltene Karte des Heiligen Landes und Jerusalems."
+  },
+  "palais-de-beiteddine": {
+   "nom": "Palast Beit ed-Din",
+   "fait": "Dieser Palast, einst Sitz des Emirats des Libanongebirges, dient heute als Sommerresidenz des Präsidenten der Libanesischen Republik."
+  },
+  "gouffre-de-baatara": {
+   "nom": "Baatara-Schlucht",
+   "fait": "Zur Schneeschmelze bildet sich in dieser Schlucht bei Tannourine ein hoher Wasserfall; sie wird auch Schlucht der drei Brücken genannt."
+  },
+  "anjar": {
+   "nom": "Anjar",
+   "fait": "Diese Stadt in der Bekaa-Ebene, überwiegend von Einwohnern armenischer Herkunft bewohnt, liegt ungefähr auf halbem Weg an der Straße von Beirut nach Damaskus."
+  },
+  "chateau-de-la-mer": {
+   "nom": "Seeburg",
+   "fait": "Diese auf einer Halbinsel von Sidon, dem heutigen Saida, erbaute Festung wurde von den Kreuzfahrern Sagette oder Sayette genannt."
+  },
+  "koumbi-saleh": {
+   "nom": "Koumbi Saleh",
+   "fait": "Als Hauptstadt des Reiches Ghana diente diese Stadt als Lager für Salz und Gold; ihre Ruinen liegen jedoch im heutigen Mauretanien."
+  },
+  "kedia-d-idjil": {
+   "nom": "Kediet Ijill",
+   "fait": "Dieses Massiv verdankt seine blaugraue Farbe Eisenoxiden; seine Lagerstätten stören sogar das Erdmagnetfeld."
+  },
+  "ai-khanoum": {
+   "nom": "Ai Khanoum",
+   "fait": "Von den Griechen im Gefolge Alexanders des Großen gegründet, wurde diese antike Stadt von Ptolemäus Alexandria am Oxus genannt."
+  },
+  "surkh-kotal": {
+   "nom": "Surkh Kotal",
+   "fait": "Die Inschriften in griechischen Buchstaben dieser kuschanischen Stätte enthüllten eine bis dahin unbekannte Sprache: das Baktrische."
+  },
+  "tour-de-la-vierge": {
+   "nom": "Jungfrauenturm",
+   "fait": "Auf einer Klippe erbaut und von einer Mauer geschützt, gehört dieser befestigte Turm zur Meeresfront der Altstadt von Baku."
+  },
+  "lac-goygol": {
+   "nom": "Göygöl-See",
+   "fait": "Sein Name bedeutet „der blaue See“: Es ist ein natürlicher Stausee an den Ausläufern des Murovdağ-Gebirges nahe Gandscha."
+  },
+  "khinalyg": {
+   "nom": "Xınalıq",
+   "fait": "Auf 2.350 Metern im Kaukasus gelegen, ist dieses Dorf, auf Chinalugisch Kətş genannt, der höchstgelegene Ort Aserbaidschans."
+  },
+  "arc-de-marc-aurele": {
+   "nom": "Marc-Aurel-Bogen",
+   "fait": "Dieser römische Triumphbogen steht in der antiken Stadt Oea, dem heutigen Tripolis."
+  },
+  "germa": {
+   "nom": "Germa",
+   "fait": "Diese Stadt im Südwesten des Landes, das antike Garama, war die Hauptstadt der Garamanten, eines Berbervolkes der Sahara."
+  },
+  "ptolemais": {
+   "nom": "Ptolemais in der Kyrenaika",
+   "fait": "Diese griechische Hafenkolonie war eine der einstigen Hauptstädte der Kyrenaika; ihre Überreste liegen nahe dem heutigen Tolmeita."
+  },
+  "norias-de-hama": {
+   "nom": "Norias von Hama",
+   "fait": "Am Orontes sind nur noch siebzehn davon übrig, und sie werden nicht mehr genutzt: Man erhält sie wegen ihrer Schönheit und ihrer Geschichte."
+  },
+  "saint-simeon-le-stylite": {
+   "nom": "Simeonskloster",
+   "fait": "Dieses in Ruinen liegende Kloster aus dem 5. Jahrhundert wurde um die Säule herum errichtet, auf der der heilige Simeon Stylites lebte."
+  },
+  "forteresse-de-saladin": {
+   "nom": "Saladinsburg",
+   "fait": "Seit der Antike genutzt, wird diese Festung auch Burg Saône genannt, eine Verballhornung ihres arabischen Namens."
+  },
+  "zvartnots": {
+   "nom": "Swartnoz",
+   "fait": "Diese archäologische Stätte, eine der wichtigsten des Landes, liegt in einem Vorort von Jerewan, der teilweise vom gleichnamigen internationalen Flughafen eingenommen wird."
+  },
+  "noravank": {
+   "nom": "Norawank",
+   "fait": "Sein Name bedeutet „neues Kloster“; es diente den Orbeljan als Mausoleum und war für sein Skriptorium berühmt."
+  },
+  "zorats-karer": {
+   "nom": "Zorats Karer",
+   "fait": "Diese megalithische Stätte in der Region Sjunik wird auch Karahundsch genannt, was „Stimme der Steine“ bedeutet."
+  },
+  "ghapama": {
+   "nom": "Ghapama",
+   "fait": "Dieser Eintopf wird in einem ausgehöhlten Kürbis gegart, gefüllt mit Reis und Trockenfrüchten, oft während der Festtage."
+  },
+  "matnakash": {
+   "nom": "Matnakash",
+   "fait": "Sein Name bedeutet „mit den Fingern gezogen“; in der Sowjetzeit ersetzten die Machthaber die auf dieses Brot gezeichneten Rillen durch ein Gittermuster."
+  },
+  "arc-de-ctesiphon": {
+   "nom": "Bogen von Ktesiphon",
+   "fait": "Dieses sassanidische Bauwerk in Ruinen ist der einzige sichtbare Überrest des antiken Ktesiphon, das die Araber Al-Madain nannten."
+  },
+  "etendard-d-ur": {
+   "nom": "Standarte von Ur",
+   "fait": "Dieses im Königsfriedhof von Ur gefundene sumerische Objekt ist in London ausgestellt, und niemand weiß, wozu es diente."
+  },
+  "vase-d-uruk": {
+   "nom": "Vase von Uruk",
+   "fait": "Diese Alabastervase trägt eine der ältesten Darstellungen von Lebensszenen in der Geschichte der Menschheit."
+  },
+  "dame-de-warka": {
+   "nom": "Dame von Warka",
+   "fait": "Dieses sumerische Stück aus dem Nationalmuseum des Irak in Bagdad wird vor Ort manchmal „Mona Lisa von Uruk“ genannt."
+  },
+  "kalta-minor": {
+   "nom": "Kalta Minor",
+   "fait": "Sein Name bedeutet „kurzes Minarett“; es steht in Itchan Kala, dem befestigten Viertel von Chiwa."
+  },
+  "medersa-mir-i-arab": {
+   "nom": "Mir-i-Arab-Medrese",
+   "fait": "Diese Medrese des Po-i-Kalon-Komplexes in Buchara ist noch in Betrieb, für Besucher aber nicht zugänglich."
+  },
+  "tchoga-zanbil": {
+   "nom": "Tschogha Zanbil",
+   "fait": "Seine elamische Zikkurat ist eine der wenigen außerhalb Mesopotamiens erhaltenen und wohl die am besten erhaltene von allen."
+  },
+  "kandovan": {
+   "nom": "Kandovan",
+   "fait": "Dieses Dorf in der Provinz Ost-Aserbaidschan nahe Täbris hat die Besonderheit, aus Höhlenwohnungen zu bestehen."
+  },
+  "ghormeh-sabzi": {
+   "nom": "Ghormeh Sabzi",
+   "fait": "Dieser Eintopf beruht auf angebratenen Kräutern, Petersilie, Lauch, Spinat und Bockshornklee, die mit Bohnen, getrockneten Zitronen und Lamm geschmort werden."
+  },
+  "sangak": {
+   "nom": "Sangak",
+   "fait": "Dieses Fladenbrot aus Vollkorn-Sauerteig ist nicht rund: Man formt es zu einem Rechteck oder einem Dreieck."
+  },
+  "sohan": {
+   "nom": "Sohan",
+   "fait": "Diese Süßigkeit aus Weizen, Zucker, Safran und Kardamom wird vor allem in den Städten Ghom und Isfahan hergestellt."
+  },
+  "tahtchine": {
+   "nom": "Tahchin",
+   "fait": "Dieses Gericht aus Reis mit Safran und Joghurt kommt mit einer goldenen Reiskruste, dem Tahdig, auf den Tisch und wird oft von Pistazien und Zereschk-Beeren begleitet."
+  },
+  "mirza-ghassemi": {
+   "nom": "Mirza Ghasemi",
+   "fait": "Diese gegrillten Auberginen, mit Eiern gebunden, stammen aus Gilan am Kaspischen Meer; mit Zucchini wird das Gericht zum Kadoo Ghassemi."
+  },
+  "khatam-kari": {
+   "nom": "Khatam-Kari",
+   "fait": "Diese Sternmarketerie war am Hof der Safawiden so begehrt, dass manche Prinzen die Technik erlernten, wie Musik oder Kalligrafie."
+  },
+  "tapis-de-tabriz": {
+   "nom": "Täbris-Teppich",
+   "fait": "Die ersten für den Export bestimmten Teppiche kamen aus den Werkstätten von Täbris, gewebt in den von europäischen Händlern bestellten Maßen und Farben."
+  },
+  "tapis-de-kachan": {
+   "nom": "Kaschan-Teppich",
+   "fait": "Nach der afghanischen Invasion ruhte die Weberei in Kaschan bis Ende des 19. Jahrhunderts; sie wurde mit Wolle besserer Qualität wieder aufgenommen."
+  },
+  "tombak": {
+   "nom": "Tombak",
+   "fait": "Der Name dieser Trommel soll ihre beiden Schläge nachahmen: „tom“, tief, in der Mitte des Fells, und „bak“, hoch, am Rand."
+  },
+  "mehregan": {
+   "nom": "Mehregan",
+   "fait": "Als Gegenstück zu Nouruz zur Herbst-Tagundnachtgleiche war dieses Fest des Mithras so beliebt, dass der Talmud es erwähnt."
+  },
+  "sadeh": {
+   "nom": "Sadeh",
+   "fait": "Zu diesem Feuerfest entzündeten die Perser Feuer auf den Hügeln oder auf den Dächern und beteten für die Rückkehr der warmen Jahreszeit."
+  },
+  "tirgan": {
+   "nom": "Tirgan",
+   "fait": "Zu diesem Fest der Sommersonnenwende binden sich Kinder ein Regenbogenband ums Handgelenk und werfen es etwa zehn Tage später in einen Bach."
+  },
+  "slata-mechouia": {
+   "nom": "Slata Mechouia",
+   "fait": "Dieser Salat aus gegrilltem Gemüse verdankt seine Tomaten und Chilischoten den arabischen Andalusiern, die nach dem Fall Granadas mit diesen Pflanzen der Neuen Welt ans Kap Bon kamen."
+  },
+  "assidat-zgougou": {
+   "nom": "Assidat Zgougou",
+   "fait": "Ihr Name bedeutet „Pinienkreme“: Dieses tunesische Dessert wird zum Mouled-Fest zubereitet."
+  },
+  "fes-el-bali": {
+   "nom": "Fès el-Bali",
+   "fait": "Das älteste Viertel von Fès mit seinen rund 10.000 sehr engen Gassen ist wohl das größte zusammenhängende autofreie Gebiet der Welt."
+  },
+  "briouate": {
+   "nom": "Briouat",
+   "fait": "Diese Teigtasche osmanischen Ursprungs trägt diesen Namen nur in Marokko; ihre süße Variante mit Mandeln und Orangenblüten wird mit Honig überzogen."
+  },
+  "tadelakt": {
+   "nom": "Tadelakt",
+   "fait": "Sein Name stammt von einem arabischen Wort für „reiben, polieren“: Dieser Putz aus Kalk und schwarzer Seife dichtet Zisternen, Hammams und Becken ab."
+  },
+  "ahidous": {
+   "nom": "Ahidous",
+   "fait": "Bei diesem Berbertanz bilden Männer und Frauen Ellbogen an Ellbogen wogende Reigen; im Sommer, nach der Ernte, wird er fast jeden Abend getanzt."
+  },
+  "monastere-de-djvari": {
+   "nom": "Kloster Dschwari",
+   "fait": "Dieses orthodoxe Kloster aus dem 6. Jahrhundert nahe Mzcheta trägt einen Namen, der wörtlich „Kloster des Kreuzes“ bedeutet."
+  },
+  "satsivi": {
+   "nom": "Satsivi",
+   "fait": "Sein Name bedeutet „kaltes Gericht“: Dieses in eine Walnuss-Knoblauch-Soße getauchte Geflügel wird vor allem zum Neujahrsessen serviert, nicht zu Weihnachten."
+  },
+  "khartcho": {
+   "nom": "Chartscho",
+   "fait": "Diese Rindfleischsuppe aus Mingrelien enthält Mirabellen in Form von Tkemali-Soße, dazu Reis und Walnüsse."
+  },
+  "lobiani": {
+   "nom": "Lobiani",
+   "fait": "Dieses Brot ist mit Bohnen gefüllt, daher sein Name von lobio, georgisch für „Bohne“; seine beliebteste Variante erinnert an ein Chatschapuri mit Bohnen."
+  },
+  "chakhokhbili": {
+   "nom": "Tschachochbili",
+   "fait": "Dieses mit Tomaten und frischen Kräutern geschmorte Huhn verdankt seinen Namen dennoch dem georgischen Wort khokhobi, das „Fasan“ bedeutet."
+  },
+  "sulguni": {
+   "nom": "Sulguni",
+   "fait": "Dieser Salzlakenkäse aus Mingrelien und Swanetien, „Pickle-Käse“ genannt, wird oft frittiert serviert, was seinen Geruch überdeckt."
+  },
+  "gozinaki": {
+   "nom": "Gosinaki",
+   "fait": "Diese Süßigkeit isst man traditionell nur zu Neujahr; seit dem 20. Jahrhundert wird sie manchmal auch zu Weihnachten gegessen."
+  },
+  "ankh": {
+   "nom": "Anch",
+   "fait": "Diese Hieroglyphe bedeutet „Leben“: Sie symbolisierte für die Ägypter sowohl das Dasein auf Erden als auch das ewige Leben nach dem Tod."
+  },
+  "nemes": {
+   "nom": "Nemes-Kopftuch",
+   "fait": "Diese Kopfbedeckung des Pharaos tragen die goldene Totenmaske des Tutanchamun und der Kopf der Sphinx von Gizeh."
+  },
+  "pschent": {
+   "nom": "Pschent",
+   "fait": "Diese Doppelkrone fügt die weiße Krone des Südens und die rote des Nordens zusammen: Der Pharao verkündet damit die Vereinigung der Beiden Länder."
+  },
+  "uraeus": {
+   "nom": "Uräus",
+   "fait": "Diese aufgerichtete weibliche Kobra auf der Stirn des Pharaos sollte ihn vor seinen Feinden schützen."
+  },
+  "palette-de-narmer": {
+   "nom": "Narmer-Palette",
+   "fait": "Diese Schminkpalette trägt einige der ältesten bekannten Hieroglyphen, die die Vereinigung von Ober- und Unterägypten darstellen."
+  },
+  "tahtib": {
+   "nom": "Tahtib",
+   "fait": "Vor allem in Oberägypten ausgeübt, ist dieser Kampf nicht nur ein Gefecht: Er ist auch eine Form des Kampftanzes."
+  },
+  "hawawshi": {
+   "nom": "Hawawshi",
+   "fait": "Dieses mit gewürztem Hackfleisch gefüllte Brot wird im Ofen gebacken; in Alexandria wird die Füllung zwischen zwei Teigscheiben eingeschlossen."
+  },
+  "nemrut-dagi": {
+   "nom": "Nemrut Dağı",
+   "fait": "Sein Gipfel trägt das Grabmal von König Antiochos I. von Kommagene, einen von Kultstätten und monumentalen Statuen umgebenen Tumulus."
+  },
+  "iskender-kebap": {
+   "nom": "İskender Kebap",
+   "fait": "Dieses Gericht zeichnet sich durch heiße Butter aus, die über das Fleisch gegossen wird; serviert wird es auf geschnittenem Pitabrot mit Tomatensoße und Joghurt."
+  },
+  "kumpir": {
+   "nom": "Kumpir",
+   "fait": "Diese große, im Ofen gebackene Kartoffel wird halbiert, ihr Inneres mit Butter und Käse vermengt und dann mit Mais, Oliven oder Rotkohl belegt."
+  },
+  "gozleme": {
+   "nom": "Gözleme",
+   "fait": "Dieser Fladen aus Yufka-Teig wird nach Wahl mit Hackfleisch, Spinat, Kartoffeln, Käse oder Ei gefüllt."
+  },
+  "karniyarik": {
+   "nom": "Karnıyarık",
+   "fait": "Sein Name bedeutet „aufgeschlitzter Bauch“: Diese Auberginen werden mit Hackfleisch gefüllt; ohne Fleisch und kalt serviert heißt das Gericht İmam bayıldı."
+  },
+  "cilbir": {
+   "nom": "Çılbır",
+   "fait": "Schon die osmanischen Sultane aßen im 15. Jahrhundert diese pochierten Eier auf Joghurt; heute übergießt man sie mit geschmolzener Butter mit Aleppo-Pfeffer."
+  },
+  "tantuni": {
+   "nom": "Tantuni",
+   "fait": "Dieses in feine Streifen geschnittene und dann gebratene, leicht gewürzte Rindfleisch ist eine Spezialität der Stadt Mersin in der Türkei."
+  },
+  "tavuk-gogsu": {
+   "nom": "Tavuk Göğsü",
+   "fait": "Dieser süße, mit Zimt aromatisierte Milchpudding enthält Hühnerfleisch: Das gegarte Fleisch wird fein zerfasert und dann mit dem Reis püriert."
+  },
+  "kazandibi": {
+   "nom": "Kazandibi",
+   "fait": "Sein Name bedeutet „Boden des Kazan“: Dieses türkische Dessert ähnelt einem karamellisierten Milchpudding."
+  },
+  "boyoz": {
+   "nom": "Boyoz",
+   "fait": "Dieses kleine Brot ist eine Spezialität von Izmir; im übrigen Land findet man eher ein verwandtes Brot namens açma."
+  },
+  "salgam": {
+   "nom": "Şalgam",
+   "fait": "Dieser fermentierte „Rübensaft“ wird oft nach einem Kebab getrunken oder neben dem Rakı in einem separaten Glas, weil sich ihre Geschmäcker ergänzen."
+  },
+  "dolmus": {
+   "nom": "Dolmuş",
+   "fait": "Dieser Minibus des öffentlichen Nahverkehrs folgt einer festen Route, aber ohne feste Fahrpläne oder Haltestellen, in der Stadt wie im Umland."
+  },
+  "okey": {
+   "nom": "Okey",
+   "fait": "Dieses Gesellschaftsspiel mit Regeln ähnlich wie Rommé und Rummikub wird in Cafés gespielt, wie Tavla, oder online."
+  },
+  "mehter": {
+   "nom": "Mehter",
+   "fait": "Diese überwiegend aus Janitscharen bestehende Truppe war für das Orchester zuständig, musste aber ursprünglich das Zelt des Sultans im Feldzug aufschlagen oder sich um die Pferde kümmern."
+  },
+  "cirit": {
+   "nom": "Cirit",
+   "fait": "Bei diesem Reitsport für Mannschaften erzielt man Punkte, indem man einen Holzspeer auf die gegnerischen Reiter wirft."
+  },
+  "pico-cao-grande": {
+   "nom": "Pico Cão Grande",
+   "fait": "Der portugiesische Name dieses Gipfels auf der Insel São Tomé bedeutet wörtlich „Gipfel des großen Hundes“."
+  },
+  "ilheu-rolas": {
+   "nom": "Ilhéu das Rolas",
+   "fait": "Der Äquator verläuft durch den Norden dieser kleinen Insel: Ein Denkmal markiert die Stelle mit einem Grenzstein und einer Weltkarte aus Mosaik."
+  },
+  "cathedrale-sao-tome": {
+   "nom": "Kathedrale Nossa Senhora da Graça",
+   "fait": "Diese Kathedrale, Sitz des katholischen Bistums des Landes, steht am Platz des Volkes, ganz in der Nähe des Präsidentenpalasts."
+  },
+  "parc-obo": {
+   "nom": "Obô-Naturpark",
+   "fait": "Dieser Park auf der Insel São Tomé hat einen Zwilling: den Naturpark Obô de Príncipe, der im selben Jahr auf der Insel Príncipe geschaffen wurde."
+  },
+  "pic-basile": {
+   "nom": "Pico Basilé",
+   "fait": "Dieser Schildvulkan auf der Insel Bioko trägt an seiner Nordflanke die Stadt Malabo; sein letzter bekannter Ausbruch war 1923."
+  },
+  "bioko": {
+   "nom": "Bioko",
+   "fait": "Die Hauptstadt des Landes lag nicht auf dem Festland: Malabo, politische Hauptstadt bis 2026, befindet sich auf dieser Insel im Golf von Guinea."
+  },
+  "annobon": {
+   "nom": "Annobón",
+   "fait": "Als einzige Insel des Landes auf der Südhalbkugel zählt sie vor allem Frauen, Kinder und Ältere: Mangels Perspektiven ziehen viele Männer fort, um anderswo zu leben."
+  },
+  "corisco": {
+   "nom": "Insel Corisco",
+   "fait": "Der Name dieser Insel kommt vom portugiesischen Wort für Blitz; sie wird auch Mandji Benga genannt."
+  },
+  "monte-alen": {
+   "nom": "Nationalpark Monte Alén",
+   "fait": "Dieser Park, der größte Äquatorialguineas, erstreckt sich in der Mitte des Landes über die Bergkette von Niefang."
+  },
+  "elobey-chico": {
+   "nom": "Elobey Chico",
+   "fait": "Diese kleine unbewohnte Insel von 19 Hektar in der Mündung des Muni wird von der Gemeinde Corisco verwaltet."
+  },
+  "karthala": {
+   "nom": "Karthala",
+   "fait": "Die Lavaströme dieses aktiven Vulkans auf Grande Comore erreichen manchmal das Meer, und in einem Krater kann ein Lavasee entstehen."
+  },
+  "parc-moheli": {
+   "nom": "Meerespark Mohéli",
+   "fait": "Dieser Meerespark schützt die Südküste der Insel Mohéli, wo Meeresschildkröten zahlreiche Eiablageplätze haben."
+  },
+  "ile-moheli": {
+   "nom": "Mohéli",
+   "fait": "Auf Komorisch Mwali genannt, ist sie die kleinste der drei Inseln der Union der Komoren, aber auch die touristischste."
+  },
+  "anjouan": {
+   "nom": "Anjouan",
+   "fait": "Diese Vulkaninsel, auf Komorisch Ndzuwani genannt, ist die am dichtesten besiedelte des gesamten Komoren-Archipels."
+  },
+  "lac-assal": {
+   "nom": "Assalsee",
+   "fait": "Dieser Salzsee in der Mitte Dschibutis liegt unter dem Meeresspiegel: Er ist der tiefste Punkt ganz Afrikas."
+  },
+  "ghoubbet": {
+   "nom": "Ghoubbet-el-Kharab",
+   "fait": "Sein arabischer Name bedeutet „der Schlund der Dämonen“, und zwei Vulkaninseln in seiner Mitte heißen Teufelsinseln."
+  },
+  "ile-moucha": {
+   "nom": "Insel Moucha",
+   "fait": "Diese kleine halbwüstenhafte Insel liegt am Eingang des Golfs von Tadjoura, vor der Stadt Dschibuti."
+  },
+  "mosquee-hamoudi": {
+   "nom": "Hamoudi-Moschee",
+   "fait": "Diese 1897 von Hadschi Hamoudi gegründete Moschee im Stadtzentrum von Dschibuti ist der traditionellen islamischen Architektur treu geblieben."
+  },
+  "sept-freres": {
+   "nom": "Sieben-Brüder-Inseln",
+   "fait": "Trotz ihres Namens sind es nur sechs Inseln: Der „siebte Bruder“ ist Ras Siyan, eine Halbinsel, die die Verbindung zur Küste herstellt."
+  },
+  "fiat-tagliero": {
+   "nom": "Fiat Tagliero",
+   "fait": "Diese ehemalige Tankstelle in Asmara, 1938 fertiggestellt, wurde als „Flugzeug“ aus Stahlbeton entworfen."
+  },
+  "dahlak": {
+   "nom": "Dahlak-Archipel",
+   "fait": "Dieser eritreische Archipel im Roten Meer besteht aus mehr als hundert Inseln, Inselchen und Riffen, darunter zwei Hauptinseln."
+  },
+  "cinema-impero": {
+   "nom": "Cinema Impero",
+   "fait": "Dieses Art-déco-Kino in Asmara verdankt seinen Namen dem „Italienischen Imperium“, das Mussolini nach der Eroberung Äthiopiens ausrief."
+  },
+  "mosquee-asmara": {
+   "nom": "Al-Khulafa-al-Rashidin-Moschee",
+   "fait": "Diese große Moschee in Asmara wurde 1938 auf Initiative Mussolinis erbaut, um die muslimische Bevölkerung der Stadt zu beeindrucken."
+  },
+  "bijagos": {
+   "nom": "Bijagós-Archipel",
+   "fait": "Nur etwa zehn der Inseln und Inselchen dieses Archipels gegenüber von Bissau sind dauerhaft bewohnt."
+  },
+  "bolama": {
+   "nom": "Bolama",
+   "fait": "Diese Stadt war bis 1941 die Hauptstadt von Portugiesisch-Guinea: Der Mangel an Süßwasser erzwang dann die Verlegung nach Bissau."
+  },
+  "canhabaque": {
+   "nom": "Insel Canhabaque",
+   "fait": "Eine Königin regiert diese Insel mit einem auf Lebenszeit gewählten Frauenrat; der König ist nur ihr Sprecher und nicht ihr Ehemann."
+  },
+  "cathedrale-bissau": {
+   "nom": "Kathedrale Nossa Senhora da Candelária",
+   "fait": "Diese Kathedrale dient auch als Leuchtturm: Ihr Nordturm beherbergt ein Feuer, das die Schiffe im Ästuar des Geba bis zum Hafen von Bissau leitet."
+  },
+  "parc-iona": {
+   "nom": "Iona-Nationalpark",
+   "fait": "Dieser Park in der Provinz Namibe ist zugleich der größte und der älteste Angolas: Er ist seit 1937 geschützt."
+  },
+  "capulana": {
+   "nom": "Capulana",
+   "fait": "Dieses einfache Stück Stoff dient abwechselnd als Wickelrock, als Kleid oder als auf dem Rücken getragenes Babytragetuch."
+  },
+  "ile-ibo": {
+   "nom": "Insel Ibo",
+   "fait": "Einst ein von den Portugiesen befestigter Handelshafen, ist diese Insel der Quirimbas heute für ihre Goldschmiede bekannt."
+  },
+  "matoke": {
+   "nom": "Matoke",
+   "fait": "Diese Banane wird grün gegessen und ist nie süß; in Kampala ist ihr Name sogar zum Synonym für Essen geworden."
+  },
+  "chutes-ngonye": {
+   "nom": "Ngonyefälle",
+   "fait": "Diese Fälle des Sambesi, mehrere hundert Kilometer flussaufwärts der Victoriafälle, sind wegen ihrer Abgelegenheit weniger bekannt als diese."
+  },
+  "kasanka": {
+   "nom": "Kasanka-Nationalpark",
+   "fait": "Jede Saison versammeln sich in diesem Park, einem der kleinsten des Landes, mehr als zehn Millionen Eidolon helvum."
+  },
+  "khami": {
+   "nom": "Ruinen von Khami",
+   "fait": "Diese Ruinen sind die der einstigen Hauptstadt der Torwa-Dynastie, die mehr als zwei Jahrhunderte über das Königreich Butua herrschte."
+  },
+  "matobo": {
+   "nom": "Matobo-Hügel",
+   "fait": "Dieser Park, früher Rhodes-Matopos-Nationalpark genannt, erstreckt sich im Herzen der Matobo-Berge, die für ihre Felsmalereien berühmt sind."
+  },
+  "kahuzi-biega": {
+   "nom": "Kahuzi-Biega-Nationalpark",
+   "fait": "Zwei erloschene Vulkane, der Kahuzi und der Biega, überragen diesen mit tropischem Wald bedeckten Park, in dem Gorillas und Elefanten leben."
+  },
+  "achu": {
+   "nom": "Achu",
+   "fait": "Dieses Gericht für besondere Anlässe verbindet gestampften Taro und Kochbananen mit einer würzigen gelben Suppe, abgeschmeckt mit Steinsalz."
+  },
+  "eru": {
+   "nom": "Eru",
+   "fait": "Als Spezialität des Volkes der Banyang wird dieses Gericht aus Blattgemüse, Palmöl und Fleisch mit Fufu oder Gari gegessen."
+  },
+  "suya": {
+   "nom": "Suya",
+   "fait": "Diese Spieße aus mit Gewürzen und gemahlenen Erdnüssen mariniertem Fleisch kauft man auf der Straße, oft in Zeitungspapier eingewickelt."
+  },
+  "nok": {
+   "nom": "Nok-Terrakotten",
+   "fait": "Sie tragen den Namen des Dorfes Nok, wo man sie entdeckte; sie gelten als die ältesten großen Terrakottaskulpturen Afrikas."
+  },
+  "tetes-ife": {
+   "nom": "Ife-Kopf",
+   "fait": "Der Realismus und die Raffinesse dieser Skulptur widersprachen der Vorstellung, die sich die Westler von afrikanischer Kunst machten."
+  },
+  "bunny-chow": {
+   "nom": "Bunny Chow",
+   "fait": "Dieses Sandwich ist ein ausgehöhltes und mit Curry gefülltes Weißbrot; es entstand bei den Südafrikanern indischer Herkunft in Durban."
+  },
+  "koeksister": {
+   "nom": "Koeksister",
+   "fait": "Dieser geflochtene Krapfenteig wird frittiert und dann in kalten Zuckerrohrsirup getaucht; man isst ihn kalt, sehr klebrig und süß."
+  },
+  "boerewors": {
+   "nom": "Boerewors",
+   "fait": "Ihr Name bedeutet auf Afrikaans „Bauernwurst“, und die Vorschriften verlangen, dass sie mindestens 90 % Fleisch oder Fett enthält."
+  },
+  "pinotage": {
+   "nom": "Pinotage",
+   "fait": "Diese Rebsorte ist eine Kreuzung aus Pinot noir und Cinsault, früher Hermitage genannt: daher ihr Name, eine Zusammenziehung von „Pinot“ und „Hermitage“."
+  },
+  "potjiekos": {
+   "nom": "Potjiekos",
+   "fait": "Dieser Eintopf schmort im Freien im potjie, einem dreibeinigen gusseisernen Topf, den die Niederländer mitbrachten."
+  },
+  "gumboot": {
+   "nom": "Gumboot-Tanz",
+   "fait": "Dieser perkussive Tanz wird in Gummistiefeln getanzt, die manchmal mit Glöckchen verziert sind, die klingeln, wenn der Tänzer mit dem Fuß auf den Boden stampft."
+  },
+  "melktert": {
+   "nom": "Melktert",
+   "fait": "Ihr Name bedeutet auf Afrikaans „Milchtorte“: Ihre Creme enthält im Verhältnis zu den Eiern mehr Milch als ein portugiesisches Törtchen, daher eine leichtere Konsistenz."
+  },
+  "chakalaka": {
+   "nom": "Chakalaka",
+   "fait": "Dieses meist sehr scharfe Gemüserelish passt ebenso zu Brot wie zu Pap, Samp, Eintöpfen oder Currys."
+  },
+  "meskel": {
+   "nom": "Meskel",
+   "fait": "Dieses Fest des Wahren Kreuzes erinnert an dessen Auffindung durch Kaiserin Helena; Äthiopien feiert es seit mehr als 1.600 Jahren."
+  },
+  "begena": {
+   "nom": "Begena",
+   "fait": "Der Überlieferung nach soll diese große Leier von Menelik I. aus Israel mitgebracht worden sein; David soll damit König Saul besänftigt haben."
+  },
+  "romazava": {
+   "nom": "Romazava",
+   "fait": "Dieses madagassische Gericht, auch auf den Komoren verbreitet, verbindet Fleisch, Garnelen und Fisch mit Blattgemüse (brèdes), insbesondere Brèdes mafana."
+  },
+  "kabosy": {
+   "nom": "Kabosy",
+   "fait": "Dieses Zupfinstrument aus Madagaskar ähnelt einer kleinen Gitarre oder einer Mandoline."
+  },
+  "kedjenou": {
+   "nom": "Kédjénou",
+   "fait": "Dieser Eintopf der Landarbeiter und Jäger wird im eigenen Saft in einem Canari gegart, einem Tongefäß, das auf ein Holzfeuer gestellt wird."
   }
  }
 }

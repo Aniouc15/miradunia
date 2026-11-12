@@ -55,14 +55,17 @@ img = {i["id"]: RACINE / "site" / i["img"] for i in lire(DONNEES)["items"]}
 fiches = [i for i in source["items"] if i["id"] in nouveaux and i["id"] in img and img[i["id"]].exists()]
 
 if action == "planches":
+    # Relançable : les photos déjà mises sur une planche ne sont pas reprises ; les nouvelles planches suivent.
     P = D / "planches"
     P.mkdir(exist_ok=True)
-    for ancien in P.glob("planche_*"):
-        ancien.unlink()
+    vues, deja = set(), sorted(P.glob("planche_*.txt"))
+    for chemin in deja:
+        vues |= {ligne.split(" | ")[1] for ligne in chemin.read_text(encoding="utf-8").splitlines() if " | " in ligne}
+    fiches = [i for i in fiches if i["id"] not in vues]
     COL, LARG, HAUT, BANDE, PAR = 4, 300, 225, 30, 20
     police = ImageFont.truetype("arialbd.ttf", 20)
     for debut in range(0, len(fiches), PAR):
-        lot, numero = fiches[debut:debut + PAR], debut // PAR + 1
+        lot, numero = fiches[debut:debut + PAR], len(deja) + debut // PAR + 1
         planche = Image.new("RGB", (COL * LARG, ((len(lot) + COL - 1) // COL) * (HAUT + BANDE)), (40, 40, 40))
         dessin = ImageDraw.Draw(planche)
         lignes = []
@@ -79,7 +82,7 @@ if action == "planches":
                                                        " | alertes : " + ", ".join(a) if a else ""))
         planche.save(P / ("planche_%03d.png" % numero), optimize=True)
         (P / ("planche_%03d.txt" % numero)).write_text("\n".join(lignes) + "\n", encoding="utf-8")
-    print(len(fiches), "photos en", (len(fiches) + PAR - 1) // PAR, "planches dans", P)
+    print(len(fiches), "nouvelles photos en", (len(fiches) + PAR - 1) // PAR, "planches, à partir de planche_%03d" % (len(deja) + 1), "dans", P)
 
 elif action == "second":
     vus = {}
@@ -88,15 +91,21 @@ elif action == "second":
             if e.get("id") in img:
                 vus[e["id"]] = e
     parId = {i["id"]: i for i in fiches}
+    tranchees = set()
+    for chemin in glob.glob(str(D / "photos_decisions*.json")):
+        tranchees |= set(lire(chemin, {}) or {})
     lignes = ["%s | %s | %s | %s | %s : %s | %s" % (i, parId[i]["nom"], parId[i]["cat"], source["pays"][parId[i]["pays"]]["nom"],
-                                                  e.get("verdict"), e.get("motif"), img[i]) for i, e in sorted(vus.items()) if i in parId]
+                                                  e.get("verdict"), e.get("motif"), img[i])
+              for i, e in sorted(vus.items()) if i in parId and i not in tranchees]
     (D / "photos_a_revoir.md").write_text("\n".join(lignes) + "\n", encoding="utf-8")
     ecrire_json(D / "photos_signalees.json", vus, indent=1)
     print(len(lignes), "photos signalées à revoir en grand :", D / "photos_a_revoir.md")
 
 elif action == "retirer":
     vus = lire(D / "photos_signalees.json", {}) or {}
-    decisions = lire(D / "photos_decisions.json", {}) or {}
+    decisions = {}
+    for chemin in sorted(glob.glob(str(D / "photos_decisions*.json"))):
+        decisions.update(lire(chemin, {}) or {})
     refus = {}
     for i, e in vus.items():
         d = decisions.get(i)

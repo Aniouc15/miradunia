@@ -183,12 +183,14 @@ test('niveau du jour : facile lundi et mardi, moyen ensuite, difficile le week-e
   assert.strictEqual(C.estDimanche(3), false);
 });
 
+// Cycles des vedettes : vérifiés sur une seule vague (les vagues suivantes changent la taille des bassins).
+const BASE = { pays: D.pays, items: D.items.filter((i) => !i.v) };
 test('la vedette ne se répète pas avant que son niveau soit épuisé', () => {
   for (const niv of [1, 2, 3]) {
-    const taille = D.items.filter((i) => i.niv === niv).length;
+    const taille = BASE.items.filter((i) => i.niv === niv).length;
     const vues = [];
     for (let jour = 0; vues.length < taille; jour++) {
-      if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(D, jour).epreuves[0].item);
+      if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(BASE, jour).epreuves[0].item);
     }
     assert.strictEqual(new Set(vues).size, taille, 'niveau ' + niv);
   }
@@ -196,10 +198,10 @@ test('la vedette ne se répète pas avant que son niveau soit épuisé', () => {
 
 test('à la jointure de deux cycles, les dernières vedettes ne reviennent pas tout de suite', () => {
   for (const niv of [1, 2, 3]) {
-    const taille = D.items.filter((i) => i.niv === niv).length;
+    const taille = BASE.items.filter((i) => i.niv === niv).length;
     const vues = [];
     for (let jour = 0; vues.length < taille + C.BLOC; jour++) {
-      if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(D, jour).epreuves[0].item);
+      if (C.niveauDuJour(jour) === niv) vues.push(C.construireDefi(BASE, jour).epreuves[0].item);
     }
     const autour = vues.slice(taille - C.BLOC);
     assert.strictEqual(new Set(autour).size, autour.length, 'niveau ' + niv);

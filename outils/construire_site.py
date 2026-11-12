@@ -330,9 +330,23 @@ def image_du_jour(cible, numero, photo, credit, marque):
     fond.save(cible, "JPEG", quality=82, optimize=True, progressive=True)
 
 
+MODELE_JOUR_ABSENT = """<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>{marque}</title>
+<script>var m = location.pathname.match(/^(.*\\/)j\\/(\\d+)/);
+location.replace(m ? m[1] + '?n=' + m[2] + (location.search ? '&' + location.search.slice(1) : '') : '/');</script>
+</head>
+<body><p><a href="/">{marque}</a></p></body>
+</html>
+"""
+
+
 def pages_des_jours(publiees, items, url, marque):
     """Une page par défi et par langue (/<langue>/j/<n>/), avec l'aperçu du détail du jour, pour les liens partagés.
-    De 7 jours avant aujourd'hui à 90 jours après ; au-delà, _redirects renvoie vers la page de la langue."""
+    De 7 jours avant aujourd'hui à 90 jours après ; au-delà, <langue>/j/404.html renvoie au défi dans le jeu."""
     for dossier in [SITE / "j"] + [SITE / langue["code"] / "j" for langue in publiees]:
         if dossier.exists():
             shutil.rmtree(dossier)
@@ -353,7 +367,11 @@ def pages_des_jours(publiees, items, url, marque):
                 "titre": e(remplir(ui["jour.titre"], {"marque": marque, "n": n})), "description": e(ui["meta.partage"]),
                 "url_page": e("%s%s/j/%d/" % (url, code, n)), "url_langue": e(url + code + "/"), "image": e("%sj/%d.jpg" % (url, n)),
             }))
-    ecrire(SITE / "_redirects", "/:langue/j/* /:langue/ 302\n")
+        # Défi hors de la plage : Cloudflare sert le 404.html le plus proche, qui renvoie au défi dans le jeu.
+        # (Pas de _redirects : ses règles passent avant les fichiers et masqueraient les pages ci-dessus.)
+        ecrire(SITE / code / "j" / "404.html", MODELE_JOUR_ABSENT.replace("{marque}", e(marque)))
+    if (SITE / "_redirects").exists():
+        (SITE / "_redirects").unlink()
     print("Pages des défis : n° %d à %d, %d langues" % (premier + 1, dernier + 1, len(publiees)))
 
 

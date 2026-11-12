@@ -30,10 +30,9 @@ PAQUETS = 256  # nombre de fichiers de textes par langue
 BLOC = 14  # comme dans site/js/core.js
 LANCEMENT = datetime.date(2026, 11, 11)  # défi n° 1, comme dans site/js/core.js
 REPERES = re.compile(r"\{\w+\}|</?[ab]>")
-# Logo (outils/logo.svg, dessiné par ChatGPT : un globe vu à la loupe), en petit et à coins arrondis pour l'en-tête.
-LOGO = ((OUTILS / "logo.svg").read_text(encoding="utf-8").strip()
-        .replace("<svg ", '<svg width="32" height="32" aria-hidden="true" class="logo" ', 1)
-        .replace('<rect width="512" height="512"', '<rect width="512" height="512" rx="112"', 1))
+LOGO = ('<svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" '
+        'stroke="currentColor" stroke-width="4"/><path d="M4 32h56M32 4c-14 14-14 42 0 56M32 4c14 14 14 42 0 56" '
+        'fill="none" stroke="currentColor" stroke-width="3"/><circle cx="43" cy="22" r="6" fill="#d98a1f"/></svg>')
 
 MODELE_PAGE = """<!doctype html>
 <html lang="{code}" dir="{dir}">

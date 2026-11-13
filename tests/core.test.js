@@ -367,6 +367,37 @@ test('sauvegarde : aller-retour, et refus des codes abîmés ou fabriqués', () 
   assert.deepStrictEqual(C.etatValide(ancien).album, {});
 });
 
+test('entraînement par continent : le bon continent, rien des 14 prochains défis, pas de doublon dans une séance', () => {
+  const jour = 20;
+  const actives = C.donneesDuJour(D, jour).items;
+  const compte = C.continentsEntrainement(D, jour);
+  assert.strictEqual(Object.values(compte).reduce((a, b) => a + b, 0), actives.length);
+  const proches = new Set();
+  for (let j = jour; j < jour + 14; j++) {
+    const d = C.construireDefi(D, j);
+    [d.epreuves[0].item, ...d.epreuves[1].cartes, ...d.epreuves[2].items].forEach((id) => proches.add(id));
+  }
+  const defiAvant = JSON.stringify(C.construireDefi(D, jour));
+  for (const continent of Object.keys(compte).concat([null])) {
+    const vues = [];
+    for (let serie = 0; serie < 3; serie++) {
+      const qs = C.questionsEntrainement(D, jour, continent, 10, 'test-' + serie, vues);
+      assert.strictEqual(qs.length, 10);
+      for (const q of qs) {
+        const item = parId[q.item];
+        if (continent) assert.strictEqual(D.pays[item.pays].continent, continent);
+        assert.ok(!proches.has(q.item), 'curiosité d\'un prochain défi : ' + q.item);
+        assert.ok((item.v || 0) <= C.versionDuJour(D, jour));
+        assert.strictEqual(new Set(q.options).size, 4);
+        assert.ok(q.options.includes(item.pays));
+        assert.ok(!vues.includes(q.item), 'question reposée dans la séance : ' + q.item);
+      }
+      qs.forEach((q) => vues.push(q.item));
+    }
+  }
+  assert.strictEqual(JSON.stringify(C.construireDefi(D, jour)), defiAvant);
+});
+
 test('calendrier : le 11/11/2026 est le défi n° 1', () => {
   assert.strictEqual(C.numeroDuJour(C.indexDuJour(new Date(2026, 10, 11, 23, 59))), 1);
   assert.strictEqual(C.numeroDuJour(C.indexDuJour(new Date(2026, 10, 12, 0, 1))), 2);

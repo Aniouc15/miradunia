@@ -61,6 +61,7 @@
   var CLE_COPIE = 'globecurios_code_copie';
   var CLE_LANGUE = 'globecurios_langue';
   var CLE_INSTALL = 'miradunia_installation_refusee';
+  var CLE_CONTINENT = 'miradunia_continent_entrainement';
   // Installation sur l'écran d'accueil : proposée seulement à partir du 3e jour joué, sur l'écran de résultat.
   var invitationInstall = null;
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); invitationInstall = e; });
@@ -281,7 +282,8 @@
     var ids = vue === 'jeu' && !etat.jours[JOUR] ? idsDuDefi(C.construireDefi(D, JOUR))
       : vue === 'revision' ? C.aRevoir(etat, JOUR)
         : vue === 'bonus' ? C.vedettesDeLaSemaine(D, JOUR)
-          : vue === 'album' ? Object.keys(etat.album) : [];
+          : vue === 'album' ? Object.keys(etat.album)
+            : vue === 'entrainement' && entrainement.serie ? entrainement.serie.map(function (q) { return q.item; }) : [];
     var monJeton = ++jeton, pret = false;
     textes(ids, function (erreur) {
       if (monJeton !== jeton) return; // le joueur est passé à autre chose entre-temps
@@ -295,12 +297,12 @@
   }
   var jeton = 0;
   function dessinerVue() {
-    var contenu = { accueil: vueAccueil, jeu: vueJeu, bonus: vueBonus, atlas: vueAtlas, album: vueAlbum, revision: vueRevision, regles: vueRegles }[vue]();
+    var contenu = { accueil: vueAccueil, jeu: vueJeu, bonus: vueBonus, entrainement: vueEntrainement, atlas: vueAtlas, album: vueAlbum, revision: vueRevision, regles: vueRegles }[vue]();
     remplacer(app, contenu);
     // Pendant le défi, la barre du bas disparaît : toute la hauteur de l'écran sert au jeu.
     document.body.classList.toggle('en-jeu', vue === 'jeu');
     document.querySelectorAll('.barre button').forEach(function (b) {
-      var actif = b.getAttribute('data-vue') === (vue === 'jeu' || vue === 'bonus' ? 'accueil' : vue);
+      var actif = b.getAttribute('data-vue') === (vue === 'jeu' || vue === 'bonus' || vue === 'entrainement' ? 'accueil' : vue);
       if (actif) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
     majEntete();
@@ -466,6 +468,67 @@
     suivante();
     return [cadre];
   }
+  // Entraînement par continent : le joueur choisit un continent (ou le monde entier) et enchaîne des séries de
+  // questions à quatre choix. Hors défi : ni score du jour ni série, mais l'atlas et l'album progressent.
+  var TAILLE_SERIE = 10;
+  var entrainement = { continent: null, serie: null, vues: [], graine: 0 };
+  function nouvelleSerie(continent) {
+    entrainement.continent = continent;
+    ecrire(CLE_CONTINENT, continent || 'monde');
+    entrainement.graine += 1;
+    entrainement.serie = C.questionsEntrainement(D, JOUR, continent, TAILLE_SERIE, Date.now() + '-' + entrainement.graine, entrainement.vues);
+    entrainement.serie.forEach(function (q) { if (entrainement.vues.indexOf(q.item) < 0) entrainement.vues.push(q.item); });
+    afficher('entrainement');
+  }
+  function carteEntrainement() {
+    return h('section', { class: 'carte' }, h('h2', {}, t('entrainement.titre')),
+      h('p', { class: 'doux' }, t('entrainement.texte')),
+      bouton(t('entrainement.bouton'), function () { entrainement.serie = null; afficher('entrainement'); }, etat.jours[JOUR] ? '' : 'secondaire'));
+  }
+  function nomZone(continent) { return continent ? nomContinent(continent) : t('entrainement.monde'); }
+  function vueEntrainement() {
+    if (ESSAI !== null) { vue = 'accueil'; return vueAccueil(); }
+    if (!entrainement.serie) {
+      var compte = C.continentsEntrainement(D, JOUR);
+      var precedent = lire(CLE_CONTINENT);
+      var zones = Object.keys(compte).sort(function (a, b) { return parNom(nomContinent(a), nomContinent(b)); });
+      var puce = function (continent) {
+        var choisi = (continent || 'monde') === precedent;
+        return h('button', { type: 'button', class: 'puce' + (choisi ? ' choisie' : ''), onclick: function () { nouvelleSerie(continent); } },
+          nomZone(continent));
+      };
+      return [h('section', { class: 'carte' }, h('h1', {}, t('entrainement.titre')),
+        h('p', { class: 'doux' }, t('entrainement.choisir')),
+        h('div', { class: 'puces' }, zones.map(puce).concat([puce(null)])),
+        h('p', { class: 'petit doux', style: 'margin-top:16px' }, t('entrainement.note')))];
+    }
+    var liste = entrainement.serie, position = 0, justes = 0, cadre = h('div', {});
+    var etiquette = t('entrainement.etiquette') + ' · ' + nomZone(entrainement.continent);
+    function suivante() {
+      if (position >= liste.length) {
+        majEntete();
+        remplacer(cadre, h('section', { class: 'carte centre' }, h('h1', {}, t('entrainement.termine')),
+          h('p', {}, t('entrainement.bilan', { n: justes, total: liste.length, zone: nomZone(entrainement.continent) })),
+          bouton(t('entrainement.encore'), function () { nouvelleSerie(entrainement.continent); }),
+          bouton(t('entrainement.changer'), function () { entrainement.serie = null; afficher('entrainement'); }, 'secondaire'),
+          bouton(t('nav.accueil'), function () { afficher('accueil'); }, 'secondaire')));
+        return;
+      }
+      var question = liste[position], item = ITEMS[question.item];
+      if (position + 1 < liste.length) precharger([liste[position + 1].item]);
+      remplacer(cadre, h('p', { class: 'petit doux' }, t('entrainement.position', { n: position + 1, total: liste.length })),
+        questionSimple(question, function (juste) {
+          if (juste) justes += 1;
+          C.noterReponse(etat, item.id, item.pays, juste, JOUR, true);
+          sauver();
+        }, function () {
+          position += 1;
+          return bouton(t(position >= liste.length ? 'revision.terminer' : 'revision.suivante'), function () { suivante(); window.scrollTo(0, 0); });
+        }, etiquette));
+    }
+    suivante();
+    return [cadre];
+  }
   function vueAccueil() {
     var fait = etat.jours[JOUR];
     var bilan = C.bilanAtlas(etat, D);
@@ -501,6 +564,7 @@
         bouton(t(partieEnCours() ? 'accueil.reprendre' : 'accueil.jouer'), function () { afficher('jeu'); })));
     }
     if (ESSAI !== null) return blocs;
+    blocs.push(carteEntrainement());
 
     var stats = C.statistiques(etat);
     // Avant la première partie, des compteurs à zéro n'apprennent rien : on les montre ensuite.

@@ -398,6 +398,42 @@
     return liste;
   }
 
+  // ---------- Entraînement par continent ----------
+  // Questions à quatre choix sur les curiosités d'un continent (null : le monde entier), prises parmi celles déjà
+  // entrées dans les défis. Les curiosités des défis d'aujourd'hui et des 13 jours suivants sont écartées : l'entraînement
+  // ne dévoile rien d'avance. « dejaVues » évite de reposer les mêmes dans une séance, tant qu'il en reste d'autres.
+  var JOURS_PROTEGES = BLOC;
+  var proteges = { source: null, jour: null, ids: null };
+  function curiositesProtegees(donnees, jour) {
+    if (proteges.source !== donnees || proteges.jour !== jour) {
+      var ids = {};
+      for (var j = jour; j < jour + JOURS_PROTEGES; j++) {
+        var d = construireDefi(donnees, j);
+        [d.epreuves[0].item].concat(d.epreuves[1].cartes, d.epreuves[2].items).forEach(function (id) { ids[id] = true; });
+      }
+      construireDefi(donnees, jour); // remet en mémoire le bloc du jour
+      proteges = { source: donnees, jour: jour, ids: ids };
+    }
+    return proteges.ids;
+  }
+  function continentsEntrainement(donnees, jour) {
+    var dj = donneesDuJour(donnees, jour), compte = {};
+    dj.items.forEach(function (i) { var c = dj.pays[i.pays].continent; compte[c] = (compte[c] || 0) + 1; });
+    return compte;
+  }
+  function questionsEntrainement(donnees, jour, continent, combien, graine, dejaVues) {
+    var dj = donneesDuJour(donnees, jour);
+    var exclus = curiositesProtegees(donnees, jour);
+    var hasard = generateur('globecurios-entrainement-' + graine);
+    var bassin = dj.items.filter(function (i) {
+      return !exclus[i.id] && (!continent || dj.pays[i.pays].continent === continent);
+    }).sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
+    var vues = dejaVues || [];
+    var neuves = bassin.filter(function (i) { return vues.indexOf(i.id) < 0; });
+    var choisies = melanger(neuves.length >= combien ? neuves : bassin, hasard).slice(0, combien);
+    return choisies.map(function (item) { return { item: item.id, options: quatreChoix(dj, item, hasard) }; });
+  }
+
   // ---------- Atlas, statistiques, anciens défis ----------
   // Niveau d'un pays dans l'atlas : 0 inconnu, 1 découvert, 2 connu, 3 maîtrisé.
   function niveau(fiche) {
@@ -491,6 +527,7 @@
     aRevoir: aRevoir, toutesARevoir: toutesARevoir, jokerDisponible: jokerDisponible,
     terminerJour: terminerJour, serieActuelle: serieActuelle, jokers: jokers, JOKERS_MAX: JOKERS_MAX,
     vedettesDeLaSemaine: vedettesDeLaSemaine, niveau: niveau, bilanAtlas: bilanAtlas,
+    continentsEntrainement: continentsEntrainement, questionsEntrainement: questionsEntrainement,
     statistiques: statistiques, joursRejouables: joursRejouables,
     carres: carres, texteDePartage: texteDePartage,
     coderSauvegarde: coderSauvegarde, decoderSauvegarde: decoderSauvegarde
